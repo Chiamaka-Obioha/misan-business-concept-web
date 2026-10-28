@@ -53,8 +53,6 @@ button { cursor: pointer; }
 .nav[aria-current="page"] .count { background: var(--ink); color: var(--lime); }
 .main { min-width: 0; display: flex; flex-direction: column; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; padding-left: max(28px, env(safe-area-inset-left, 0px)); padding-right: max(28px, env(safe-area-inset-right, 0px)); background: var(--paper); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-.search { flex: 1; max-width: 420px; min-width: 180px; display: flex; align-items: center; gap: 8px; background: var(--mist); border-radius: 12px; padding: 0 12px; }
-.search input { border: none; background: none; height: 40px; width: 100%; outline: none; }
 .who { display: flex; align-items: center; gap: 12px; }
 .bell { position: relative; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); display: grid; place-items: center; }
 .bell i { position: absolute; top: 8px; right: 9px; width: 8px; height: 8px; border-radius: 999px; background: var(--violet); }
@@ -160,484 +158,1113 @@ input[type="range"] { accent-color: var(--violet); width: 100%; }
 }
 @media (max-width: 520px) { .g4 { grid-template-columns: minmax(0, 1fr); } .who .name { display: none; } }
 @media (prefers-reduced-motion: reduce) { .tog { transition: none; } }
+
+/* Onboarding: welcome, log in, sign up (new or switch from personal), verification. */
+.ob { flex: 1; overflow-y: auto; background: var(--paper); color: var(--text); }
+.ob.web { min-height: calc(100vh - 32px); background: var(--ground); }
+.ob-wrap { max-width: 600px; margin: 0 auto; padding-block: 22px 44px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; }
+.ob.web .ob-wrap { padding-block: 40px 64px; }
+.ob.web .ob-card { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.ob:not(.web) .ob-card { display: flex; flex-direction: column; gap: 14px; }
+.ob h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 30px; line-height: 1.04; color: var(--ink); text-wrap: balance; }
+.ob h2 { margin: 6px 0 0; font-size: 15px; font-weight: 700; }
+.ob-lede { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
+.ob-small { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+.ob-hero { background: var(--ink); color: #fff; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; gap: 10px; }
+.ob-hero .word { font-family: var(--display); font-size: 34px; line-height: 1; color: var(--lime); }
+.ob-hero p { margin: 0; color: #DCD3EE; line-height: 1.55; }
+.ob-btn { min-height: 52px; border: none; border-radius: 14px; background: var(--ink); color: var(--lime); font-weight: 600; font-size: 15px; width: 100%; font-family: inherit; cursor: pointer; }
+.ob-btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+.ob-btn.soft { background: var(--lilac); color: var(--violet-deep); min-height: 40px; font-size: 13px; width: auto; padding: 0 14px; border-radius: 10px; }
+.ob-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.ob-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.ob-row > * { flex: 1 1 160px; }
+.ob-link { border: none; background: none; color: var(--violet); font-weight: 600; font-family: inherit; font-size: 14px; padding: 6px 0; cursor: pointer; align-self: flex-start; }
+.ob-back { width: 44px; height: 44px; margin: -6px 0 -6px -10px; border: none; background: none; display: grid; place-items: center; cursor: pointer; }
+.ob-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ob-field label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.ob-field input, .ob-field select { height: 48px; border: 1.5px solid #E0DEE8; border-radius: 12px; padding: 0 14px; background: #fff; font-family: inherit; font-size: 16px; color: var(--text); width: 100%; box-sizing: border-box; }
+.ob-field input:focus, .ob-field select:focus { border-color: var(--violet); outline: none; }
+.ob-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .ob-grid { grid-template-columns: minmax(0, 1fr); } }
+.ob-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 520px) { .ob-opts { grid-template-columns: minmax(0, 1fr); } }
+.ob-opt { border: 2px solid #E2E2E8; border-radius: 14px; background: #fff; padding: 12px 14px; text-align: left; display: flex; flex-direction: column; gap: 2px; font-family: inherit; cursor: pointer; color: var(--text); }
+.ob-opt[aria-pressed="true"] { border-color: var(--violet); background: #FBF8FF; }
+.ob-opt b { font-size: 14px; }
+.ob-opt span { font-size: 12px; color: var(--muted); }
+.ob-steps { display: flex; gap: 6px; }
+.ob-steps span { flex: 1; height: 5px; border-radius: 999px; background: #E4E2EC; }
+.ob-steps span.on { background: var(--violet); }
+.ob-stepname { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.ob-kv { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.ob-kv:last-child { border-bottom: none; }
+.ob-kv .k { color: var(--muted); font-size: 14px; }
+.ob-kv .v { font-weight: 600; text-align: right; font-size: 14px; }
+.ob-box { background: var(--mist); border-radius: 16px; padding: 4px 16px; }
+.ob-found { border: 2px solid var(--violet); border-radius: 16px; padding: 14px 16px; background: #FBF8FF; display: flex; flex-direction: column; gap: 4px; }
+.ob-found b { font-size: 15px; }
+.ob-tick { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.ob-wait { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.ob-check { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.ob-check:last-child { border-bottom: none; }
+.ob-check .t { font-weight: 600; font-size: 14px; }
+.ob-check .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ob-pill { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.ob-pill.ok { background: var(--ok-bg); color: var(--ok); }
+.ob-pill.warn { background: var(--warn-bg); color: var(--warn); }
+.ob-pill.info { background: var(--lilac); color: var(--violet-deep); }
+.ob-note { background: var(--lilac); color: var(--violet-deep); border-radius: 14px; padding: 12px 14px; font-size: 13px; line-height: 1.5; }
+.ob-note.warn { background: var(--warn-bg); color: var(--warn); }
+.ob-err { background: #FDECEA; color: #B3261E; border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+.ob-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.ob-chip { border: 1.5px solid #E2E2E8; background: #fff; border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 13px; font-family: inherit; cursor: pointer; color: var(--text); }
+.ob-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--lime); }
+.ob-consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; }
+.ob-consent input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--violet); flex-shrink: 0; }
+.ob-otp { letter-spacing: .5em; font-variant-numeric: tabular-nums; text-align: center; font-weight: 700; }
+.ob-selfie { border: 2px dashed #CFC8E0; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+[hidden] { display: none !important; }
+
+/* Tables: toolbar, pagination */
+.tbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.tsearch { flex: 1 1 220px; min-width: 0; display: flex; align-items: center; gap: 8px; background: var(--mist); border-radius: 10px; padding: 0 12px; }
+.tsearch input { border: none; background: none; height: 38px; width: 100%; outline: none; min-width: 0; }
+.tfilter { height: 38px; border: 1.5px solid var(--line); border-radius: 10px; padding: 0 10px; background: var(--paper); flex: 0 1 auto; max-width: 100%; }
+.tpage { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+.kyb { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border-radius: 16px; padding: 14px 18px; line-height: 1.5; }
+.kyb.warn { background: var(--warn-bg); color: var(--warn); }
+.kyb.info { background: var(--lilac); color: var(--violet-deep); }
+.kyb > span:first-child { flex: 1 1 320px; min-width: 0; }
+.mono { font-family: var(--mono); font-size: 12.5px; }
+.keybox { background: var(--paper); border: 1.5px dashed var(--violet); border-radius: 10px; padding: 10px 12px; margin: 10px 0; word-break: break-all; color: var(--ink); }
+.err { background: var(--bad-bg); color: var(--bad); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 600; }
+.row-opt { flex-direction: row !important; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
+.topbar { justify-content: flex-end; }
+
+.emptybox{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:20px;background:#F6F3FB;border-radius:12px}
+.emptybox b{font-size:15px;color:#1C0045}.emptybox span{color:#5F5F6B;line-height:1.5;max-width:52ch}.emptybox .btn{margin-top:6px}
+.simbox{display:flex;flex-direction:column;gap:10px;padding:14px;border:1px dashed #CDB4F5;border-radius:12px;background:#FBF9FE}
+.demologins{display:flex;flex-direction:column;gap:8px}
 </style>
 </head>
 <body>
 
 <div class="banner">Concept by Chiamaka Obioha · not an official Misan product · all figures are samples</div>
+<div class="ob web" id="ob" hidden></div>
 <div class="app">
   <nav class="side" id="side" aria-label="Main"></nav>
   <div class="main">
     <header class="topbar">
-      <label class="search"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F5F6B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search payments, payees, customers" aria-label="Search"></label>
       <div class="who">
-        <button class="bell" data-a="bell" aria-label="Notifications, 3 new"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C0045" stroke-width="2"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20h4"/></svg><i></i></button>
-        <span class="avatar">KO</span>
-        <span class="name"><b style="display:block;font-size:13px">Kola Ogun</b><span class="small">Owner · Kola Exports Ltd</span></span>
+        <button class="bell" data-a="bell" aria-label="Notifications"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C0045" stroke-width="2"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20h4"/></svg><i></i></button>
+        <button class="btn sm ghost" data-a="logout">Log out</button>
+        <span class="avatar" id="whoAv">KO</span>
+        <span class="name"><b id="whoName" style="display:block;font-size:13px">Kola Ogun</b><span class="small">Owner</span></span>
       </div>
     </header>
     <main class="content" id="view"></main>
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
-
 <script>
-(function () {
-  const S = { payMode: 'single', recip: 'kwame', sendFrom: 'NGN', sendAmt: 500000, sendStage: 'form', newCur: 'GHS', newName: '', newType: '', fundCur: 'NGN', fundMethod: 'transfer', page: 'overview', run: 'pending', earnCur: 'NGN', sweep: true, floor: '2,000,000', wd: 'notice', loanProduct: 'line', loanAmt: 10, loanTerm: 6, loanStatus: 'none',
-    rule: true, twofa: true, ipAllow: false, notif: { email: true, push: true, sms: false, webhook: true }, frozen: {}, match: true, opened: {}, auditFilter: 'All', invited: false, held: true, account: 'GBP' };
 
+/* Onboarding module. Renders into #ob.
+   Host provides: window.obHostShow(showApp), window.obKyb(status), window.obMode(mode, acct).
+   mode: 'fresh' (new business, empty) or 'demo' (established, sample data). */
+(function () {
+  const el = document.getElementById('ob');
+  const DEMO = {
+    fresh: { email: 'newbiz@demo.misan', pass: 'demo1234', acct: { first: 'Ada', last: 'Nwosu', email: 'newbiz@demo.misan', phone: '+234 802 000 4455', biz: 'Ada Foods Ltd' } },
+    est: { email: 'kola@kolaexports.example', pass: 'demo1234', acct: { first: 'Kola', last: 'Ogun', email: 'kola@kolaexports.example', phone: '+234 803 000 1122', biz: 'Kola Exports Ltd' } }
+  };
+  const PERSONAL = { first: 'Tolu', last: 'Adebayo', phone: '+234 806 000 7788', email: 'tolu.adebayo@example.com' };
+  const accounts = { est: { acct: DEMO.est.acct, kyb: 'verified', mode: 'demo', path: 'new' }, fresh: { acct: DEMO.fresh.acct, kyb: 'none', mode: 'fresh', path: 'new' } };
+  const O = { view: 'welcome', who: null, step: 0, entity: 'ltd', looked: false, industry: 'Import and export', selfie: false,
+    invited: {}, signers: { me: true }, pep: 'no', nominee: 'no', docs: {}, consent: false, consent2: false, err: '', note: '', f: {} };
+  const cur = () => accounts[O.who] || { acct: { first: '', last: '', email: '', phone: '', biz: '' }, kyb: 'none', mode: 'fresh', path: 'new' };
+  const A = () => cur().acct;
+  const fv = (id, def) => (O.f[id] !== undefined ? O.f[id] : (def || '')).toString().replace(/"/g, '&quot;');
+  const ent = {
+    ltd: { label: 'Limited company', sub: 'Ltd, registered with CAC (RC number)', num: 'RC number' },
+    bn: { label: 'Business name', sub: 'Sole owner or partnership (BN number)', num: 'BN number' },
+    it: { label: 'Incorporated trustees', sub: 'NGO, church, association (IT number)', num: 'IT number' }
+  };
+  const dnfbp = ['Real estate', 'Car dealership', 'Hotels and hospitality', 'Jewellery and precious metals', 'NGO or charity'];
+  const me = () => (A().first + ' ' + A().last).trim();
+  const people = () => O.entity === 'bn'
+    ? [['me', me(), 'Proprietor, 100%', true]]
+    : O.entity === 'it'
+      ? [['me', me(), 'Trustee and chair', true], ['p2', 'Emeka Obi', 'Trustee', false]]
+      : [['me', me(), 'Director, 70% of shares', true], ['p2', 'Emeka Obi', 'Director, 30% of shares', false]];
+  const docList = () => {
+    const d = O.entity === 'ltd'
+      ? [['cert', 'Certificate of incorporation', 'cac'], ['status', 'CAC status report (directors, shareholders, persons with significant control)', 'cac'], ['memart', 'Memorandum and articles of association', 'up'], ['board', 'Board resolution to open the account and name signatories', 'up'], ['addr', 'Proof of business address (utility bill from the last 3 months)', 'up']]
+      : O.entity === 'bn'
+        ? [['cert', 'Business name certificate', 'cac'], ['status', 'CAC status report showing the proprietor(s)', 'cac'], ['addr', 'Proof of business address (utility bill from the last 3 months)', 'up']]
+        : [['cert', 'Certificate of incorporated trustees', 'cac'], ['const', 'Constitution', 'up'], ['board', 'Trustees\' resolution to open the account', 'up'], ['scuml', 'SCUML registration certificate', 'up'], ['addr', 'Proof of address (utility bill from the last 3 months)', 'up']];
+    if (O.entity !== 'it' && dnfbp.includes(O.industry)) d.push(['scuml', 'SCUML registration certificate (required for your industry)', 'up']);
+    return d;
+  };
+  const stepNames = ['You', 'Business', 'People', 'Documents', 'Review'];
+  const back = (to) => `<button class="ob-back" data-ob="to" data-v="${to}" aria-label="Back"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C0045" stroke-width="2.2" stroke-linecap="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg></button>`;
+  const tick = '<span class="ob-tick" aria-hidden="true">✓</span>';
+  const wait = '<span class="ob-wait" aria-hidden="true">…</span>';
+  const err = () => O.err ? `<div class="ob-err" role="alert">${O.err}</div>` : '';
+  const note = () => O.note ? `<div class="ob-note" role="status">${O.note}</div>` : '';
+  const stepper = () => `<div class="ob-row" style="justify-content:space-between;align-items:center"><span class="ob-stepname" style="flex:0 1 auto">Business verification · step ${O.step + 1} of 5 · ${stepNames[O.step]}</span><button class="ob-link" data-ob="later" style="flex:0 0 auto">Finish later</button></div><div class="ob-steps" aria-hidden="true">${stepNames.map((_, i) => `<span class="${i <= O.step ? 'on' : ''}"></span>`).join('')}</div>`;
+  const nav = (nextLabel) => `${err()}<div class="ob-row">${O.step > 0 ? '<button class="ob-btn ghost" data-ob="prev">Back</button>' : ''}<button class="ob-btn" data-ob="next">${nextLabel || 'Continue'}</button></div>`;
+  const val = (id) => (O.f[id] || '').trim();
+  const inp = (id, label, ph, extra) => `<div class="ob-field"><label for="${id}">${label}</label><input id="${id}" value="${fv(id)}" placeholder="${ph || ''}" ${extra || ''}></div>`;
+
+  const V = {
+    welcome: () => `
+      <div class="ob-hero"><span class="word">MISAN BUSINESS</span><p>Collect, pay, earn and borrow across Nigeria, Ghana, Kenya, the UK, Europe and Canada, from one business account.</p></div>
+      <button class="ob-btn" data-ob="to" data-v="signup">Create a business account</button>
+      <button class="ob-btn ghost" data-ob="to" data-v="switchSignin">I already use Misan for personal</button>
+      <p class="ob-small" style="text-align:center">Already have a business account? <button class="ob-link" data-ob="to" data-v="login" style="padding:0">Log in</button></p>
+      <p class="ob-small" style="text-align:center">Concept prototype by Chiamaka Obioha. Not an official Misan product. No real data is collected.</p>`,
+    signup: () => `${back('welcome')}<h1>CREATE YOUR ACCOUNT</h1>
+      <p class="ob-lede">It takes about a minute. You'll verify the business after you're in.</p>
+      <div class="ob-grid">${inp('su-first', 'First name', 'e.g. Ada', 'autocomplete="given-name"')}${inp('su-last', 'Last name', 'e.g. Nwosu', 'autocomplete="family-name"')}</div>
+      ${inp('su-biz', 'Business name', 'As registered with CAC', 'autocomplete="organization"')}
+      ${inp('su-email', 'Work email', 'name@yourbusiness.com', 'type="email" autocomplete="email"')}
+      ${inp('su-phone', 'Phone number', '+234 800 000 0000', 'inputmode="tel" autocomplete="tel"')}
+      ${inp('su-pass', 'Password', 'At least 8 characters', 'type="password" autocomplete="new-password"')}
+      ${err()}<button class="ob-btn" data-ob="signup">Create account</button>
+      <p class="ob-small">By continuing you agree to the terms and privacy notice. We'll text a code to confirm your phone.</p>`,
+    otpSignup: () => `${back('signup')}<h1>CONFIRM YOUR PHONE</h1>
+      <p class="ob-lede">Enter the 6-digit code we sent to ${A().phone}.</p>
+      <div class="ob-note" role="note"><b>Demo code: 123456</b><br>This is a prototype, so no text is sent. Type 123456 or any other 6 digits.</div>
+      ${inp('ob-otp', 'Code', 'e.g. 123456', 'class="ob-otp" inputmode="numeric" maxlength="6"')}
+      ${err()}<button class="ob-btn" data-ob="signupDone">Confirm</button>`,
+    login: () => `${back('welcome')}<h1>LOG IN</h1>
+      ${inp('li-email', 'Work email', 'name@yourbusiness.com', 'autocomplete="username"')}
+      ${inp('li-pass', 'Password', 'Your password', 'type="password" autocomplete="current-password"')}
+      ${err()}${note()}<button class="ob-btn" data-ob="login">Log in</button>
+      <button class="ob-link" data-ob="forgot">Forgot password?</button>
+      <h2>Demo logins</h2>
+      <div class="ob-box">
+        <div class="ob-check"><span class="grow"><span class="t">New business, not yet verified</span><span class="ob-small">${DEMO.fresh.email} · ${DEMO.fresh.pass}<br>Empty account: no money, no transactions. Verify it, then make your own test transactions.</span></span><button class="ob-btn soft" data-ob="demo" data-v="fresh">Use</button></div>
+        <div class="ob-check"><span class="grow"><span class="t">Established business, verified</span><span class="ob-small">${DEMO.est.email} · ${DEMO.est.pass}<br>Months of sample activity across every screen.</span></span><button class="ob-btn soft" data-ob="demo" data-v="est">Use</button></div>
+        ${accounts.signup ? `<div class="ob-check"><span class="grow"><span class="t">The account you created</span><span class="ob-small">${accounts.signup.acct.email} · your password</span></span><button class="ob-btn soft" data-ob="demo" data-v="signup">Use</button></div>` : ''}
+      </div>`,
+    otp: () => `${back('login')}<h1>CHECK YOUR PHONE</h1>
+      <p class="ob-lede">Enter the 6-digit code we sent to ${A().phone.slice(0, 8)} *** ${A().phone.slice(-4)}.</p>
+      <div class="ob-note" role="note"><b>Demo code: 123456</b><br>This is a prototype, so no text is sent. Type 123456 or any other 6 digits.</div>
+      ${inp('ob-otp', 'Code', 'e.g. 123456', 'class="ob-otp" inputmode="numeric" maxlength="6"')}
+      ${err()}${note()}<button class="ob-btn" data-ob="verifyOtp">Verify and log in</button>
+      <button class="ob-link" data-ob="resend">Send a new code</button>`,
+    switchSignin: () => `${back('welcome')}<h1>USE YOUR PERSONAL ACCOUNT</h1>
+      <p class="ob-lede">Sign in with your personal Misan details. Your identity checks carry over, so verifying the business later is quicker.</p>
+      ${inp('sw-phone', 'Phone number on your personal account', PERSONAL.phone, 'inputmode="tel"')}
+      ${inp('sw-pin', 'Transaction PIN', '4 digits', 'type="password" inputmode="numeric" maxlength="4"')}
+      <p class="ob-small">Demo personal account: ${PERSONAL.phone} · PIN 1234</p>
+      ${err()}<button class="ob-btn" data-ob="switchSignin">Continue</button>`,
+    switchBiz: () => `${back('switchSignin')}<h1>HI ${PERSONAL.first.toUpperCase()}, ADD YOUR BUSINESS</h1>
+      <p class="ob-lede">Your personal and business money stay in separate accounts. You can switch between them in the app.</p>
+      ${inp('sw-biz', 'Business name', 'As registered with CAC')}
+      ${inp('sw-email', 'Work email', 'name@yourbusiness.com', 'type="email"')}
+      ${err()}<button class="ob-btn" data-ob="switchDone">Create business account</button>`,
+    kybPrompt: () => `<h1>VERIFY ${A().biz.toUpperCase()}</h1>
+      <p class="ob-lede">You're logged in. Before you can collect, pay out or use Earn, we need to verify the business. This is a Central Bank of Nigeria requirement for every business account.</p>
+      <div class="ob-box">
+        ${cur().path === 'switch' ? `<div class="ob-check">${tick}<span class="grow"><span class="t">Your identity</span><span class="ob-small">Already verified on your personal account</span></span></div>` : `<div class="ob-check">${wait}<span class="grow"><span class="t">Your identity</span><span class="ob-small">BVN, NIN, date of birth, address and a selfie</span></span></div>`}
+        <div class="ob-check">${wait}<span class="grow"><span class="t">Business details</span><span class="ob-small">CAC number, industry, expected activity</span></span></div>
+        <div class="ob-check">${wait}<span class="grow"><span class="t">Owners and directors</span><span class="ob-small">Anyone with more than 5% or control verifies their BVN and NIN</span></span></div>
+        <div class="ob-check">${wait}<span class="grow"><span class="t">Documents</span><span class="ob-small">We fetch what we can from CAC</span></span></div>
+      </div>
+      <p class="ob-small">Takes about ${cur().path === 'switch' ? '7' : '10'} minutes. You can save and finish later.</p>
+      <button class="ob-btn" data-ob="kybStart">Start verification</button>
+      <button class="ob-btn ghost" data-ob="later">Do it later</button>`,
+    flow: () => [stepYou, stepBusiness, stepPeople, stepDocs, stepReview][O.step](),
+    submitted: () => {
+      const ps = people().filter((p) => !p[3]);
+      return `<h1>WE'RE VERIFYING ${A().biz.toUpperCase()}</h1>
+      <p class="ob-lede">Most businesses are verified within 1 business day. We'll notify you at each step.</p>
+      <div class="ob-box">
+        <div class="ob-check">${tick}<span class="grow"><span class="t">Business matched on the CAC register</span><span class="ob-small">${ent[O.entity].num} ${val('kb-rc')} · Active</span></span></div>
+        <div class="ob-check">${tick}<span class="grow"><span class="t">Your BVN and NIN</span><span class="ob-small">${cur().path === 'switch' ? 'Reused from your personal account' : 'Checked with NIBSS and NIMC'}</span></span></div>
+        <div class="ob-check">${tick}<span class="grow"><span class="t">Sanctions and PEP screening</span><span class="ob-small">No matches</span></span></div>
+        ${ps.map((p) => `<div class="ob-check">${wait}<span class="grow"><span class="t">${p[1]}: BVN, NIN and selfie</span><span class="ob-small">${O.invited[p[0]] ? 'Invite sent, waiting for them' : 'Not invited yet'}</span></span></div>`).join('')}
+        <div class="ob-check">${wait}<span class="grow"><span class="t">Document review</span><span class="ob-small">Usually within 1 business day</span></span></div>
+      </div>
+      <div class="ob-note">While you wait, you can explore the dashboard, add payees and invite your team. Money movement unlocks once verification is complete. In this demo, use "Mark as verified" on the banner to skip the wait.</div>
+      <button class="ob-btn" data-ob="done">Back to the dashboard</button>`;
+    }
+  };
+
+  function stepYou() {
+    if (cur().path === 'switch') return `${stepper()}<h1>YOUR DETAILS</h1>
+      <p class="ob-lede">We already have these from your personal Misan account. You don't need to verify them again.</p>
+      <div class="ob-box">
+        <div class="ob-kv"><span class="k">Full name</span><span class="v">${me()} ${tick}</span></div>
+        <div class="ob-kv"><span class="k">Date of birth</span><span class="v">04 Jun 1990 ${tick}</span></div>
+        <div class="ob-kv"><span class="k">BVN</span><span class="v">221 *** 0938 ${tick}</span></div>
+        <div class="ob-kv"><span class="k">NIN</span><span class="v">*** *** 7716 ${tick}</span></div>
+        <div class="ob-kv"><span class="k">Phone</span><span class="v">${PERSONAL.phone.slice(0, 8)} *** ${PERSONAL.phone.slice(-4)} ${tick}</span></div>
+        <div class="ob-kv"><span class="k">Home address</span><span class="v">Yaba, Lagos ${tick}</span></div>
+        <div class="ob-kv"><span class="k">Selfie and liveness check</span><span class="v">Done Jul 2026 ${tick}</span></div>
+      </div>
+      <div class="ob-field"><label for="kb-role">Your role in the business</label><select id="kb-role"><option>Director</option><option>Proprietor</option><option>Trustee</option><option>Finance lead</option></select></div>
+      <label class="ob-consent"><input type="checkbox" id="ob-c2" ${O.consent2 ? 'checked' : ''}><span>I agree that Misan can reuse my personal identity verification for this business account.</span></label>
+      ${nav()}`;
+    return `${stepper()}<h1>ABOUT YOU</h1>
+      <p class="ob-lede">You're the account owner, ${me()}. We check these details with NIBSS and NIMC.</p>
+      <div class="ob-grid">
+        ${inp('kb-dob', 'Date of birth', 'DD/MM/YYYY', 'inputmode="numeric"')}
+        <div class="ob-field"><label for="kb-role">Your role in the business</label><select id="kb-role"><option>Director</option><option>Proprietor</option><option>Trustee</option><option>Finance lead</option></select></div>
+        ${inp('kb-bvn', 'BVN', '11 digits', 'inputmode="numeric" maxlength="11"')}
+        ${inp('kb-nin', 'NIN', '11 digits', 'inputmode="numeric" maxlength="11"')}
+      </div>
+      ${inp('kb-addr', 'Home address', 'Street, area, city')}
+      <div class="ob-selfie"><span><b>Selfie and liveness check</b><span class="ob-small" style="display:block">Matches your face to your BVN photo</span></span>${O.selfie ? '<span class="ob-pill ok">Done</span>' : '<button class="ob-btn soft" data-ob="selfie">Take selfie</button>'}</div>
+      ${nav()}`;
+  }
+  function stepBusiness() {
+    const e = ent[O.entity];
+    const found = O.looked ? `<div class="ob-found"><b>${A().biz.toUpperCase()}</b>
+      <span class="ob-small">${e.num} ${val('kb-rc')} · Status: Active</span>
+      ${O.entity === 'ltd' ? '<span class="ob-small">Your RC number is also your Tax ID under the 2026 tax rules.</span>' : ''}</div>` : '';
+    return `${stepper()}<h1>YOUR BUSINESS</h1>
+      <div class="ob-opts">${Object.keys(ent).map((k) => `<button class="ob-opt" data-ob="entity" data-v="${k}" aria-pressed="${O.entity === k}"><b>${ent[k].label}</b><span>${ent[k].sub}</span></button>`).join('')}</div>
+      <div class="ob-row" style="align-items:flex-end"><div class="ob-field" style="flex:2 1 200px"><label for="kb-rc">${e.num}</label><input id="kb-rc" value="${fv('kb-rc')}" placeholder="Any 5 to 8 digits for this demo" inputmode="numeric"></div><button class="ob-btn soft" data-ob="lookup" style="flex:0 0 auto;min-height:48px">Find on CAC</button></div>
+      ${found}
+      ${O.looked ? inp('kb-addrb', 'Business address', 'Street, area, city') : ''}
+      ${O.entity !== 'ltd' ? inp('kb-tin', 'Tax ID (TIN)', 'e.g. 12345678-0001', 'inputmode="numeric"') : ''}
+      <div class="ob-grid">
+        <div class="ob-field"><label for="kb-ind">Industry</label><select id="kb-ind">${['Import and export', 'Retail and e-commerce', 'Food and agriculture', 'Logistics', 'Technology', 'Professional services', 'Real estate', 'Car dealership', 'Hotels and hospitality', 'Jewellery and precious metals', 'NGO or charity'].map((i) => `<option${i === O.industry ? ' selected' : ''}>${i}</option>`).join('')}</select></div>
+        ${inp('kb-web', 'Website or social media page (optional)', 'e.g. yourbusiness.com or @yourbusiness')}
+        <div class="ob-field"><label for="kb-vol">Expected money in and out each month</label><select id="kb-vol"><option>Up to ₦5 million</option><option>₦5m to ₦50m</option><option>₦50m to ₦500m</option><option>Over ₦500m</option></select></div>
+        <div class="ob-field"><label for="kb-src">Where the money comes from</label><select id="kb-src"><option>Sales to customers</option><option>Investment or shareholder funds</option><option>Grants or donations</option><option>Loans</option></select></div>
+      </div>
+      <div class="ob-field"><label>Countries you'll send to or receive from</label><div class="ob-chips">${['Nigeria', 'Ghana', 'Kenya', 'United Kingdom', 'United States', 'Eurozone', 'Canada', 'China'].map((c) => `<button class="ob-chip" data-ob="chip" aria-pressed="false">${c}</button>`).join('')}</div></div>
+      ${dnfbp.includes(O.industry) ? '<div class="ob-note warn">Businesses in this industry must also register with SCUML (the special control unit against money laundering). We\'ll ask for the certificate.</div>' : ''}
+      ${nav()}`;
+  }
+  function stepPeople() {
+    const ps = people();
+    return `${stepper()}<h1>OWNERS AND DIRECTORS</h1>
+      <p class="ob-lede">From your CAC record. Everyone who owns more than 5% of the business, or controls it, must verify their BVN, NIN and a selfie. We'll send each of them a secure link.</p>
+      <div class="ob-box">${ps.map((p) => `<div class="ob-check">${p[3] ? tick : wait}<span class="grow"><span class="t">${p[1]}${p[3] ? ' (you)' : ''}</span><span class="ob-small">${p[2]}</span></span>${p[3] ? '<span class="ob-pill ok">Verified</span>' : O.invited[p[0]] ? '<span class="ob-pill info">Invite sent</span>' : `<button class="ob-btn soft" data-ob="invite" data-v="${p[0]}">Send invite</button>`}</div>`).join('')}</div>
+      <h2>Who can approve payments?</h2>
+      <div class="ob-chips">${ps.map((p) => `<button class="ob-chip" data-ob="signer" data-v="${p[0]}" aria-pressed="${!!O.signers[p[0]]}">${p[1]}</button>`).join('')}</div>
+      <h2>Is any owner, director or signatory a politically exposed person?</h2>
+      <p class="ob-small">For example a current or former senior public official, or their close family or associates.</p>
+      <div class="ob-chips"><button class="ob-chip" data-ob="pep" data-v="no" aria-pressed="${O.pep === 'no'}">No</button><button class="ob-chip" data-ob="pep" data-v="yes" aria-pressed="${O.pep === 'yes'}">Yes</button></div>
+      ${O.pep === 'yes' ? inp('kb-wealth', 'Their source of wealth', 'e.g. salary, business income, inheritance') + '<div class="ob-note warn">We\'ll apply enhanced checks and a senior compliance review. This can add 1 to 2 business days.</div>' : ''}
+      ${O.entity !== 'bn' ? `<h2>Does anyone hold shares or a directorship on someone else's behalf?</h2>
+      <div class="ob-chips"><button class="ob-chip" data-ob="nominee" data-v="no" aria-pressed="${O.nominee === 'no'}">No</button><button class="ob-chip" data-ob="nominee" data-v="yes" aria-pressed="${O.nominee === 'yes'}">Yes</button></div>
+      ${O.nominee === 'yes' ? inp('kb-nomfor', 'Who are they acting for?', 'Full name of the person they act for') : ''}` : ''}
+      ${nav()}`;
+  }
+  function stepDocs() {
+    return `${stepper()}<h1>DOCUMENTS</h1>
+      <p class="ob-lede">We fetch what we can from CAC. Upload the rest as PDF or photo.</p>
+      <div class="ob-box">${docList().map((d) => {
+        const have = d[2] === 'cac' || O.docs[d[0]];
+        return `<div class="ob-check">${have ? tick : wait}<span class="grow"><span class="t">${d[1]}</span><span class="ob-small">${d[2] === 'cac' ? 'Fetched from CAC' : O.docs[d[0]] ? O.docs[d[0]] : 'Needed'}</span></span>${have ? '' : `<button class="ob-btn soft" data-ob="upload" data-v="${d[0]}">Upload</button>`}</div>`;
+      }).join('')}</div>
+      ${O.entity !== 'bn' ? '<button class="ob-link" data-ob="template">Download a board resolution template</button>' : ''}
+      ${nav()}`;
+  }
+  function stepReview() {
+    const ps = people();
+    return `${stepper()}<h1>CHECK AND SUBMIT</h1>
+      <div class="ob-box">
+        <div class="ob-kv"><span class="k">Business</span><span class="v">${A().biz}</span></div>
+        <div class="ob-kv"><span class="k">Type</span><span class="v">${ent[O.entity].label}, ${ent[O.entity].num} ${val('kb-rc')}</span></div>
+        <div class="ob-kv"><span class="k">Industry</span><span class="v">${O.industry}</span></div>
+        <div class="ob-kv"><span class="k">Account owner</span><span class="v">${me()}${cur().path === 'switch' ? ' (personal verification reused)' : ''}</span></div>
+        <div class="ob-kv"><span class="k">Owners and directors</span><span class="v">${ps.length}, ${ps.filter((p) => p[3]).length} verified</span></div>
+        <div class="ob-kv"><span class="k">Can approve payments</span><span class="v">${ps.filter((p) => O.signers[p[0]]).map((p) => p[1]).join(', ') || 'Nobody yet'}</span></div>
+        <div class="ob-kv"><span class="k">Politically exposed person</span><span class="v">${O.pep === 'yes' ? 'Yes' : 'No'}</span></div>
+        <div class="ob-kv"><span class="k">Documents</span><span class="v">${docList().filter((d) => d[2] === 'cac' || O.docs[d[0]]).length} of ${docList().length}</span></div>
+      </div>
+      <label class="ob-consent"><input type="checkbox" id="ob-c1" ${O.consent ? 'checked' : ''}><span>I confirm this information is true and complete, and I'll tell Misan if it changes. I agree to Misan checking it with CAC, NIBSS, NIMC, the tax authority and screening lists, in line with the Nigeria Data Protection Act.</span></label>
+      ${nav('Submit for verification')}`;
+  }
+
+  function render() { el.innerHTML = `<div class="ob-wrap"><div class="ob-card">${V[O.view]()}</div></div>`; el.scrollTop = 0; window.scrollTo(0, 0); }
+  function to(v) { O.view = v; O.err = ''; O.note = ''; render(); }
+  function fail(m) { O.err = m; render(); }
+  function enterApp() { const c = cur(); window.obMode(c.mode, Object.assign({ key: O.who }, c.acct)); window.obKyb(c.kyb); window.obHostShow(true); }
+  function resetKyb() { Object.assign(O, { step: 0, entity: 'ltd', looked: false, industry: 'Import and export', selfie: false, invited: {}, signers: { me: true }, pep: 'no', nominee: 'no', docs: {}, consent: false, consent2: false }); }
+  function validate() {
+    if (O.step === 0 && cur().path === 'switch' && !O.consent2) return 'Tick the box to let us reuse your personal verification.';
+    if (O.step === 0 && cur().path !== 'switch') {
+      if (!/^\d{2}\/\d{2}\/\d{4}$/.test(val('kb-dob'))) return 'Enter your date of birth as DD/MM/YYYY.';
+      if (!/^\d{11}$/.test(val('kb-bvn'))) return 'Your BVN has 11 digits.';
+      if (!/^\d{11}$/.test(val('kb-nin'))) return 'Your NIN has 11 digits.';
+      if (!val('kb-addr')) return 'Add your home address.';
+      if (!O.selfie) return 'Take your selfie to continue.';
+    }
+    if (O.step === 1 && !O.looked) return 'Enter your ' + ent[O.entity].num + ' and find your business on CAC first.';
+    if (O.step === 1 && !val('kb-addrb')) return 'Add the business address.';
+    if (O.step === 1 && O.entity !== 'ltd' && !val('kb-tin')) return 'Add your Tax ID (TIN).';
+    if (O.step === 2 && !Object.values(O.signers).some(Boolean)) return 'Choose at least one person who can approve payments.';
+    if (O.step === 3) { const miss = docList().filter((d) => d[2] !== 'cac' && !O.docs[d[0]]); if (miss.length) return 'Upload ' + miss.length + ' more document' + (miss.length > 1 ? 's' : '') + ' to continue.'; }
+    if (O.step === 4 && !O.consent) return 'Tick the box to confirm your details.';
+    return '';
+  }
+  const act = {
+    to: (v) => to(v),
+    demo: (v) => { const d = v === 'signup' ? { email: accounts.signup.acct.email, pass: accounts.signup.pass } : DEMO[v]; O.f['li-email'] = d.email; O.f['li-pass'] = d.pass; to('login'); },
+    signup: () => {
+      const a = { first: val('su-first'), last: val('su-last'), biz: val('su-biz'), email: val('su-email').toLowerCase(), phone: val('su-phone') };
+      if (Object.values(a).some((x) => !x)) return fail('Fill in every field to create your account.');
+      if (!/^\S+@\S+\.\S+$/.test(a.email)) return fail('Enter a valid work email, like name@business.com.');
+      if (val('su-pass').length < 8) return fail('Use a password with at least 8 characters.');
+      accounts.signup = { acct: a, kyb: 'none', mode: 'fresh', path: 'new', pass: val('su-pass') }; O.who = 'signup'; resetKyb(); O.f['ob-otp'] = ''; to('otpSignup');
+    },
+    signupDone: () => { if (!/^\d{6}$/.test(val('ob-otp'))) return fail('The code has 6 digits. Check the text message and try again.'); enterApp(); },
+    switchSignin: () => { if (!val('sw-phone') || !/^\d{4}$/.test(val('sw-pin'))) return fail('Enter your phone number and 4-digit PIN. For the demo, use ' + PERSONAL.phone + ' and 1234.'); to('switchBiz'); },
+    switchDone: () => {
+      const b = val('sw-biz'), e = val('sw-email').toLowerCase();
+      if (!b || !/^\S+@\S+\.\S+$/.test(e)) return fail('Add the business name and a valid work email.');
+      accounts.signup = { acct: { first: PERSONAL.first, last: PERSONAL.last, biz: b, email: e, phone: PERSONAL.phone }, kyb: 'none', mode: 'fresh', path: 'switch', pass: '1234' }; O.who = 'signup'; resetKyb(); enterApp();
+    },
+    login: () => {
+      const e = val('li-email').toLowerCase(), p = val('li-pass');
+      if (!e || !p) return fail('Enter your work email and password.');
+      let who = null;
+      if (e === DEMO.fresh.email && p === DEMO.fresh.pass) who = 'fresh';
+      else if (e === DEMO.est.email && p === DEMO.est.pass) who = 'est';
+      else if (accounts.signup && e === accounts.signup.acct.email && p === accounts.signup.pass) who = 'signup';
+      if (!who) return fail('That email and password don\'t match an account. Try one of the demo logins below.');
+      if (O.who !== who) resetKyb();
+      O.who = who; O.f['ob-otp'] = ''; to('otp');
+    },
+    verifyOtp: () => { if (!/^\d{6}$/.test(val('ob-otp'))) return fail('The code has 6 digits. Check the text message and try again.'); if (cur().kyb === 'none') to('kybPrompt'); else enterApp(); },
+    forgot: () => { O.note = 'If that email has an account, we\'ve sent a reset link (demo).'; O.err = ''; render(); },
+    resend: () => { O.note = 'New code sent (demo).'; render(); },
+    later: () => enterApp(),
+    kybStart: () => { O.step = 0; to('flow'); },
+    done: () => enterApp(),
+    selfie: () => { O.selfie = true; render(); },
+    entity: (v) => { O.entity = v; O.looked = false; O.docs = {}; O.signers = { me: true }; render(); },
+    lookup: () => { if (!/^\d{5,8}$/.test(val('kb-rc'))) return fail('Enter a ' + ent[O.entity].num + ' of 5 to 8 digits.'); O.looked = true; O.err = ''; render(); },
+    chip: (v, b) => { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); },
+    invite: (v) => { O.invited[v] = true; render(); },
+    signer: (v) => { O.signers[v] = !O.signers[v]; render(); },
+    pep: (v) => { O.pep = v; render(); },
+    nominee: (v) => { O.nominee = v; render(); },
+    upload: (v) => { O.docs[v] = v + '-' + A().biz.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.pdf · uploaded'; render(); },
+    template: (v, b) => { b.textContent = 'Template ready: board-resolution-template.docx (demo)'; },
+    prev: () => { O.step = Math.max(0, O.step - 1); O.err = ''; render(); },
+    next: () => { const m = validate(); if (m) return fail(m); O.err = ''; if (O.step === 4) { cur().kyb = 'submitted'; window.obKyb('submitted'); to('submitted'); return; } O.step += 1; render(); }
+  };
+  el.addEventListener('click', (e) => { const b = e.target.closest('[data-ob]'); if (!b) return; e.preventDefault(); act[b.dataset.ob](b.dataset.v, b); });
+  el.addEventListener('input', (e) => { if (e.target.id) O.f[e.target.id] = e.target.value; });
+  el.addEventListener('change', (e) => {
+    if (e.target.id === 'kb-ind') { O.industry = e.target.value; render(); }
+    if (e.target.id === 'ob-c1') O.consent = e.target.checked;
+    if (e.target.id === 'ob-c2') O.consent2 = e.target.checked;
+  });
+  window.OB = {
+    start: (v) => { O.view = v || 'welcome'; O.err = ''; O.note = ''; O.f = {}; window.obHostShow(false); render(); },
+    kyb: () => { O.view = cur().kyb === 'submitted' ? 'submitted' : 'kybPrompt'; O.err = ''; window.obHostShow(false); render(); },
+    setKyb: (s) => { cur().kyb = s; },
+    biz: () => A().biz || 'Your business',
+    acct: () => A()
+  };
+})();
+
+</script>
+<script>
+
+(function () {
+  /* ---------- Helpers ---------- */
+  const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const pill = (cls, t) => `<span class="pill ${cls}">${t}</span>`;
+  const tog = (a, label, on, v) => `<button class="tog" data-a="${a}"${v !== undefined ? ` data-v="${v}"` : ''} aria-pressed="${on}" aria-label="${label}"></button>`;
+  const head = (title, lede, actions) => `<div class="head"><div><h1>${title}</h1>${lede ? `<p class="lede">${lede}</p>` : ''}</div>${actions ? `<div class="btns">${actions}</div>` : ''}</div>`;
+  const empty = (title, body, btn) => `<div class="emptybox"><b>${title}</b><span>${body}</span>${btn || ''}</div>`;
+  const FEE = 0.02;
+  const rate = { NGN: 1, USD: 1385, GBP: 1972, EUR: 1610, CAD: 1005, GHS: 142.7, KES: 10.7 };
+  const sym = { NGN: '₦', USD: '$', GBP: '£', EUR: '€', CAD: 'CA$', GHS: 'GHS ', KES: 'KES ' };
+  const whole = (c) => c === 'NGN' || c === 'KES';
+  const money = (cur, v) => (v < 0 ? '−' : '') + sym[cur] + Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: whole(cur) ? 0 : 2, maximumFractionDigits: whole(cur) ? 0 : 2 });
+  const signed = (cur, v) => (v > 0 ? '+' : '') + money(cur, v);
+  const num = (s) => Number(String(s).replace(/[^0-9.]/g, '')) || 0;
+  const now = () => { const d = new Date(); return '28 Oct, ' + d.toTimeString().slice(0, 5); };
+  const rnd = (n) => Array.from({ length: n }, () => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('');
+  const digits = (n) => Array.from({ length: n }, () => Math.floor(Math.random() * 10)).join('');
+  const WALLETS = ['NGN', 'USD', 'GBP', 'EUR', 'CAD'];
+  const initials = (n) => String(n).split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('') || 'ME';
+
+  /* ---------- Data: one ledger per account ---------- */
+  const DATA = {};
+  function freshData(a) {
+    const owner = (a.first + ' ' + a.last).trim();
+    return {
+      mode: 'fresh', bal: { NGN: 0, USD: 0, GBP: 0, EUR: 0, CAD: 0 }, earn: { NGN: 0, USD: 0 }, earned: { NGN: 0, USD: 0 },
+      collectedMonth: 0, months: [['May', 0], ['Jun', 0], ['Jul', 0], ['Aug', 0], ['Sep', 0], ['Oct', 0]],
+      tx: [], topups: [], singles: [], earnHist: [], recips: [], customers: [], cards: [], loans: [], runs: [], bulk: null, held: false, opened: {},
+      team: [[initials(owner), owner, a.email, 'Owner', 'No limit', 'Active']],
+      audit: [[now(), owner, 'Login', 'Signed in with two-step code', 'Chrome · Lagos', '102.89.34.18', 'Not available (browser)'], ['28 Oct, 08:00', owner, 'Team', 'Created the business account for ' + a.biz, 'Chrome · Lagos', '102.89.34.18', 'Not available (browser)']],
+      key: 'sk_test_' + rnd(24), ips: [], hookUrl: '', hookEvents: { 'collection.credited': true, 'payout.completed': true, 'payout.failed': true }, hookSaved: false, hookSecret: 'whsec_' + rnd(8), deliveries: [], requests: [],
+      loanEligible: false
+    };
+  }
+  function demoData() {
+    const R = (w, who, what, amt, type, st) => ({ when: w, who, what, amt, type, st });
+    return {
+      mode: 'demo', bal: { NGN: 14250000, USD: 8215.4, GBP: 12480, EUR: 3960, CAD: 2140 }, earn: { NGN: 12450000, USD: 15200 }, earned: { NGN: 186400, USD: 118.4 },
+      collectedMonth: 33900000, months: [['May', 18.2], ['Jun', 21.4], ['Jul', 19.8], ['Aug', 26.1], ['Sep', 29.5], ['Oct', 33.9]],
+      tx: [R('27 Oct, 09:16', 'Brightway Foods Ltd', 'Collection · GBP', '+£4,200.00', 'Collection', ['ok', 'Credited']), R('27 Oct, 08:05', 'Atlantic Textiles Inc', 'Collection · USD', '+$2,950.00', 'Collection', ['warn', 'On hold']), R('27 Oct, 07:55', 'Bank transfer from Access Bank', 'Funding · NGN', '+₦5,000,000', 'Funding', ['ok', 'Credited']), R('26 Oct, 18:00', 'Evening sweep', 'Earn · NGN', '₦2,180,000', 'Earn', ['info', 'Swept']),
+        R('26 Oct, 16:05', 'Thames Freight Ltd', 'Payout · GBP', '−£950.00', 'Payout', ['ok', 'Delivered']), R('26 Oct, 10:42', 'Lekki Fresh Market', 'Collection · NGN', '+₦1,850,000', 'Collection', ['ok', 'Credited']), R('26 Oct, 09:40', 'Adeyemi Packaging Ltd', 'Payout · NGN', '−₦420,000', 'Payout', ['ok', 'Delivered']), R('25 Oct, 14:12', 'Wanjiru Kamau', 'Payout · KES', '−KES 18,000', 'Payout', ['bad', 'Returned']),
+        R('25 Oct, 12:00', 'Staff payroll', 'Payout run · 18 payees', '−₦8,400,000', 'Payout', ['ok', 'Paid']), R('24 Oct, 11:30', 'Google Workspace', 'Card · Software', '−$72.00', 'Card', ['ok', 'Approved']), R('24 Oct, 09:00', 'Notice withdrawal', 'Earn · NGN', '+₦8,400,000', 'Earn', ['ok', 'Back in wallet']), R('23 Oct, 15:48', 'Hamburg Imports GmbH', 'Collection · EUR', '+€1,180.00', 'Collection', ['ok', 'Credited'])],
+      topups: [['27 Oct, 07:55', 'Bank transfer from Kola Exports (Access Bank)', 'Bank transfer', '+₦5,000,000', 'Credited'], ['24 Oct, 14:10', 'Converted from USD wallet', 'Convert', '+₦2,770,000', 'Credited'], ['22 Oct, 09:30', 'Debit card ending 2231', 'Card', '+₦750,000', 'Credited'], ['21 Oct, 16:22', 'Bank transfer from Kola Exports (GTBank)', 'Bank transfer', '+₦3,200,000', 'Credited'], ['19 Oct, 11:05', 'Bank transfer from Ade Ogun (personal)', 'Bank transfer', '+₦400,000', 'Held for review'], ['17 Oct, 10:48', 'Converted from GBP wallet', 'Convert', '+₦1,972,000', 'Credited'], ['15 Oct, 08:12', 'Debit card ending 2231', 'Card', '+₦300,000', 'Failed'], ['12 Oct, 15:30', 'Bank transfer from Kola Exports (Access Bank)', 'Bank transfer', '+₦6,000,000', 'Credited']],
+      singles: [['27 Oct, 11:20', 'Kwame Mensah', 'MTN Mobile Money, Ghana', 'GHS 3,200.00', 'Delivered'], ['26 Oct, 16:05', 'Thames Freight Ltd', 'Faster Payments, UK', '£950.00', 'Delivered'], ['26 Oct, 09:40', 'Adeyemi Packaging Ltd', 'Access Bank, Nigeria', '₦420,000', 'Delivered'], ['25 Oct, 14:12', 'Wanjiru Kamau', 'M-Pesa, Kenya', 'KES 18,000', 'Returned'], ['25 Oct, 10:03', 'Bello Logistics Ltd', 'Zenith Bank, Nigeria', '₦260,000', 'Delivered'], ['24 Oct, 17:41', 'Efua Owusu', 'Vodafone Cash, Ghana', 'GHS 800.00', 'Delivered'], ['24 Oct, 12:15', 'Toronto Packaging Inc', 'Interac, Canada', 'CA$640.00', 'Pending approval'], ['23 Oct, 09:22', 'Otieno Traders', 'Equity Bank, Kenya', 'KES 41,000', 'Delivered'], ['22 Oct, 15:58', 'Lagos Cold Rooms', 'GTBank, Nigeria', '₦1,100,000', 'Delivered']],
+      earnHist: [['26 Oct', 'Evening sweep', 'Sweep', '+₦2,180,000', 'Done'], ['24 Oct', 'Notice withdrawal for payroll', 'Notice withdrawal', '−₦8,400,000', 'Back in wallet'], ['22 Oct', 'Evening sweep', 'Sweep', '+₦940,000', 'Done'], ['20 Oct', 'Instant withdrawal (fee ₦10,000)', 'Instant withdrawal', '−₦500,000', 'Back in wallet'], ['19 Oct', 'Evening sweep', 'Sweep', '+₦1,640,000', 'Done'], ['17 Oct', 'Notice withdrawal for suppliers', 'Notice withdrawal', '−₦2,000,000', 'Back in wallet'], ['15 Oct', 'Evening sweep', 'Sweep', '+₦3,050,000', 'Done'], ['12 Oct', 'Instant withdrawal (fee ₦6,000)', 'Instant withdrawal', '−₦300,000', 'Back in wallet'], ['10 Oct', 'Evening sweep', 'Sweep', '+₦1,220,000', 'Done']],
+      recips: [{ id: 'kwame', name: 'Kwame Mensah', where: 'Ghana · MTN Mobile Money · 024 *** 5512', cur: 'GHS', eta: 'Usually within minutes', place: 'Ghana' }, { id: 'wanjiru', name: 'Wanjiru Kamau', where: 'Kenya · M-Pesa · 0712 *** 448', cur: 'KES', eta: 'Usually within minutes', place: 'Kenya' }, { id: 'adeyemi', name: 'Adeyemi Packaging Ltd', where: 'Nigeria · Access Bank ending 4410', cur: 'NGN', eta: 'Usually within seconds', place: 'Nigeria' }, { id: 'thames', name: 'Thames Freight Ltd', where: 'United Kingdom · Faster Payments ending 7781', cur: 'GBP', eta: 'Usually within minutes', place: 'the UK' }],
+      customers: [['BF', 'Brightway Foods Ltd', 'GBP', 'GBP ending 4471', '£12,600.00', '2 open invoices'], ['AT', 'Atlantic Textiles Inc', 'USD', 'USD ending 2290', '$5,900.00', '1 payment on hold'], ['LF', 'Lekki Fresh Market', 'NGN', 'NGN ending 8813', '₦5,400,000', 'No open invoices'], ['HI', 'Hamburg Imports GmbH', 'EUR', 'EUR ending 3307', '€3,540.00', '1 open invoice'], ['TP', 'Toronto Packaging Inc', 'CAD', 'CAD ending 6620', 'CA$2,100.00', 'No open invoices'], ['MS', 'Mersey Spices Ltd', 'GBP', 'GBP ending 9015', '£3,880.00', '1 open invoice'], ['AB', 'Abuja Agro Mart', 'NGN', 'NGN ending 1172', '₦2,250,000', 'No open invoices'], ['NY', 'Brooklyn Naturals LLC', 'USD', 'USD ending 4486', '$2,430.00', '3 open invoices']],
+      cards: [['Marketing', 'Amaka Eze', '4417', 640, 1500, 'Ads', false], ['Software', 'Tunde Ade', '9025', 310, 500, 'Subscriptions', false], ['Travel', 'Kola Ogun', '1182', 0, 3000, 'Travel', false], ['Operations', 'Ifeoma Nwosu', '7730', 1180, 2000, 'Logistics', false], ['Events', 'Amaka Eze', '5561', 420, 1000, 'Ads', false], ['Cloud hosting', 'Tunde Ade', '3308', 860, 1200, 'Subscriptions', false]],
+      loans: [['LN-0031', 'Working capital', '₦6,000,000', '6 months', 'Active', '3 of 6 repaid'], ['LN-0027', 'Invoice financing', '₦1,260,000', '60 days', 'Repaid', 'Closed 30 Sep'], ['LN-0019', 'Earn-backed credit line', '₦900,000', '3 months', 'Repaid', 'Closed 14 Aug'], ['LN-0012', 'Working capital', '₦3,000,000', '6 months', 'Repaid', 'Closed 2 Jun']],
+      runs: [['Staff payroll', 'Monthly', '25th · 18 payees', '₦8,400,000', 'Earn gives notice on the 24th'], ['UK contractors', 'Every 2 weeks', 'Fridays · 3 payees', '£3,200', 'Next: 31 Oct'], ['Kenya distributors', 'Monthly', '1st · 6 payees', 'KES 410,000', 'Next: 1 Nov'], ['Ghana agents commission', 'Weekly', 'Mondays · 9 payees', 'GHS 6,300', 'Next: 2 Nov'], ['Office rent', 'Quarterly', '1 Jan · 1 payee', '₦4,500,000', 'Next: 1 Jan']],
+      bulk: { name: 'October supplier run', file: 'suppliers-oct.csv', by: 'Amaka Eze', status: 'pending', payees: [['Kwame Mensah', 'Ghana', 'MTN Mobile Money', 'GHS 4,500', 642000], ['Wanjiru Kamau', 'Kenya', 'M-Pesa', 'KES 62,000', 663000], ['Adeyemi Packaging Ltd', 'Nigeria', 'Bank transfer', '₦1,250,000', 1250000], ['Thames Freight Ltd', 'United Kingdom', 'Faster Payments', '£1,800', 3550000], ['Efua Owusu', 'Ghana', 'Vodafone Cash', 'GHS 1,200', 171000], ['Otieno Traders', 'Kenya', 'Bank transfer', 'KES 15,000', 160500], ['Bello Logistics Ltd', 'Nigeria', 'Bank transfer', '₦380,000', 380000], ['Chidinma Okeke', 'Nigeria', 'Bank transfer', '₦120,000', 120000], ['Accra Shea Co-op', 'Ghana', 'Bank transfer', 'GHS 2,000', 285000], ['Mombasa Freight', 'Kenya', 'M-Pesa', 'KES 9,000', 96300], ['Ikeja Print Hub', 'Nigeria', 'Bank transfer', '₦95,000', 95000], ['Garba Farms', 'Nigeria', 'Bank transfer', '₦56,000', 56000]] },
+      held: true, opened: {},
+      team: [['KO', 'Kola Ogun', 'kola@kolaexports.example', 'Owner', 'No limit', 'Active'], ['TA', 'Tunde Ade', 'tunde@kolaexports.example', 'Finance approver', '₦20,000,000 a day', 'Active'], ['AE', 'Amaka Eze', 'amaka@kolaexports.example', 'Preparer', 'Prepares only', 'Active'], ['IN', 'Ifeoma Nwosu', 'ifeoma@kolaexports.example', 'Viewer', 'Read only', 'Active'], ['SB', 'Segun Bakare', 'segun@kolaexports.example', 'Preparer', 'Prepares only', 'Suspended']],
+      audit: [['27 Oct, 09:31', 'Kola Ogun', 'Login', 'Signed in with two-step code', 'Chrome on macOS · Lagos', '102.89.34.18', 'Not available (browser)'], ['27 Oct, 09:16', 'System', 'Money', 'Credited £4,200.00 from Brightway Foods Ltd', 'Auto-matched to customer account', 'Internal', 'Not applicable'], ['27 Oct, 08:41', 'Amaka Eze', 'Money', 'Submitted October supplier run (12 payees)', 'Misan Business app on iPhone · Lagos', '105.112.71.204', '3C:22:FB:9A:41:07'], ['27 Oct, 08:05', 'System', 'Money', 'Held $2,950.00 from Atlantic Textiles Inc: invoice needed', 'Compliance rule CR-14', 'Internal', 'Not applicable'], ['26 Oct, 18:00', 'System', 'Earn', 'Swept ₦2,180,000 into Earn', 'Floor ₦2,000,000', 'Internal', 'Not applicable'], ['26 Oct, 15:22', 'Tunde Ade', 'Settings', 'Changed daily payout limit to ₦20,000,000', 'Approved by Kola Ogun · Edge on Windows', '197.210.53.88', 'Not available (browser)'], ['26 Oct, 11:04', 'Kola Ogun', 'Team', 'Invited Ifeoma Nwosu as Viewer', 'Chrome on macOS · Lagos', '102.89.34.18', 'Not available (browser)'], ['25 Oct, 12:00', 'Tunde Ade', 'Money', 'Approved Staff payroll (18 payees, ₦8,400,000)', 'Misan Business app on Android · Abuja', '102.91.4.150', 'A4:5E:60:C1:2B:9D'], ['24 Oct, 09:00', 'System', 'Earn', 'Gave notice on ₦8,400,000 for 25 Oct payroll', 'Payout protection', 'Internal', 'Not applicable'], ['23 Oct, 16:47', 'Amaka Eze', 'Cards', 'Raised Marketing card limit to $1,500', 'Approved by Tunde Ade · Misan Business app on iPhone', '105.112.71.204', '3C:22:FB:9A:41:07'], ['23 Oct, 10:15', 'Unknown', 'Login', 'Failed sign-in for kola@kolaexports.example (wrong password)', 'Firefox on Linux · Accra', '154.160.2.39', 'Not available (browser)'], ['22 Oct, 10:12', 'Kola Ogun', 'Developers', 'Created a test API key', 'Chrome on macOS · Lagos', '102.89.34.18', 'Not available (browser)'], ['21 Oct, 14:30', 'Kola Ogun', 'Developers', 'Added 41.58.120.0/24 to the IP allowlist', 'Chrome on macOS · Lagos', '102.89.34.18', 'Not available (browser)'], ['20 Oct, 13:02', 'Tunde Ade', 'Earn', 'Instant withdrawal of ₦500,000 (fee ₦10,000)', 'Misan Business app on Android · Abuja', '102.91.4.150', 'A4:5E:60:C1:2B:9D'], ['19 Oct, 09:45', 'Kola Ogun', 'Settings', 'Turned on two-step sign-in for approvers', 'Chrome on macOS · Lagos', '102.89.34.18', 'Not available (browser)'], ['18 Oct, 17:20', 'Ifeoma Nwosu', 'Login', 'Signed in for the first time', 'Safari on iPad · Lagos', '129.205.113.9', 'Not available (browser)']],
+      key: 'sk_test_8f2c41d07be93a5c61d23f9a', ips: [['102.89.34.18', 'Lagos office'], ['41.58.120.0/24', 'Production servers']], hookUrl: 'https://api.kolaexports.example/hooks/misan', hookEvents: { 'collection.credited': true, 'payout.completed': true, 'payout.failed': true, 'earn.withdrawal.settled': true }, hookSaved: true, hookSecret: 'whsec_4b7e19c2',
+      deliveries: [['28 Oct, 08:15', 'payout.completed', '200 OK', '1'], ['28 Oct, 07:59', 'collection.credited', '200 OK', '1'], ['27 Oct, 19:03', 'payout.failed', '500', '3'], ['27 Oct, 09:16', 'collection.credited', '200 OK', '1'], ['27 Oct, 08:05', 'collection.on_hold', '200 OK', '1'], ['26 Oct, 18:01', 'earn.withdrawal.settled', 'Timed out', '5']],
+      requests: [['28 Oct, 08:14', 'POST', '/v1/payouts/bulk', '201', '41.58.120.12', '412 ms'], ['28 Oct, 08:13', 'GET', '/v1/collections/col_9F2', '200', '41.58.120.12', '88 ms'], ['28 Oct, 07:59', 'POST', '/v1/collection-accounts', '201', '41.58.120.15', '640 ms'], ['27 Oct, 22:41', 'GET', '/v1/settlements?date=2026-10-27', '200', '41.58.120.12', '120 ms'], ['27 Oct, 19:02', 'POST', '/v1/payouts/bulk', '422', '41.58.120.12', '95 ms'], ['27 Oct, 16:30', 'GET', '/v1/balances', '403', '196.46.20.8', '12 ms'], ['27 Oct, 14:05', 'POST', '/v1/earn/withdrawals', '201', '41.58.120.15', '301 ms'], ['27 Oct, 11:47', 'GET', '/v1/collections', '401', '41.58.120.12', '9 ms']],
+      loanEligible: true
+    };
+  }
+
+  let D = demoData();
+  const S = { page: 'overview', kyb: 'verified', acct: { first: 'Kola', last: 'Ogun', biz: 'Kola Exports Ltd', email: 'kola@kolaexports.example', key: 'est' },
+    payMode: 'single', recip: 'new', sendFrom: 'NGN', sendAmt: 0, sendStage: 'form', newCur: 'GHS', newName: '', newType: '', newAcct: '', lastSend: null,
+    fundCur: 'NGN', fundMethod: 'transfer', earnCur: 'NGN', sweep: true, floor: { NGN: 2000000, USD: 3000 }, wd: 'notice', loanProduct: 'line', loanAmt: 10, loanTerm: 6,
+    rule: true, twofa: true, notif: { email: true, push: true, sms: false, webhook: true }, match: true, account: 'GBP',
+    keyShown: false, regen: false, ipAllow: true, ipErr: '', hookErr: '', testEvent: 'payout.completed', formErr: '' };
+  const TB = {};
+  const biz = () => S.acct.biz;
+  const owner = () => (S.acct.first + ' ' + S.acct.last).trim();
+  function addAudit(type, what, meta, who) { D.audit.unshift([now(), who || owner(), type, what, meta || 'Chrome · Lagos', who === 'System' ? 'Internal' : '102.89.34.18', who === 'System' ? 'Not applicable' : 'Not available (browser)']); }
+  function addTx(who, what, amt, type, st) { D.tx.unshift({ when: now(), who, what, amt, type, st }); }
+
+  /* ---------- Table toolkit ---------- */
+  function dtable(id, cfg) {
+    const st = TB[id] || (TB[id] = { q: '', f: 'All', page: 0 });
+    const q = st.q.toLowerCase();
+    const opts = ['All'].concat(Array.from(new Set(cfg.rows.map((r) => r.f))));
+    if (!opts.includes(st.f)) st.f = 'All';
+    const rows = cfg.rows.filter((r) => (st.f === 'All' || r.f === st.f) && (!q || r.text.toLowerCase().includes(q)));
+    const per = cfg.per || 6, pages = Math.max(1, Math.ceil(rows.length / per));
+    if (st.page >= pages) st.page = pages - 1;
+    const shown = rows.slice(st.page * per, st.page * per + per);
+    const from = rows.length ? st.page * per + 1 : 0, to = Math.min(rows.length, (st.page + 1) * per);
+    const th = cfg.cols.map((c) => `<th${c.r ? ' class="r"' : ''}>${c.h}</th>`).join('');
+    const body = shown.map((r) => `<tr${r.attrs || ''}>${r.cells.map((c, i) => `<td${cfg.cols[i].r ? ' class="r"' : ''}${cfg.cols[i].nowrap ? ' style="white-space:nowrap"' : ''}>${c}</td>`).join('')}</tr>`).join('')
+      || `<tr><td colspan="${cfg.cols.length}" class="small">${cfg.rows.length ? 'No ' + cfg.name + ' match. Try another search or filter.' : (cfg.emptyText || 'No ' + cfg.name + ' yet.')}</td></tr>`;
+    return `<div class="tbar">
+        <label class="tsearch"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5F5F6B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q-${id}" data-tq="${id}" type="search" value="${esc(st.q)}" placeholder="Search ${cfg.name}" aria-label="Search ${cfg.name}"></label>
+        <select class="tfilter" id="f-${id}" data-tf="${id}" aria-label="Filter by ${cfg.filterLabel}">${opts.map((o) => `<option value="${esc(o)}"${o === st.f ? ' selected' : ''}>${o === 'All' ? 'All ' + cfg.filterPlural : o}</option>`).join('')}</select>
+        <button class="btn sm ghost" data-a="exportT" data-v="${rows.length}|${cfg.file}">Export CSV</button>
+      </div>
+      <div class="tablewrap"><table><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div>
+      <div class="tpage"><span class="small num">Showing ${from}–${to} of ${rows.length}</span>
+        <span class="btns"><button class="btn sm ghost" data-a="pageT" data-v="${id}|-1"${st.page === 0 ? ' disabled' : ''}>Previous</button><span class="small num" style="align-self:center">Page ${st.page + 1} of ${pages}</span><button class="btn sm ghost" data-a="pageT" data-v="${id}|1"${st.page >= pages - 1 ? ' disabled' : ''}>Next</button></span>
+      </div>`;
+  }
+
+  /* ---------- Static product info ---------- */
   const nav = [
-    ['Money', [['overview', 'Overview'], ['fund', 'Fund wallet'], ['collect', 'Collect'], ['pay', 'Pay', () => S.run === 'pending' ? 1 : 0], ['earn', 'Earn'], ['loans', 'Loans']]],
+    ['Money', [['overview', 'Overview'], ['fund', 'Fund wallet'], ['collect', 'Collect'], ['pay', 'Pay', () => D.bulk && D.bulk.status === 'pending' ? 1 : 0], ['earn', 'Earn'], ['loans', 'Loans']]],
     ['Business', [['cards', 'Cards'], ['customers', 'Customers'], ['team', 'Team'], ['audit', 'Audit trail']]],
     ['Setup', [['setup', 'Settings'], ['developers', 'Developers']]]
   ];
-  const pill = (cls, t) => `<span class="pill ${cls}">${t}</span>`;
-  const tog = (a, label, on, v) => `<button class="tog" data-a="${a}"${v ? ` data-v="${v}"` : ''} aria-pressed="${on}" aria-label="${label}"></button>`;
-  const head = (title, lede, actions) => `<div class="head"><div><h1>${title}</h1>${lede ? `<p class="lede">${lede}</p>` : ''}</div>${actions ? `<div class="btns">${actions}</div>` : ''}</div>`;
-
-  const balances = [['NGN', '₦4,250,000', '₦12,450,000'], ['USD', '$8,215.40', '$15,200.00'], ['GBP', '£12,480.00', '£0.00'], ['EUR', '€3,960.00', '€0.00'], ['CAD', 'CA$2,140.00', 'CA$0.00']];
   const accounts = [
     ['GBP', 'British Pound', 'United Kingdom', 'Faster Payments', true, [['Sort code', '12-34-56'], ['Account number', '12345678']]],
     ['USD', 'US Dollar', 'United States', 'ACH or wire', true, [['Routing number', '123456789'], ['Account number', '000123456789']]],
     ['EUR', 'Euro', 'Eurozone', 'SEPA', true, [['IBAN', 'BE00 1234 5678 9012'], ['BIC', 'SAMPBEBB']]],
-    ['NGN', 'Nigerian Naira', 'Nigeria', 'NIP bank transfer', true, [['Account number', '0123456789'], ['Bank', '[Partner MFB]']]],
+    ['NGN', 'Nigerian Naira', 'Nigeria', 'NIP bank transfer', true, [['Account number', '0123456789'], ['Bank', 'Flutterwave MFB']]],
     ['CAD', 'Canadian Dollar', 'Canada', 'Interac e-Transfer, EFT', true, [['Institution', '000'], ['Account number', '1234567']]],
     ['GHS', 'Ghanaian Cedi', 'Ghana', 'Bank or mobile money', false, [['Account number', '1234567890123']]],
     ['KES', 'Kenyan Shilling', 'Kenya', 'Bank or M-Pesa', false, [['M-Pesa Paybill', '123456']]]
   ];
-  const activity = () => [
-    ['27 Oct, 09:16', 'Brightway Foods Ltd', 'Collection · GBP', '+£4,200.00', pill('ok', 'Credited')],
-    ['27 Oct, 08:05', 'Atlantic Textiles Inc', 'Collection · USD', '+$2,950.00', S.held ? pill('warn', 'On hold') : pill('info', 'In review')],
-    ['26 Oct, 18:00', 'Evening sweep', 'Earn · NGN', '₦2,180,000', pill('info', 'Swept')],
-    ['26 Oct, 10:42', 'Lekki Fresh Market', 'Collection · NGN', '+₦1,850,000', pill('ok', 'Credited')],
-    ['25 Oct, 12:00', 'Staff payroll', 'Payout run · 18 payees', '−₦8,400,000', pill('ok', 'Paid')]
-  ];
+  const fundInfo = {
+    NGN: { lines: [['Account number', '0123456789'], ['Bank', 'Flutterwave MFB']], via: 'any Nigerian bank app or internet banking', when: 'usually within a minute', def: 500000 },
+    USD: { lines: [['Routing number', '123456789'], ['Account number', '000123456789']], via: 'ACH or wire from a US bank', when: '1 to 2 business days', def: 1000 },
+    GBP: { lines: [['Sort code', '12-34-56'], ['Account number', '12345678']], via: 'Faster Payments from a UK bank', when: 'usually within minutes', def: 1000 },
+    EUR: { lines: [['IBAN', 'BE00 1234 5678 9012'], ['BIC', 'SAMPBEBB']], via: 'SEPA from a eurozone bank', when: 'same day with SEPA Instant', def: 1000 },
+    CAD: { lines: [['Institution', '000'], ['Account number', '1234567']], via: 'Interac e-Transfer or EFT', when: 'usually within 30 minutes', def: 1000 }
+  };
+  const countries = [['GHS', 'Ghana', 'Mobile money or bank'], ['KES', 'Kenya', 'M-Pesa or bank'], ['NGN', 'Nigeria', 'Bank account'], ['GBP', 'United Kingdom', 'Bank account'], ['USD', 'United States', 'Bank account'], ['CAD', 'Canada', 'Bank account or Interac']];
+  const totalNGN = () => WALLETS.reduce((s, c) => s + D.bal[c] * rate[c], 0) + D.earn.NGN + D.earn.USD * rate.USD;
+  const fmtM = (v) => v >= 1e6 ? '₦' + (v / 1e6).toFixed(1) + 'm' : money('NGN', v);
+  const bulkTotal = () => D.bulk ? D.bulk.payees.reduce((s, p) => s + p[4], 0) : 0;
 
-  // Sample monthly collections in ₦ millions, to scale.
-  const months = [['May', 18.2], ['Jun', 21.4], ['Jul', 19.8], ['Aug', 26.1], ['Sep', 29.5], ['Oct', 33.9]];
+  /* ---------- Gate ---------- */
+  function kybBanner() {
+    if (S.kyb === 'verified') return '';
+    if (S.kyb === 'submitted') return `<div class="kyb info"><span><b>Verification in progress.</b> We're checking ${esc(biz())}. Most businesses are verified within 1 business day.</span><span class="btns"><button class="btn sm soft" data-a="kyb">View status</button><button class="btn sm ghost" data-a="kybVerify">Mark as verified (demo)</button></span></div>`;
+    return `<div class="kyb warn"><span><b>Verify ${esc(biz())} to start moving money.</b> Collecting, paying out, Earn and loans unlock once your business is verified. It takes about 10 minutes.</span><span class="btns"><button class="btn sm" data-a="kyb">Verify now</button></span></div>`;
+  }
+  function gated() {
+    if (S.kyb === 'verified') return false;
+    toast(S.kyb === 'submitted' ? 'This unlocks once verification is complete. In the demo, use "Mark as verified" on the banner.' : 'Verify your business first. Use "Verify now" at the top of the page.');
+    return true;
+  }
+
+  /* ---------- Send money ---------- */
+  function recipient() {
+    if (S.recip === 'new') { const c = countries.find((x) => x[0] === S.newCur); return { name: S.newName || 'New recipient', where: c[1] + ' · ' + (S.newType || c[2].split(' or ')[0]) + (S.newAcct ? ' · ' + S.newAcct.slice(0, 3) + ' *** ' + S.newAcct.slice(-3) : ''), cur: S.newCur, eta: 'Usually within minutes', place: c[1] }; }
+    return D.recips.find((x) => x.id === S.recip) || D.recips[0];
+  }
+  function quote() { const r = recipient(); const ngn = S.sendAmt * rate[S.sendFrom]; return { r, get: ngn / rate[r.cur], ngn, rateLine: '1 ' + r.cur + ' = ' + money(S.sendFrom, rate[r.cur] / rate[S.sendFrom]) }; }
+  function sendForm() {
+    const q = quote();
+    if (S.sendStage === 'review') return `<section class="panel"><h2>Check before you send</h2>
+      <div class="kv"><span class="k">To</span><span class="v">${esc(q.r.name)}</span></div>
+      <div class="kv"><span class="k">Account</span><span class="v" style="font-weight:500">${esc(q.r.where)}</span></div>
+      <div class="kv"><span class="k">You send</span><span class="v num">${money(S.sendFrom, S.sendAmt)}</span></div>
+      <div class="kv"><span class="k">Fee (2%)</span><span class="v num">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
+      <div class="kv"><span class="k">Total from your wallet</span><span class="v num">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
+      <div class="kv"><span class="k">Rate</span><span class="v num">${q.rateLine} (sample)</span></div>
+      <div class="kv"><span class="k">They get</span><span class="v num">${money(q.r.cur, q.get)}</span></div>
+      <div class="kv"><span class="k">Arrives</span><span class="v">${q.r.eta}</span></div>
+      ${q.ngn > 5000000 && S.rule ? '<p class="small" style="margin:0">Over ₦5,000,000, so a second approver must approve it.</p>' : ''}
+      <div class="btns"><button class="btn ghost" data-a="sendEdit">Edit</button><button class="btn" data-a="sendConfirm">${q.ngn > 5000000 && S.rule ? 'Send for approval' : 'Send ' + money(S.sendFrom, S.sendAmt)}</button></div></section>`;
+    if (S.sendStage === 'approval') return `<section class="panel"><h2>Waiting for approval</h2><p style="margin:0">${money(S.sendFrom, S.sendAmt)} to ${esc(q.r.name)} needs a second approver. The money is reserved in your wallet.</p><div class="btns"><button class="btn" data-a="sendApprove">Approve as second approver (demo)</button></div></section>`;
+    if (S.sendStage === 'sent') { const l = S.lastSend; return `<section class="panel"><h2>${l.got} on its way to ${esc(l.name)}</h2>
+      <div class="steps">${[['Left your ' + l.from + ' wallet', 'Just now', 'done'], ['With our partner in ' + l.place, 'Just now', 'done'], ['Delivered to ' + l.name, l.eta, 'now']].map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="body"><b>${esc(s[0])}</b><span class="small">${s[1]}</span></span></div>`).join('')}</div>
+      <div class="btns"><button class="btn" data-a="toast" data-v="Receipt copied: share it with your recipient (demo).">Share receipt</button><button class="btn ghost" data-a="sendAgain">Send another</button></div></section>`; }
+    const recRows = D.recips.map((x) => `<button class="opt row-opt" data-a="recip" data-v="${x.id}" aria-pressed="${S.recip === x.id}"><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="t">${esc(x.name)}</span><span class="small">${esc(x.where)}</span></span><span class="small" style="font-weight:700">${x.cur}</span></button>`).join('');
+    const c = countries.find((x) => x[0] === S.newCur);
+    const newFields = S.recip === 'new' ? `<div class="grid g2"><div class="field"><label for="nname">Name on the account</label><input id="nname" value="${esc(S.newName)}" placeholder="Full name or business name"></div>
+      <div class="field"><label for="ncountry">Country</label><select id="ncountry">${countries.map((x) => `<option value="${x[0]}"${x[0] === S.newCur ? ' selected' : ''}>${x[1]} (${x[0]})</option>`).join('')}</select></div>
+      <div class="field"><label for="ntype">Account type</label><select id="ntype">${c[2].split(' or ').map((t) => { const T = t.charAt(0).toUpperCase() + t.slice(1); return `<option${T === S.newType ? ' selected' : ''}>${T}</option>`; }).join('')}</select></div>
+      <div class="field"><label for="nacct">Account or phone number</label><input id="nacct" value="${esc(S.newAcct)}" inputmode="numeric" placeholder="e.g. 0241234567"></div></div>
+      <p class="small" style="margin:0">We check the name with the recipient's bank or mobile money provider before you send. New recipients are saved for next time.</p>` : '';
+    return `<section class="panel"><h2>Who are you paying?</h2>
+      <div style="display:flex;flex-direction:column;gap:8px">${recRows}<button class="opt row-opt" data-a="recip" data-v="new" aria-pressed="${S.recip === 'new'}"><span class="t">+ New recipient</span><span class="small">Bank or mobile money</span></button></div>
+      ${newFields}
+      <div class="grid g2"><div class="field"><label for="sfrom">Pay from</label><select id="sfrom">${WALLETS.map((w) => `<option value="${w}"${w === S.sendFrom ? ' selected' : ''}>${w} wallet · ${money(w, D.bal[w])}</option>`).join('')}</select></div>
+      <div class="field"><label for="samt">You send (${S.sendFrom})</label><input id="samt" inputmode="decimal" value="${S.sendAmt || ''}" placeholder="0"></div></div>
+      <div class="kv"><span class="k">Rate</span><span class="v num">${q.rateLine} (sample)</span></div>
+      <div class="kv"><span class="k">Fee (2%)</span><span class="v num" id="sfee">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
+      <div class="kv"><span class="k">Total from your wallet</span><span class="v num" id="stot">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
+      <div class="kv"><span class="k">They get</span><span class="v num" id="sget">${money(q.r.cur, q.get)}</span></div>
+      ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+      <div class="btns"><button class="btn" data-a="sendReview">Review</button></div></section>`;
+  }
+
+  /* ---------- Chart ---------- */
   function chart() {
-    const W = 560, H = 210, L = 40, B = 30, T = 14, max = 40, step = 10;
-    const bw = (W - L - 10) / months.length;
+    const ms = D.months, mx = Math.max(...ms.map((m) => m[1]));
+    if (!mx) return empty('No collections yet', 'Share your collection account details or a payment link. Each payment you receive shows here.', '<button class="btn sm" data-a="go" data-v="collect">Get account details</button>');
+    const step = mx > 20 ? 10 : mx > 8 ? 5 : mx > 2 ? 1 : mx > 0.5 ? 0.25 : mx > 0.1 ? 0.05 : 0.01, max = Math.ceil(mx / step) * step;
+    const W = 560, H = 210, L = 48, B = 30, T = 18, bw = (W - L - 10) / ms.length;
     const y = (v) => T + (H - T - B) * (1 - v / max);
     let g = '';
-    for (let v = 0; v <= max; v += step) g += `<line x1="${L}" x2="${W - 4}" y1="${y(v)}" y2="${y(v)}" stroke="#E8E6EF"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#5F5F6B">${v}</text>`;
-    months.forEach((m, i) => {
-      const x = L + i * bw + bw * 0.2, w = bw * 0.6, last = i === months.length - 1;
-      g += `<rect x="${x}" y="${y(m[1])}" width="${w}" height="${y(0) - y(m[1])}" rx="5" fill="${last ? '#7A00E6' : '#CDB4F5'}"/>`;
-      g += `<text x="${x + w / 2}" y="${H - 10}" text-anchor="middle" font-size="11" fill="#5F5F6B">${m[0]}</text>`;
-      if (last) g += `<text x="${x + w / 2}" y="${y(m[1]) - 6}" text-anchor="middle" font-size="12" font-weight="700" fill="#1C0045">₦${m[1]}m</text>`;
+    for (let v = 0; v <= max + 1e-9; v += step) g += `<line x1="${L}" x2="${W - 4}" y1="${y(v)}" y2="${y(v)}" stroke="#E8E6EF"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#5F5F6B">${+v.toFixed(2)}</text>`;
+    ms.forEach((m, i) => {
+      const x = L + i * bw + bw * 0.2, w = bw * 0.6, last = i === ms.length - 1;
+      g += `<rect x="${x}" y="${y(m[1])}" width="${w}" height="${Math.max(0, y(0) - y(m[1]))}" rx="5" fill="${last ? '#7A00E6' : '#CDB4F5'}"/><text x="${x + w / 2}" y="${H - 10}" text-anchor="middle" font-size="11" fill="#5F5F6B">${m[0]}</text>`;
+      if (last) g += `<text x="${x + w / 2}" y="${y(m[1]) - 6}" text-anchor="middle" font-size="12" font-weight="700" fill="#1C0045">₦${+m[1].toFixed(2)}m</text>`;
     });
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Collections rose from ₦18.2 million in May to ₦33.9 million in October (sample)">${g}</svg>`;
+    return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Collections by month in naira millions">${g}</svg></div>`;
   }
 
-  const fundInfo = {
-    NGN: { sym: '₦', amt: '5,000,000', lines: [['Account number', '0123456789'], ['Bank', '[Partner MFB]'], ['Account name', 'KOLA EXPORTS LTD - MISAN']], via: 'any Nigerian bank app or internet banking', fee: '2% of the amount', when: 'usually within a minute' },
-    USD: { sym: '$', amt: '5,000', lines: [['Routing number', '123456789'], ['Account number', '000123456789'], ['Account name', 'KOLA EXPORTS LTD']], via: 'ACH or wire from a US bank', fee: 'free for ACH', when: '1 to 2 business days' },
-    GBP: { sym: '£', amt: '3,000', lines: [['Sort code', '12-34-56'], ['Account number', '12345678'], ['Account name', 'KOLA EXPORTS LTD']], via: 'Faster Payments from a UK bank', fee: 'free', when: 'usually within minutes' },
-    EUR: { sym: '€', amt: '3,000', lines: [['IBAN', 'BE00 1234 5678 9012'], ['BIC', 'SAMPBEBB'], ['Account name', 'KOLA EXPORTS LTD']], via: 'SEPA from a eurozone bank', fee: 'free', when: 'same day with SEPA Instant' },
-    CAD: { sym: 'CA$', amt: '3,000', lines: [['Institution', '000'], ['Account number', '1234567'], ['Account name', 'KOLA EXPORTS LTD']], via: 'Interac e-Transfer or EFT', fee: 'free', when: 'usually within 30 minutes' }
-  };
-
-
-  const FEE = 0.02;
-  const num = (s) => Number(String(s).replace(/[^0-9.]/g, '')) || 0;
-  const symOf = (s) => String(s).replace(/[0-9.,\s]/g, '');
-  const feeOf = (s) => { const v = num(s) * FEE; const sy = symOf(s); return sy + v.toLocaleString('en-GB', { maximumFractionDigits: sy === '₦' ? 0 : 2, minimumFractionDigits: sy === '₦' ? 0 : 2 }); };
-  const recips = [
-    { id: 'kwame', name: 'Kwame Mensah', where: 'Ghana · MTN Mobile Money · 024 *** 5512', cur: 'GHS', eta: 'Usually within minutes', place: 'Ghana' },
-    { id: 'wanjiru', name: 'Wanjiru Kamau', where: 'Kenya · M-Pesa · 0712 *** 448', cur: 'KES', eta: 'Usually within minutes', place: 'Kenya' },
-    { id: 'adeyemi', name: 'Adeyemi Packaging Ltd', where: 'Nigeria · Access Bank ending 4410', cur: 'NGN', eta: 'Usually within seconds', place: 'Nigeria' },
-    { id: 'thames', name: 'Thames Freight Ltd', where: 'United Kingdom · Faster Payments ending 7781', cur: 'GBP', eta: 'Usually within minutes', place: 'the UK' }
-  ];
-  const countries = [['GHS', 'Ghana', 'Mobile money or bank'], ['KES', 'Kenya', 'M-Pesa or bank'], ['NGN', 'Nigeria', 'Bank account'], ['GBP', 'United Kingdom', 'Bank account'], ['USD', 'United States', 'Bank account'], ['CAD', 'Canada', 'Bank account or Interac']];
-  // Sample rates: naira per unit of each currency.
-  const rate = { NGN: 1, USD: 1385, GBP: 1972, EUR: 1610, CAD: 1005, GHS: 142.7, KES: 10.7 };
-  const sym = { NGN: '₦', USD: '$', GBP: '£', EUR: '€', CAD: 'CA$', GHS: 'GHS ', KES: 'KES ' };
-  const money = (cur, v) => { const whole = cur === 'NGN' || cur === 'KES'; return sym[cur] + v.toLocaleString('en-GB', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 }); };
-  function quote() {
-    const r = S.recip === 'new' ? { name: S.newName || 'New recipient', where: countries.find((c) => c[0] === S.newCur)[1] + ' · ' + (S.newType || 'Bank account'), cur: S.newCur, eta: 'Usually within minutes', place: countries.find((c) => c[0] === S.newCur)[1] } : recips.find((x) => x.id === S.recip);
-    const ngn = S.sendAmt * rate[S.sendFrom];
-    return { r: r, get: ngn / rate[r.cur], ngn: ngn, rateLine: '1 ' + r.cur + ' = ' + money(S.sendFrom, rate[r.cur] / rate[S.sendFrom]) };
-  }
-  function sendForm(wrapOpen, wrapClose) {
-    const q = quote();
-    if (S.sendStage === 'review') return `${wrapOpen}<h2 style="margin:0">Check before you send</h2>
-      <div class="list">
-        <div class="kv"><span class="k">To</span><span class="v">${q.r.name}</span></div>
-        <div class="kv"><span class="k">Account</span><span class="v" style="font-weight:500">${q.r.where}</span></div>
-        <div class="kv"><span class="k">You send</span><span class="v num">${money(S.sendFrom, S.sendAmt)}</span></div>
-<div class="kv"><span class="k">Fee (2%)</span><span class="v num">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
-        <div class="kv"><span class="k">Total from your wallet</span><span class="v num">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
-        <div class="kv"><span class="k">Rate</span><span class="v num">${q.rateLine} (sample)</span></div>
-        <div class="kv"><span class="k">They get</span><span class="v num">${money(q.r.cur, q.get)}</span></div>
-        <div class="kv"><span class="k">Arrives</span><span class="v">${q.r.eta}</span></div>
-      </div>
-      ${q.ngn > 5000000 ? '<p class="small" style="margin:0">Over ₦5,000,000, so Tunde (Finance) will need to approve it.</p>' : ''}
-      <button class="${'primary'} btn" data-a="sendConfirm">${q.ngn > 5000000 ? 'Send for approval' : 'Send ' + money(S.sendFrom, S.sendAmt)}</button>
-      <button class="secondary btn ghost" data-a="sendEdit">Edit</button>${wrapClose}`;
-    if (S.sendStage === 'approval') return `${wrapOpen}<h2 style="margin:0">Waiting for approval</h2><p class="small" style="margin:0;font-size:13px">${money(S.sendFrom, S.sendAmt)} to ${q.r.name} is with Tunde (Finance). You'll get a notification when it's approved.</p><button class="primary btn" data-a="sendApprove">Approve as Tunde (demo)</button>${wrapClose}`;
-    if (S.sendStage === 'sent') return `${wrapOpen}<h2 style="margin:0">${money(q.r.cur, q.get)} on its way to ${q.r.name}</h2>
-      <div class="steps" style="padding:0;background:none">${[['Left your ' + S.sendFrom + ' wallet', 'Just now', 'done'], ['With our partner in ' + q.r.place, 'Just now', 'done'], ['Delivered to ' + q.r.name, q.r.eta, 'now']].map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="grow body" style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px"><b style="font-weight:600">${s[0]}</b><span class="small">${s[1]}</span></span></div>`).join('')}</div>
-      <button class="primary btn" data-a="sendReceipt">Share receipt</button><button class="secondary btn ghost" data-a="sendAgain">Send another</button>${wrapClose}`;
-    const recRows = recips.map((x) => `<button class="opt" data-a="recip" data-v="${x.id}" aria-pressed="${S.recip === x.id}"><span class="grow" style="display:flex;flex-direction:column;gap:2px"><span class="t">${x.name}</span><span class="small">${x.where}</span></span><span class="small" style="font-weight:700">${x.cur}</span></button>`).join('');
-    const newFields = S.recip === 'new' ? `<div class="field"><label for="nname">Name on the account</label><input id="nname" value="${S.newName}" placeholder="Full name or business name"></div>
-      <div class="field"><label for="ncountry">Country</label><select id="ncountry">${countries.map((c) => `<option value="${c[0]}"${c[0] === S.newCur ? ' selected' : ''}>${c[1]} (${c[0]})</option>`).join('')}</select></div>
-      <div class="field"><label for="ntype">Account type</label><select id="ntype">${countries.find((c) => c[0] === S.newCur)[2].split(' or ').map((t) => `<option${t === S.newType ? ' selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('')}</select></div>
-      <div class="field"><label for="nacct">Account or phone number</label><input id="nacct" inputmode="numeric" placeholder="e.g. 0241234567"></div>
-      <p class="small" style="margin:0">We check the name with the recipient's bank or mobile money provider before you send. New recipients need the owner's approval.</p>` : '';
-    return `${wrapOpen}<h2 style="margin:0">Who are you paying?</h2>
-      <div class="recips" style="display:flex;flex-direction:column;gap:8px">${recRows}<button class="opt" data-a="recip" data-v="new" aria-pressed="${S.recip === 'new'}"><span class="t">+ New recipient</span><span class="small">Bank or mobile money</span></button></div>
-      ${newFields}
-      <div class="field"><label for="sfrom">Pay from</label><select id="sfrom">${['NGN', 'USD', 'GBP', 'EUR', 'CAD'].map((c) => `<option value="${c}"${c === S.sendFrom ? ' selected' : ''}>${c} wallet</option>`).join('')}</select></div>
-      <div class="field"><label for="samt">You send (${S.sendFrom})</label><input id="samt" inputmode="decimal" value="${S.sendAmt}"></div>
-      <div class="list">
-        <div class="kv"><span class="k">Rate</span><span class="v num" id="srate">${q.rateLine} (sample)</span></div>
-<div class="kv"><span class="k">Fee (2%)</span><span class="v num" id="sfee">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
-        <div class="kv"><span class="k">Total from your wallet</span><span class="v num" id="stot">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
-        <div class="kv"><span class="k">They get</span><span class="v num" id="sget">${money(q.r.cur, q.get)}</span></div>
-        <div class="kv"><span class="k">Arrives</span><span class="v">${q.r.eta}</span></div>
-      </div>
-      <button class="primary btn" data-a="sendReview">Review</button>${wrapClose}`;
-  }
+  /* ---------- Pages ---------- */
   const pages = {
-    fund() {
-      const f = fundInfo[S.fundCur];
-      const methods = [['transfer', 'Bank transfer', 'Fee: ' + f.fee], ['card', 'Debit card', '2% fee · instant'], ['convert', 'Convert', 'From another wallet'], ['earn', 'From Earn', 'Free next business day']]
-        .map((m) => `<button class="opt" data-a="fundMethod" data-v="${m[0]}" aria-pressed="${S.fundMethod === m[0]}"><span class="t">${m[1]}</span><span class="small">${m[2]}</span></button>`).join('');
-      let body = '';
-      if (S.fundMethod === 'transfer') body = `<p style="margin:0;line-height:1.5">Send money to these details from ${f.via}. It lands in your ${S.fundCur} wallet ${f.when}.</p>
-        ${f.lines.map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}</span></div>`).join('')}
-        <p class="small" style="margin:0">Sample details for illustration. Transfers from accounts not in Kola Exports' name may be held for review.</p>
-        <div class="btns"><button class="btn" data-a="toast" data-v="${S.fundCur} funding details copied.">Copy details</button><button class="btn ghost" data-a="fundDone" data-v="transfer">I've sent the money</button></div>`;
-      if (S.fundMethod === 'card') body = `<div class="grid g2"><div class="field"><label for="famt">Amount</label><input id="famt" inputmode="decimal" value="${f.sym}${f.amt}"></div><div class="field"><label for="fcard">Card</label><select id="fcard"><option>Business debit card ending 2231</option><option>Add a new card</option></select></div></div>
-        <div class="kv"><span class="k">Card fee</span><span class="v num" id="ffee">2% · ${feeOf(f.sym + f.amt)}</span></div><div class="kv"><span class="k">Arrives</span><span class="v">Instantly</span></div>
-        <div class="btns"><button class="btn" data-a="fundDone" data-v="card">Pay with card</button></div>`;
-      if (S.fundMethod === 'convert') body = `<div class="grid g2"><div class="field"><label for="ffrom">From</label><select id="ffrom">${Object.keys(fundInfo).filter((c) => c !== S.fundCur).map((c) => `<option>${c} wallet</option>`).join('')}</select></div><div class="field"><label for="famt">Amount to add</label><input id="famt" inputmode="decimal" value="${f.sym}${f.amt}"></div></div>
-        <div class="kv"><span class="k">Rate</span><span class="v num">1 USD = ₦1,385.00 (sample)</span></div><div class="kv"><span class="k">Rate locked for</span><span class="v">30 seconds</span></div>
-        <div class="btns"><button class="btn" data-a="fundDone" data-v="convert">Convert</button></div>`;
-      if (S.fundMethod === 'earn') body = `<p style="margin:0;line-height:1.5">Move money from Earn back into your ${S.fundCur} wallet. It's free with one business day's notice, or instant for a 2% fee.</p><div class="btns"><button class="btn" data-a="go" data-v="earn">Go to Earn</button></div>`;
-      const recent = [['27 Oct, 07:55', 'Bank transfer from Kola Exports (Access Bank)', '+₦5,000,000', pill('ok', 'Credited')], ['24 Oct, 14:10', 'Converted from USD wallet', '+₦2,770,000', pill('ok', 'Credited')], ['22 Oct, 09:30', 'Debit card ending 2231', '+₦750,000', pill('ok', 'Credited')]]
-        .map((r) => `<tr><td class="small">${r[0]}</td><td>${r[1]}</td><td class="r num"><b>${r[2]}</b></td><td class="r">${r[3]}</td></tr>`).join('');
-      return head('Fund wallet', 'Top up any wallet by bank transfer, card, conversion or from Earn.', '') + `
-        <div class="chips" role="group" aria-label="Wallet">${Object.keys(fundInfo).map((c) => `<button class="chip" data-a="fundCur" data-v="${c}" aria-pressed="${S.fundCur === c}">${c} wallet</button>`).join('')}</div>
-        <div class="grid g21">
-          <section class="panel"><div class="ph"><h2>How do you want to add money?</h2></div><div class="grid g2" style="gap:10px">${methods}</div>${body}</section>
-          <section class="panel"><div class="ph"><h2>${S.fundCur} wallet</h2></div>
-            <div class="kv"><span class="k">Available</span><span class="v num">${balances.find((b) => b[0] === S.fundCur)[1]}</span></div>
-            <div class="kv"><span class="k">In Earn</span><span class="v num">${balances.find((b) => b[0] === S.fundCur)[2]}</span></div>
-            <p class="small" style="margin:0">Money you add tonight is swept into Earn if it takes the wallet above your floor.</p>
-          </section>
-        </div>
-        <section class="panel"><div class="ph"><h2>Recent top-ups</h2></div><div class="tablewrap"><table><thead><tr><th>When</th><th>How</th><th class="r">Amount</th><th class="r">Status</th></tr></thead><tbody>${recent}</tbody></table></div></section>`;
-    },
     overview() {
-      const tiles = `
-        <div class="tile hero"><span class="lab">Total balance (NGN equivalent)</span><span class="val num">₦52,940,000</span><span class="small">Across 5 wallets · sample rate</span></div>
-        <div class="tile dark"><span class="lab">In Earn</span><span class="val num">₦34,680,000</span><span class="small">+₦412,000 this month</span></div>
-        <div class="tile"><span class="lab">Collected in October</span><span class="val num">₦33.9m</span><span class="small">+15% on September</span></div>
-        <div class="tile"><span class="lab">Needs your attention</span><span class="val num">2</span><span class="small">1 payout to approve · 1 payment on hold</span></div>`;
-      const rows = activity().map((r) => `<tr><td class="small num">${r[0]}</td><td><b>${r[1]}</b><span class="sub">${r[2]}</span></td><td class="r num"><b>${r[3]}</b></td><td class="r">${r[4]}</td></tr>`).join('');
-      const bal = balances.map((b) => `<div class="kv"><span class="cell"><span class="code">${b[0]}</span><span>${b[0]} wallet<button class="btn sm soft" style="margin-left:8px;min-height:28px;padding:0 10px" data-a="fundFor" data-v="${b[0]}">Fund</button></span></span><span class="v num">${b[1]}<span class="small" style="display:block;font-weight:400">${b[2]} in Earn</span></span></div>`).join('');
-      return head('Good morning, Kola', 'Here is where Kola Exports\' money is today.', `<button class="btn ghost" data-a="go" data-v="fund">Fund wallet</button><button class="btn" data-a="sendFromOverview">Send money</button>`) + `
-        <div class="grid g4">${tiles}</div>
-        <div class="grid g21">
-          <section class="panel"><div class="ph"><h2>Collections by month</h2><span class="small">₦ millions · sample</span></div><div class="chart">${chart()}</div></section>
-          <section class="panel"><div class="ph"><h2>To do</h2></div>
-            ${S.run === 'pending' ? `<div class="note"><b>October supplier run</b> needs your approval: 12 payees, ₦6,180,000.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="payMode" data-v="bulk" data-go="pay">Review</button></div></div>` : `<div class="note violet">No payouts waiting for approval.</div>`}
-            ${S.held ? `<div class="note"><b>$2,950 from Atlantic Textiles</b> is on hold until you upload the invoice.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="upload">Upload invoice</button></div></div>` : ''}
-          </section>
+      const rows = D.tx.map((r) => ({ f: r.type, text: [r.when, r.who, r.what, r.amt].join(' '), cells: [`<span class="small num">${r.when}</span>`, `<b>${esc(r.who)}</b><span class="sub">${esc(r.what)}</span>`, `<b class="num">${r.amt}</b>`, pill(r.st[0], r.st[1])] }));
+      const bal = WALLETS.map((c) => `<div class="kv"><span class="cell"><span class="code">${c}</span><span>${c} wallet<button class="btn sm soft" style="margin-left:8px;min-height:28px;padding:0 10px" data-a="fundFor" data-v="${c}">Fund</button></span></span><span class="v num">${money(c, D.bal[c])}${D.earn[c] !== undefined ? `<span class="small" style="display:block;font-weight:400">${money(c, D.earn[c])} in Earn</span>` : ''}</span></div>`).join('');
+      const todo = [];
+      if (S.kyb !== 'verified') todo.push(`<div class="note"><b>Verify your business.</b> Money movement unlocks once you're verified.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="kyb">${S.kyb === 'submitted' ? 'View status' : 'Verify now'}</button></div></div>`);
+      if (S.kyb === 'verified' && totalNGN() === 0) todo.push(`<div class="note violet"><b>Fund your wallet</b> to start paying suppliers and staff.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="go" data-v="fund">Fund wallet</button></div></div>`);
+      if (D.bulk && D.bulk.status === 'pending') todo.push(`<div class="note"><b>${esc(D.bulk.name)}</b> needs approval: ${D.bulk.payees.length} payees, ${money('NGN', bulkTotal())}.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="payMode" data-v="bulk">Review</button></div></div>`);
+      if (D.held) todo.push(`<div class="note"><b>$2,950 from Atlantic Textiles</b> is on hold until you upload the invoice.<div class="btns" style="margin-top:10px"><button class="btn sm" data-a="upload">Upload invoice</button></div></div>`);
+      const attention = todo.length;
+      if (!todo.length) todo.push('<div class="note violet">You\'re all caught up.</div>');
+      return head('Good morning, ' + esc(S.acct.first), 'Here is where ' + esc(biz()) + '\'s money is today.', `<button class="btn ghost" data-a="go" data-v="fund">Fund wallet</button><button class="btn" data-a="sendFromOverview">Send money</button>`) + `
+        <div class="grid g4">
+          <div class="tile hero"><span class="lab">Total balance (NGN equivalent)</span><span class="val num">${money('NGN', totalNGN())}</span><span class="small">Across 5 wallets and Earn · sample rates</span></div>
+          <div class="tile dark"><span class="lab">In Earn</span><span class="val num">${money('NGN', D.earn.NGN + D.earn.USD * rate.USD)}</span><span class="small">${D.earned.NGN ? '+' + money('NGN', D.earned.NGN) + ' this month' : 'Nothing earned yet'}</span></div>
+          <div class="tile"><span class="lab">Collected in October</span><span class="val num">${fmtM(D.collectedMonth)}</span><span class="small">${D.mode === 'demo' ? '+15% on September' : 'Since you opened the account'}</span></div>
+          <div class="tile"><span class="lab">Needs your attention</span><span class="val num">${attention}</span><span class="small">See the to-do list</span></div>
         </div>
         <div class="grid g21">
-          <section class="panel"><div class="ph"><h2>Recent activity</h2><button class="btn sm soft" data-a="go" data-v="audit">Audit trail</button></div><div class="tablewrap"><table><thead><tr><th>When</th><th>Who</th><th class="r">Amount</th><th class="r">Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>
+          <section class="panel"><div class="ph"><h2>Collections by month</h2><span class="small">₦ millions${D.mode === 'demo' ? ' · sample' : ''}</span></div>${chart()}</section>
+          <section class="panel"><div class="ph"><h2>To do</h2></div>${todo.join('')}</section>
+        </div>
+        <div class="grid g21">
+          <section class="panel"><div class="ph"><h2>Recent activity</h2></div>${dtable('activity', { name: 'activity', filterLabel: 'type', filterPlural: 'types', file: 'activity', emptyText: 'No activity yet. Fund your wallet or receive a payment to see it here.', cols: [{ h: 'When', nowrap: true }, { h: 'Who' }, { h: 'Amount', r: true }, { h: 'Status', r: true }], rows })}</section>
           <section class="panel"><div class="ph"><h2>Wallets</h2></div><div>${bal}</div></section>
         </div>`;
     },
+    fund() {
+      const f = fundInfo[S.fundCur];
+      const methods = [['transfer', 'Bank transfer', '2% fee'], ['card', 'Debit card', '2% fee · instant'], ['convert', 'Convert', 'From another wallet'], ['earn', 'From Earn', 'Free next business day']]
+        .map((m) => `<button class="opt" data-a="fundMethod" data-v="${m[0]}" aria-pressed="${S.fundMethod === m[0]}"><span class="t">${m[1]}</span><span class="small">${m[2]}</span></button>`).join('');
+      const amtField = (label) => `<div class="field"><label for="famt">${label}</label><input id="famt" inputmode="decimal" value="${f.def}"></div>`;
+      let body = '';
+      if (S.fundMethod === 'transfer') body = `<p style="margin:0;line-height:1.5">Send money to these details from ${f.via}. It lands in your ${S.fundCur} wallet ${f.when}.</p>
+        <div class="kv"><span class="k">Account name</span><span class="v">${esc(biz()).toUpperCase()}${S.fundCur === 'NGN' ? ' - MISAN' : ''}</span></div>
+        ${f.lines.map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}</span></div>`).join('')}
+        <div class="kv"><span class="k">Fee</span><span class="v">2% of the amount</span></div>
+        <div class="grid g2">${amtField('Amount you sent (' + S.fundCur + ')')}<div class="field"><label>You'll receive after the 2% fee</label><div class="kv" style="border:none"><span class="v num" id="fnet">${money(S.fundCur, f.def * (1 - FEE))}</span></div></div></div>
+        <p class="small" style="margin:0">Sample details. In this demo, "I've sent the money" credits the wallet straight away. Transfers from accounts not in ${esc(biz())}'s name may be held for review.</p>
+        <div class="btns"><button class="btn ghost" data-a="toast" data-v="${S.fundCur} funding details copied.">Copy details</button><button class="btn" data-a="fundDone" data-v="transfer">I've sent the money</button></div>`;
+      if (S.fundMethod === 'card') body = `<div class="grid g2">${amtField('Amount (' + S.fundCur + ')')}<div class="field"><label for="fcard">Card</label><select id="fcard"><option>Business debit card</option><option>Add a new card</option></select></div></div>
+        <div class="kv"><span class="k">Card fee (2%)</span><span class="v num" id="ffee">${money(S.fundCur, f.def * FEE)}</span></div><div class="kv"><span class="k">You'll receive</span><span class="v num" id="fnet">${money(S.fundCur, f.def * (1 - FEE))}</span></div>
+        <div class="btns"><button class="btn" data-a="fundDone" data-v="card">Pay with card</button></div>`;
+      if (S.fundMethod === 'convert') body = `<div class="grid g2"><div class="field"><label for="ffrom">From</label><select id="ffrom">${WALLETS.filter((c) => c !== S.fundCur).map((c) => `<option value="${c}">${c} wallet · ${money(c, D.bal[c])}</option>`).join('')}</select></div>${amtField('Amount to add (' + S.fundCur + ')')}</div>
+        <div class="kv"><span class="k">Conversion fee</span><span class="v">2% of the amount</span></div><div class="kv"><span class="k">Rate locked for</span><span class="v">30 seconds</span></div>
+        <div class="btns"><button class="btn" data-a="fundDone" data-v="convert">Convert</button></div>`;
+      if (S.fundMethod === 'earn') body = `<p style="margin:0;line-height:1.5">Move money from Earn back into your wallet. It's free with one business day's notice, or instant for a 2% fee.</p><div class="btns"><button class="btn" data-a="go" data-v="earn">Go to Earn</button></div>`;
+      const rows = D.topups.map((r) => ({ f: r[2], text: r.join(' '), cells: [`<span class="small num">${r[0]}</span>`, esc(r[1]), `<b class="num">${r[3]}</b>`, r[4] === 'Credited' ? pill('ok', r[4]) : r[4] === 'Failed' ? pill('bad', r[4]) : pill('warn', r[4])] }));
+      return head('Fund wallet', 'Top up any wallet by bank transfer, card, conversion or from Earn.', '') + `
+        <div class="chips" role="group" aria-label="Wallet">${WALLETS.map((c) => `<button class="chip" data-a="fundCur" data-v="${c}" aria-pressed="${S.fundCur === c}">${c} wallet</button>`).join('')}</div>
+        <div class="grid g21">
+          <section class="panel"><div class="ph"><h2>How do you want to add money?</h2></div><div class="grid g2" style="gap:10px">${methods}</div>${body}${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}</section>
+          <section class="panel"><div class="ph"><h2>${S.fundCur} wallet</h2></div>
+            <div class="kv"><span class="k">Available</span><span class="v num">${money(S.fundCur, D.bal[S.fundCur])}</span></div>
+            ${D.earn[S.fundCur] !== undefined ? `<div class="kv"><span class="k">In Earn</span><span class="v num">${money(S.fundCur, D.earn[S.fundCur])}</span></div>` : ''}
+            <p class="small" style="margin:0">Money above your floor is swept into Earn each evening, if the sweep is on.</p></section>
+        </div>
+        <section class="panel"><div class="ph"><h2>Recent top-ups</h2></div>${dtable('topups', { name: 'top-ups', filterLabel: 'method', filterPlural: 'methods', file: 'top-ups', emptyText: 'No top-ups yet.', cols: [{ h: 'When', nowrap: true }, { h: 'How' }, { h: 'Amount', r: true }, { h: 'Status', r: true }], rows })}</section>`;
+    },
     collect() {
       const acc = accounts.find((a) => a[0] === S.account);
-      const live = (a) => a[4] || S.opened[a[0]];
-      const rows = accounts.map((a) => `<tr class="click" data-a="account" data-v="${a[0]}"><td><span class="cell"><span class="code">${a[0]}</span><span><b>${a[1]}</b><span class="sub">${a[2]}</span></span></span></td><td>${a[3]}</td><td class="r">${live(a) ? pill('ok', 'Active') : pill('new', 'Coming soon')}</td></tr>`).join('');
-      const detail = live(acc)
-        ? `<div class="kv"><span class="k">Account name</span><span class="v">KOLA EXPORTS LTD</span></div>${acc[5].map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}</span></div>`).join('')}
-           <p class="small" style="margin:0">Sample details for illustration</p>
-           <div class="setrow"><span><span class="t">Auto-convert 50% to NGN</span><span class="small" style="display:block">When a ${acc[0]} payment lands</span></span>${tog('noop', 'Auto-convert', acc[0] === 'GBP')}</div>
-           <div class="btns"><button class="btn" data-a="toast" data-v="${acc[0]} account details copied.">Copy details</button><button class="btn ghost" data-a="toast" data-v="Payment link created: pay.example/kola-exports">Create payment link</button></div>`
-        : `<p style="margin:0;line-height:1.5">Get ${acc[2]} account details in your business name, paid by ${acc[3].toLowerCase()}. We use the documents you already gave us.</p><button class="btn" data-a="openAcc">Open ${acc[0]} account</button>`;
-      return head('Collect', 'Local account details in your business name, one account per customer, and payment links.', `<button class="btn ghost" data-a="go" data-v="customers">Customer accounts</button><button class="btn" data-a="toast" data-v="Invoice INV-0142 created and sent to the customer (demo).">New invoice</button>`) + `
+      const live = (a) => a[4] || D.opened[a[0]];
+      const rows = accounts.map((a) => ({ f: live(a) ? 'Active' : 'Coming soon', text: a.slice(0, 4).join(' '), attrs: ` class="click" data-a="account" data-v="${a[0]}"`, cells: [`<span class="cell"><span class="code">${a[0]}</span><span><b>${a[1]}</b><span class="sub">${a[2]}</span></span></span>`, a[3], live(a) ? pill('ok', 'Active') : pill('new', 'Coming soon')] }));
+      const verified = S.kyb === 'verified';
+      const detail = !verified
+        ? empty('Available after verification', 'Your ' + acc[0] + ' account details appear here once ' + esc(biz()) + ' is verified.', '<button class="btn sm" data-a="kyb">Verify now</button>')
+        : live(acc)
+          ? `<div class="kv"><span class="k">Account name</span><span class="v">${esc(biz()).toUpperCase()}</span></div>${acc[5].map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}</span></div>`).join('')}
+             <p class="small" style="margin:0">Sample details for illustration</p>
+             <div class="btns"><button class="btn" data-a="toast" data-v="${acc[0]} account details copied.">Copy details</button><button class="btn ghost" data-a="toast" data-v="Payment link created (demo).">Create payment link</button></div>
+             ${WALLETS.includes(acc[0]) ? `<div class="simbox"><b>Test a collection (demo)</b><div class="grid g2"><div class="field"><label for="cpayer">Customer</label><input id="cpayer" placeholder="e.g. Brightway Foods Ltd"></div><div class="field"><label for="camt">Amount (${acc[0]})</label><input id="camt" inputmode="decimal" placeholder="e.g. 1000"></div></div><div class="btns"><button class="btn sm" data-a="simCollect">Simulate incoming payment</button></div></div>` : ''}`
+          : `<p style="margin:0;line-height:1.5">Get ${acc[2]} account details in your business name, paid by ${acc[3].toLowerCase()}. We use the documents you already gave us.</p><div class="btns"><button class="btn" data-a="openAcc">Open ${acc[0]} account</button></div>`;
+      return head('Collect', 'Local account details in your business name, one account per customer, and payment links.', `<button class="btn ghost" data-a="go" data-v="customers">Customer accounts</button>`) + `
         <div class="grid g21">
-          <section class="panel"><div class="ph"><h2>Collection accounts</h2></div><div class="tablewrap"><table><thead><tr><th>Currency</th><th>Paid by</th><th class="r">Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>
-          <section class="panel"><div class="ph"><h2>${acc[0]} account</h2></div>${detail}</section>
+          <section class="panel"><div class="ph"><h2>Collection accounts</h2></div>${dtable('accounts', { name: 'accounts', filterLabel: 'status', filterPlural: 'statuses', file: 'collection-accounts', per: 7, cols: [{ h: 'Currency' }, { h: 'Paid by' }, { h: 'Status', r: true }], rows })}</section>
+          <section class="panel"><div class="ph"><h2>${acc[0]} account</h2></div>${detail}${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}</section>
         </div>
-        <section class="panel"><div class="ph"><h2>Payment on hold: $2,950.00 from Atlantic Textiles Inc</h2>${S.held ? pill('warn', 'On hold') : pill('info', 'In review')}</div>
-          <div class="steps">${[['Received by US partner bank', '27 Oct, 08:02', 'done'], S.held ? ['On hold: invoice needed', '27 Oct, 08:05', 'hold'] : ['Invoice received, compliance review', 'Usually under 2 hours', 'now'], ['Credited to USD wallet', 'Waiting', 'todo']].map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="body"><b>${s[0]}</b><span class="small">${s[1]}</span></span></div>`).join('')}</div>
-          ${S.held ? `<div class="btns"><button class="btn" data-a="upload">Upload invoice</button></div>` : ''}
-        </section>`;
+        ${D.held ? `<section class="panel"><div class="ph"><h2>Payment on hold: $2,950.00 from Atlantic Textiles Inc</h2>${pill('warn', 'On hold')}</div>
+          <div class="steps">${[['Received by US partner bank', '27 Oct, 08:02', 'done'], ['On hold: invoice needed', '27 Oct, 08:05', 'hold'], ['Credited to USD wallet', 'Waiting', 'todo']].map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="body"><b>${s[0]}</b><span class="small">${s[1]}</span></span></div>`).join('')}</div>
+          <div class="btns"><button class="btn" data-a="upload">Upload invoice</button></div></section>` : ''}`;
     },
     pay() {
       const chips = `<div class="chips" role="group" aria-label="Payment type"><button class="chip" data-a="payMode" data-v="single" aria-pressed="${S.payMode === 'single'}">Send money</button><button class="chip" data-a="payMode" data-v="bulk" aria-pressed="${S.payMode === 'bulk'}">Bulk payouts</button></div>`;
-      const h = head('Pay', 'Send to one person or business, or pay many at once, to bank and mobile money accounts in 15+ countries.', `<button class="btn ghost" data-a="payMode" data-v="bulk">Upload CSV</button><button class="btn" data-a="payMode" data-v="single">Send money</button>`);
-      if (S.payMode === 'bulk') return h + chips + pages.payBulk().split('<!--BULK-->')[1];
-      const recent = [['27 Oct, 11:20', 'Kwame Mensah', 'MTN Mobile Money, Ghana', 'GHS 3,200.00', pill('ok', 'Delivered')], ['26 Oct, 16:05', 'Thames Freight Ltd', 'Faster Payments, UK', '£950.00', pill('ok', 'Delivered')], ['26 Oct, 09:40', 'Adeyemi Packaging Ltd', 'Access Bank, Nigeria', '₦420,000', pill('ok', 'Delivered')], ['25 Oct, 14:12', 'Wanjiru Kamau', 'M-Pesa, Kenya', 'KES 18,000', pill('bad', 'Returned: wrong number')]]
-        .map((r) => `<tr><td class="small">${r[0]}</td><td><b>${r[1]}</b><span class="sub">${r[2]}</span></td><td class="r num"><b>${r[3]}</b></td><td class="r">${r[4]}</td></tr>`).join('');
-      return h + chips + `<div class="grid g21" style="align-items:start">${sendForm('<section class="panel">', '</section>')}<section class="panel"><div class="ph"><h2>Saved recipients</h2></div>${recips.map((r) => `<div class="kv"><span><b>${r.name}</b><span class="small" style="display:block">${r.where}</span></span><span class="v">${r.cur}</span></div>`).join('')}</section></div>
-        <section class="panel"><div class="ph"><h2>Recent single payments</h2></div><div class="tablewrap"><table><thead><tr><th>When</th><th>To</th><th class="r">They got</th><th class="r">Status</th></tr></thead><tbody>${recent}</tbody></table></div></section>`;
-    },
-    payBulk() {
-      const st = { pending: pill('warn', 'Awaiting approval'), sent: pill('ok', 'Sent'), draft: pill('grey', 'Draft') }[S.run];
-      const payees = [['Kwame Mensah', 'Ghana · MTN Mobile Money', 'GHS 4,500', '₦642,000'], ['Wanjiru Kamau', 'Kenya · M-Pesa', 'KES 62,000', '₦738,000'], ['Adeyemi Packaging Ltd', 'Nigeria · bank transfer', '₦1,250,000', '₦1,250,000'], ['Thames Freight Ltd', 'United Kingdom · Faster Payments', '£1,800', '₦3,550,000']]
-        .map((p) => `<tr><td><b>${p[0]}</b><span class="sub">${p[1]}</span></td><td class="r num">${p[2]}</td><td class="r num">${p[3]}</td><td class="r">${S.run === 'sent' ? pill('ok', 'Paid') : pill('grey', 'Ready')}</td></tr>`).join('');
-      const runs = [['Staff payroll', '25th monthly · 18 payees', '₦8,400,000', 'Earn gives notice on the 24th'], ['UK contractors', 'Every other Friday · 3 payees', '£3,200', 'Next: 31 Oct'], ['Kenya distributors', '1st monthly · 6 payees', 'KES 410,000', 'Next: 1 Nov']]
-        .map((r) => `<tr><td><b>${r[0]}</b><span class="sub">${r[1]}</span></td><td class="r num"><b>${r[2]}</b></td><td class="small">${r[3]}</td></tr>`).join('');
-      const cta = S.run === 'pending' ? `<button class="btn ghost" data-a="reject">Send back</button><button class="btn" data-a="approve">Approve and send</button>` : S.run === 'sent' ? `<button class="btn ghost" data-a="newRun">Start a new run</button>` : `<button class="btn" data-a="submit">Submit for approval</button>`;
-      return head('Pay', 'Bulk and scheduled payouts to bank and mobile money accounts in 15+ countries.', `<button class="btn ghost" data-a="toast" data-v="Template downloaded: payouts-template.csv (demo).">CSV template</button><button class="btn" data-a="newRun">Upload CSV</button>`) + `
-<!--BULK-->        <section class="panel"><div class="ph"><div><h2>October supplier run</h2><span class="small">suppliers-oct.csv · 12 payees · prepared by Amaka Eze</span></div>${st}</div>
-          <div class="tablewrap"><table><thead><tr><th>Payee</th><th class="r">They get</th><th class="r">You pay</th><th class="r">Status</th></tr></thead><tbody>${payees}</tbody></table></div>
-          <div class="kv"><span class="k">+ 8 more payees</span><span class="v num">Total ₦6,180,000 · fees ₦123,600 (2%)</span></div>
-          <p class="small" style="margin:0">Rates are locked for 30 minutes once approved. Runs over ₦5,000,000 need two approvers.</p>
-          <div class="btns">${cta}</div>
-        </section>
-        <section class="panel"><div class="ph"><h2>Scheduled runs</h2></div><div class="tablewrap"><table><thead><tr><th>Run</th><th class="r">Amount</th><th>Note</th></tr></thead><tbody>${runs}</tbody></table></div></section>`;
+      const h = head('Pay', 'Send to one person or business, or pay many at once, to bank and mobile money accounts in 15+ countries.', `<button class="btn ghost" data-a="newRun">Upload CSV</button><button class="btn" data-a="payMode" data-v="single">Send money</button>`);
+      if (S.payMode === 'bulk') {
+        const runs = D.runs.map((r) => ({ f: r[1], text: r.join(' '), cells: [`<b>${esc(r[0])}</b><span class="sub">${r[1]} · ${r[2]}</span>`, `<b class="num">${r[3]}</b>`, `<span class="small">${r[4]}</span>`] }));
+        let runPanel;
+        if (!D.bulk) runPanel = `<section class="panel"><div class="ph"><h2>Bulk payouts</h2></div>${empty('No payout runs yet', 'Upload a CSV of payees to pay many people at once. You\'ll check every row before anything is sent.', '<button class="btn sm" data-a="newRun">Upload CSV</button>')}</section>`;
+        else {
+          const b = D.bulk, st = { pending: pill('warn', 'Awaiting approval'), sent: pill('ok', 'Sent'), draft: pill('grey', 'Draft') }[b.status];
+          const payees = b.payees.map((p) => ({ f: p[1], text: p.join(' '), cells: [`<b>${esc(p[0])}</b><span class="sub">${p[1]} · ${p[2]}</span>`, `<span class="num">${p[3]}</span>`, `<span class="num">${money('NGN', p[4])}</span>`, b.status === 'sent' ? pill('ok', 'Paid') : pill('grey', 'Ready')] }));
+          const cta = b.status === 'pending' ? `<button class="btn ghost" data-a="reject">Send back</button><button class="btn" data-a="approve">Approve and send</button>` : b.status === 'sent' ? `<button class="btn ghost" data-a="newRun">Start a new run</button>` : `<button class="btn" data-a="submit">Submit for approval</button>`;
+          runPanel = `<section class="panel"><div class="ph"><div><h2>${esc(b.name)}</h2><span class="small">${b.file} · ${b.payees.length} payees · prepared by ${esc(b.by)}</span></div>${st}</div>
+            ${dtable('payees', { name: 'payees', filterLabel: 'country', filterPlural: 'countries', file: 'payout-run', cols: [{ h: 'Payee' }, { h: 'They get', r: true }, { h: 'You pay', r: true }, { h: 'Status', r: true }], rows: payees })}
+            <div class="kv"><span class="k">Total for ${b.payees.length} payees</span><span class="v num">${money('NGN', bulkTotal())} · fees ${money('NGN', bulkTotal() * FEE)} (2%)</span></div>
+            <div class="kv"><span class="k">Paid from</span><span class="v num">NGN wallet · ${money('NGN', D.bal.NGN)} available</span></div>
+            <p class="small" style="margin:0">Rates are locked for 30 minutes once approved.${S.rule ? ' Runs over ₦5,000,000 need two approvers.' : ''}</p>
+            ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+            <div class="btns">${cta}</div></section>`;
+        }
+        return h + chips + runPanel + `<section class="panel"><div class="ph"><h2>Scheduled runs</h2></div>${dtable('runs', { name: 'runs', filterLabel: 'frequency', filterPlural: 'frequencies', file: 'scheduled-runs', emptyText: 'No scheduled runs. Payroll and supplier runs you schedule show here.', cols: [{ h: 'Run' }, { h: 'Amount', r: true }, { h: 'Note' }], rows: runs })}</section>`;
+      }
+      const recent = D.singles.map((r) => ({ f: r[4], text: r.join(' '), cells: [`<span class="small num">${r[0]}</span>`, `<b>${esc(r[1])}</b><span class="sub">${esc(r[2])}</span>`, `<b class="num">${r[3]}</b>`, r[4] === 'Delivered' ? pill('ok', r[4]) : r[4] === 'Returned' ? pill('bad', 'Returned: wrong number') : pill('warn', r[4])] }));
+      const saved = D.recips.length ? D.recips.map((r) => `<div class="kv"><span><b>${esc(r.name)}</b><span class="small" style="display:block">${esc(r.where)}</span></span><span class="v">${r.cur}</span></div>`).join('') : '<p class="small" style="margin:0">No saved recipients yet. Anyone you pay is saved here.</p>';
+      return h + chips + `<div class="grid g21" style="align-items:start">${sendForm()}<section class="panel"><div class="ph"><h2>Saved recipients</h2></div>${saved}</section></div>
+        <section class="panel"><div class="ph"><h2>Recent single payments</h2></div>${dtable('single', { name: 'payments', filterLabel: 'status', filterPlural: 'statuses', file: 'single-payments', emptyText: 'No payments yet.', cols: [{ h: 'When', nowrap: true }, { h: 'To' }, { h: 'They got', r: true }, { h: 'Status', r: true }], rows: recent })}</section>`;
     },
     earn() {
-      const n = S.earnCur === 'NGN';
-      const e = n ? ['₦12,450,000', '+₦186,400', 'Naira Treasury Bills', '₦'] : ['$15,200.00', '+$118.40', 'Dollar fixed income (Eurobonds)', '$'];
-      const hist = [['26 Oct', 'Evening sweep', '+₦2,180,000', pill('ok', 'Done')], ['24 Oct', 'Notice withdrawal for payroll', '−₦8,400,000', pill('ok', 'Back in wallet')], ['20 Oct', 'Instant withdrawal', '−₦500,000', pill('warn', 'Fee ₦10,000 (2%)')], ['19 Oct', 'Evening sweep', '+₦1,640,000', pill('ok', 'Done')]]
-        .map((h) => `<tr><td class="small">${h[0]}</td><td>${h[1]}</td><td class="r num"><b>${h[2]}</b></td><td class="r">${h[3]}</td></tr>`).join('');
+      const c = S.earnCur, n = c === 'NGN';
+      const rows = D.earnHist.map((r) => ({ f: r[2], text: r.join(' '), cells: [`<span class="small">${r[0]}</span>`, esc(r[1]), `<b class="num">${r[3]}</b>`, pill('ok', r[4])] }));
       return head('Earn', 'Idle cash above your floor moves into Bamboo fixed-income products every evening. Returns are variable and not guaranteed.', `<span class="chips" role="group" aria-label="Currency"><button class="chip" data-a="earnCur" data-v="NGN" aria-pressed="${n}">Naira</button><button class="chip" data-a="earnCur" data-v="USD" aria-pressed="${!n}">Dollar</button></span>`) + `
         <div class="grid g3">
-          <div class="tile hero"><span class="lab">Earn balance</span><span class="val num">${e[0]}</span><span class="small">${e[2]}</span></div>
-          <div class="tile"><span class="lab">Earned this month</span><span class="val num">${e[1]}</span><span class="small">Rate is variable, shown daily</span></div>
-          <div class="tile"><span class="lab">On notice</span><span class="val num">${n ? '₦8,400,000' : '$0.00'}</span><span class="small">${n ? 'Back on 24 Nov for payroll' : 'Nothing pending'}</span></div>
+          <div class="tile hero"><span class="lab">Earn balance</span><span class="val num">${money(c, D.earn[c])}</span><span class="small">${n ? 'Naira Treasury Bills' : 'Dollar fixed income (Eurobonds)'}</span></div>
+          <div class="tile"><span class="lab">Earned this month</span><span class="val num">${money(c, D.earned[c])}</span><span class="small">Rate is variable, shown daily</span></div>
+          <div class="tile"><span class="lab">In your ${c} wallet</span><span class="val num">${money(c, D.bal[c])}</span><span class="small">Floor ${money(c, S.floor[c])}</span></div>
         </div>
         <div class="grid g2">
           <section class="panel"><div class="ph"><h2>Sweep rule</h2>${tog('sweep', 'Evening sweep', S.sweep)}</div>
-            <div class="field"><label for="floor">Keep this much in the ${n ? 'naira' : 'dollar'} wallet</label><input id="floor" value="${e[3]}${n ? S.floor : '3,000'}" inputmode="numeric"></div>
+            <div class="field"><label for="floor">Keep this much in the ${n ? 'naira' : 'dollar'} wallet</label><input id="floor" value="${S.floor[c]}" inputmode="numeric"></div>
             <p class="small" style="margin:0">Everything above the floor moves into Earn at 18:00. Before a scheduled payout run, Earn gives notice automatically.</p>
-            <div class="btns"><button class="btn" data-a="toast" data-v="Sweep rule saved.">Save rule</button></div>
-          </section>
+            <div class="btns"><button class="btn ghost" data-a="saveFloor">Save rule</button><button class="btn" data-a="sweepNow">Run tonight's sweep now (demo)</button></div></section>
           <section class="panel"><div class="ph"><h2>Withdraw</h2></div>
-            <div class="field"><label for="wamt">Amount</label><input id="wamt" value="${n ? '₦1,000,000' : '$1,000'}" inputmode="numeric"></div>
+            <div class="field"><label for="wamt">Amount (${c})</label><input id="wamt" value="" placeholder="0" inputmode="numeric"></div>
             <div class="opts">
-              <button class="opt" data-a="wd" data-v="notice" aria-pressed="${S.wd === 'notice'}"><span class="t">Next business day</span><span class="small">Back on Wed 28 Oct</span><b style="color:var(--ok)">Free</b></button>
-              <button class="opt" data-a="wd" data-v="instant" aria-pressed="${S.wd === 'instant'}"><span class="t">Instant</span><span class="small">Back now</span><b style="color:var(--warn)" id="wfee">2% fee · ${feeOf(n ? '₦1,000,000' : '$1,000')}</b></button>
+              <button class="opt" data-a="wd" data-v="notice" aria-pressed="${S.wd === 'notice'}"><span class="t">Next business day</span><span class="small">No fee</span><b style="color:var(--ok)">Free</b></button>
+              <button class="opt" data-a="wd" data-v="instant" aria-pressed="${S.wd === 'instant'}"><span class="t">Instant</span><span class="small">Back now</span><b style="color:var(--warn)" id="wfee">2% fee</b></button>
             </div>
-            <div class="btns"><button class="btn" data-a="withdraw">Withdraw</button></div>
-          </section>
+            <div class="btns"><button class="btn" data-a="withdraw">Withdraw</button></div></section>
         </div>
-        <section class="panel"><div class="ph"><h2>Earn history</h2></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>What</th><th class="r">Amount</th><th class="r">Status</th></tr></thead><tbody>${hist}</tbody></table></div></section>`;
+        ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+        <section class="panel"><div class="ph"><h2>Earn history</h2></div>${dtable('earn', { name: 'Earn activity', filterLabel: 'type', filterPlural: 'types', file: 'earn-history', emptyText: 'Nothing in Earn yet. Fund your wallet, set a floor and the evening sweep does the rest.', cols: [{ h: 'Date', nowrap: true }, { h: 'What' }, { h: 'Amount', r: true }, { h: 'Status', r: true }], rows })}</section>`;
     },
     loans() {
+      const rows = D.loans.map((l) => ({ f: l[4], text: l.join(' '), cells: [`<b>${l[0]}</b><span class="sub">${l[1]}</span>`, `<span class="num">${l[2]}</span>`, l[3], l[4] === 'Active' ? pill('info', l[4]) : l[4] === 'In review' ? pill('warn', l[4]) : pill('ok', l[4]), `<span class="small">${l[5]}</span>`] }));
+      const table = `<section class="panel"><div class="ph"><h2>Your loans</h2></div>${dtable('loans', { name: 'loans', filterLabel: 'status', filterPlural: 'statuses', file: 'loans', emptyText: 'No loans yet.', cols: [{ h: 'Loan' }, { h: 'Amount', r: true }, { h: 'Term' }, { h: 'Status' }, { h: 'Note' }], rows })}</section>`;
+      if (!D.loanEligible) return head('Loans', 'Credit sized from your collection history on Misan.', '') + `
+        <section class="panel">${empty('Not eligible yet', 'Loans unlock once ' + esc(biz()) + ' has 3 months of collections on Misan. We size your offer from that history, so there\'s no paperwork.', '<button class="btn sm" data-a="go" data-v="collect">Start collecting</button>')}
+          <button class="btn sm ghost" style="align-self:flex-start" data-a="fakeHistory">Skip ahead 3 months (demo)</button></section>` + table;
       const prods = { line: ['Earn-backed credit line', 'Borrow against your Earn balance without selling it. Your Earn balance stays invested as security.', 'Up to 10% of your Earn balance'], invoice: ['Invoice financing', 'Get paid now on open invoices from customer accounts. We collect the invoice when your customer pays.', 'Up to 10% of each invoice'], revenue: ['Working capital', 'A lump sum repaid as a small share of your daily collections, so repayments rise and fall with sales.', 'Offer based on 6 months of collections'] };
-      const p = prods[S.loanProduct];
-      const amt = S.loanAmt;
+      const p = prods[S.loanProduct], amt = S.loanAmt;
       const monthly = (amt * 1000000 / S.loanTerm).toLocaleString('en-NG', { maximumFractionDigits: 0 });
-      const status = S.loanStatus === 'review' ? `<div class="note violet"><b>Application received.</b> ₦${amt},000,000 over ${S.loanTerm} months. We'll confirm the offer within 1 business day.</div>` : '';
+      const out = D.loans.find((l) => l[4] === 'Active');
       return head('Loans', 'Credit sized from your collection history on Misan, with no paperwork you have not already given us.', '') + `
         <div class="grid g3">
-          <div class="tile hero"><span class="lab">Pre-approved up to</span><span class="val num">₦25,000,000</span><span class="small">Sample, based on 6 months of collections</span></div>
-          <div class="tile"><span class="lab">Outstanding</span><span class="val num">₦4,200,000</span><span class="small">Working capital · 3 of 6 repayments made</span></div>
-          <div class="tile"><span class="lab">Next repayment</span><span class="val num">₦1,400,000</span><span class="small">Taken from collections on 5 Nov</span></div>
+          <div class="tile hero"><span class="lab">Pre-approved up to</span><span class="val num">₦25,000,000</span><span class="small">Sample, based on your collections</span></div>
+          <div class="tile"><span class="lab">Outstanding</span><span class="val num">${out ? '₦4,200,000' : '₦0'}</span><span class="small">${out ? out[1] : 'No active loans'}</span></div>
+          <div class="tile"><span class="lab">Next repayment</span><span class="val num">${out ? '₦1,400,000' : '–'}</span><span class="small">${out ? 'Taken from collections on 5 Nov' : 'Nothing due'}</span></div>
         </div>
         <section class="panel"><div class="ph"><h2>Choose a product</h2></div>
           <div class="grid g3">${Object.keys(prods).map((k) => `<button class="opt" data-a="loanProduct" data-v="${k}" aria-pressed="${S.loanProduct === k}"><span class="t">${prods[k][0]}</span><span class="small">${prods[k][2]}</span></button>`).join('')}</div>
           <p style="margin:0;line-height:1.5">${p[1]}</p>
           <div class="grid g2">
-            <div class="field"><label for="lamt" id="lamtlab">Amount: ₦${amt},000,000</label><input id="lamt" type="range" min="1" max="25" value="${amt}" data-in="loanAmt"></div>
-            <div class="field"><label for="lterm">Term</label><select id="lterm" data-in="loanTerm">${[3, 6, 9, 12].map((t) => `<option value="${t}"${t === S.loanTerm ? ' selected' : ''}>${t} months</option>`).join('')}</select></div>
+            <div class="field"><label for="lamt" id="lamtlab">Amount: ₦${amt},000,000</label><input id="lamt" type="range" min="1" max="25" value="${amt}"></div>
+            <div class="field"><label for="lterm">Term</label><select id="lterm">${[3, 6, 9, 12].map((t) => `<option value="${t}"${t === S.loanTerm ? ' selected' : ''}>${t} months</option>`).join('')}</select></div>
           </div>
           <div class="kv"><span class="k">Principal per month</span><span class="v num" id="lmon">₦${monthly}</span></div>
           <div class="kv"><span class="k">Interest and fees</span><span class="v">2% a month, shown in full before you accept</span></div>
           <div class="kv"><span class="k">Repaid from</span><span class="v">${S.loanProduct === 'revenue' ? '10% of daily collections' : 'Your NGN wallet, on the 5th'}</span></div>
-          ${status}
-          <div class="btns"><button class="btn" data-a="applyLoan">${S.loanStatus === 'review' ? 'Application sent' : 'Apply'}</button></div>
+          <div class="btns"><button class="btn" data-a="applyLoan">Apply</button></div>
           <p class="small" style="margin:0">Loans would be offered through a licensed lending partner. Rates are placeholders.</p>
-        </section>`;
+        </section>` + table;
     },
     cards() {
-      const cards = [['Marketing', 'Amaka Eze', '4417', 640, 1500, 'Ads'], ['Software', 'Tunde Ade', '9025', 310, 500, 'Subscriptions'], ['Travel', 'Kola Ogun', '1182', 0, 3000, 'Flights and hotels'], ['Operations', 'Ifeoma Nwosu', '7730', 1180, 2000, 'Logistics']];
-      const rows = cards.map((c) => `<tr><td><b>${c[0]}</b><span class="sub">${c[1]} · •••• ${c[2]}</span></td><td style="min-width:160px"><div class="bar-track"><span style="width:${Math.round(c[3] / c[4] * 100)}%"></span></div><span class="sub num">$${c[3].toLocaleString()} of $${c[4].toLocaleString()} this month</span></td><td>${c[5]}</td><td class="r">${S.frozen[c[2]] ? pill('bad', 'Frozen') : pill('ok', 'Active')}</td><td class="r">${tog('freeze', 'Freeze card ending ' + c[2], !!S.frozen[c[2]], c[2])}</td></tr>`).join('');
-      return head('Cards', 'Virtual USD cards for staff spending, each with its own monthly limit and category.', `<button class="btn" data-a="toast" data-v="New card issued to Amaka Eze (demo).">Issue card</button>`) + `
-        <section class="panel"><div class="tablewrap"><table><thead><tr><th>Card</th><th>Spend</th><th>Category</th><th class="r">Status</th><th class="r">Freeze</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+      const rows = D.cards.map((c, i) => ({ f: c[6] ? 'Frozen' : 'Active', text: c.join(' '), cells: [`<b>${esc(c[0])}</b><span class="sub">${esc(c[1])} · •••• ${c[2]}</span>`, `<div class="bar-track"><span style="width:${Math.min(100, Math.round(c[3] / c[4] * 100))}%"></span></div><span class="sub num">$${c[3].toLocaleString()} of $${c[4].toLocaleString()} this month</span>`, c[5], c[6] ? pill('bad', 'Frozen') : pill('ok', 'Active'), tog('freeze', 'Freeze card ending ' + c[2], !!c[6], i)] }));
+      return head('Cards', 'Virtual USD cards for staff spending, each with its own monthly limit and category.', '') + `
+        <div class="grid g21" style="align-items:start">
+          <section class="panel">${dtable('cards', { name: 'cards', filterLabel: 'status', filterPlural: 'statuses', file: 'cards', emptyText: 'No cards yet. Issue one for each person or team that spends online.', cols: [{ h: 'Card' }, { h: 'Spend' }, { h: 'Category' }, { h: 'Status', r: true }, { h: 'Freeze', r: true }], rows })}</section>
+          <section class="panel"><div class="ph"><h2>Issue a card</h2></div>
+            <div class="field"><label for="cname">Card name</label><input id="cname" placeholder="e.g. Marketing"></div>
+            <div class="field"><label for="cholder">Cardholder</label><select id="cholder">${D.team.filter((t) => t[5] === 'Active').map((t) => `<option>${esc(t[1])}</option>`).join('')}</select></div>
+            <div class="grid g2"><div class="field"><label for="ccat">Category</label><select id="ccat"><option>Ads</option><option>Subscriptions</option><option>Travel</option><option>Logistics</option></select></div><div class="field"><label for="clim">Monthly limit (USD)</label><input id="clim" inputmode="numeric" value="500"></div></div>
+            ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+            <div class="btns"><button class="btn" data-a="issueCard">Issue card</button></div></section>
+        </div>`;
     },
     customers() {
-      const rows = [['BF', 'Brightway Foods Ltd', 'GBP ending 4471', '£12,600.00', '2 open invoices'], ['AT', 'Atlantic Textiles Inc', 'USD ending 2290', '$5,900.00', '1 payment on hold'], ['LF', 'Lekki Fresh Market', 'NGN ending 8813', '₦5,400,000', 'No open invoices'], ['HI', 'Hamburg Imports GmbH', 'EUR ending 3307', '€3,540.00', '1 open invoice']]
-        .map((c) => `<tr><td><span class="cell"><span class="code">${c[0]}</span><b>${c[1]}</b></span></td><td class="num">${c[2]}</td><td class="r num"><b>${c[3]}</b></td><td class="small">${c[4]}</td></tr>`).join('');
-      return head('Customers', 'Each customer gets their own account details, so every payment matches automatically.', `<button class="btn" data-a="toast" data-v="Customer account created. Share its details with your customer.">Add customer</button>`) + `
-        <section class="panel"><div class="setrow"><span><span class="t">Auto-match payments</span><span class="small" style="display:block">${S.match ? '100% of payments matched this month' : 'Off: payments need a reference to match'}</span></span>${tog('match', 'Auto-match payments', S.match)}</div></section>
-        <section class="panel"><div class="tablewrap"><table><thead><tr><th>Customer</th><th>Their account</th><th class="r">Paid this month</th><th>Open items</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
+      const rows = D.customers.map((c) => ({ f: c[2], text: c.join(' '), cells: [`<span class="cell"><span class="code">${c[0]}</span><b>${esc(c[1])}</b></span>`, `<span class="num">${c[3]}</span>`, `<b class="num">${c[4]}</b>`, `<span class="small">${c[5]}</span>`] }));
+      return head('Customers', 'Each customer gets their own account details, so every payment matches automatically.', '') + `
+        <section class="panel"><div class="setrow"><span><span class="t">Auto-match payments</span><span class="small" style="display:block">${S.match ? 'Payments into a customer\'s account are matched to them automatically' : 'Off: payments need a reference to match'}</span></span>${tog('match', 'Auto-match payments', S.match)}</div></section>
+        <div class="grid g21" style="align-items:start">
+          <section class="panel">${dtable('customers', { name: 'customers', filterLabel: 'currency', filterPlural: 'currencies', file: 'customers', emptyText: 'No customers yet. Add one to give them their own account details.', cols: [{ h: 'Customer' }, { h: 'Their account' }, { h: 'Paid this month', r: true }, { h: 'Open items' }], rows })}</section>
+          <section class="panel"><div class="ph"><h2>Add a customer</h2></div>
+            <div class="field"><label for="custname">Customer name</label><input id="custname" placeholder="e.g. Brightway Foods Ltd"></div>
+            <div class="field"><label for="custcur">They'll pay in</label><select id="custcur">${['NGN', 'GBP', 'USD', 'EUR', 'CAD'].map((c) => `<option>${c}</option>`).join('')}</select></div>
+            ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+            <div class="btns"><button class="btn" data-a="addCustomer">Create customer account</button></div></section>
+        </div>`;
     },
     team() {
-      const people = [['KO', 'Kola Ogun', 'kola@kolaexports.example', 'Owner', 'No limit', 'Active'], ['TA', 'Tunde Ade', 'tunde@kolaexports.example', 'Finance approver', '₦20,000,000 a day', 'Active'], ['AE', 'Amaka Eze', 'amaka@kolaexports.example', 'Preparer', 'Prepares only', 'Active'], ['IN', 'Ifeoma Nwosu', 'ifeoma@kolaexports.example', 'Viewer', 'Read only', 'Active']];
-      if (S.invited) people.push(['CA', 'Chidi Okafor', 'chidi@kolaexports.example', 'Preparer', 'Prepares only', 'Invited']);
-      const rows = people.map((p) => `<tr><td><span class="cell"><span class="code">${p[0]}</span><span><b>${p[1]}</b><span class="sub">${p[2]}</span></span></span></td><td>${p[3]}</td><td class="num">${p[4]}</td><td class="r">${p[5] === 'Active' ? pill('ok', 'Active') : pill('warn', 'Invited')}</td></tr>`).join('');
+      const rows = D.team.map((p) => ({ f: p[3], text: p.join(' '), cells: [`<span class="cell"><span class="code">${p[0]}</span><span><b>${esc(p[1])}</b><span class="sub">${esc(p[2])}</span></span></span>`, p[3], `<span class="num">${p[4]}</span>`, p[5] === 'Active' ? pill('ok', 'Active') : p[5] === 'Invited' ? pill('warn', 'Invited') : pill('bad', 'Suspended')] }));
       return head('Team', 'Who can see, prepare and approve money movements.', '') + `
         <div class="grid g21">
-          <section class="panel"><div class="ph"><h2>Members</h2></div><div class="tablewrap"><table><thead><tr><th>Person</th><th>Role</th><th>Limit</th><th class="r">Status</th></tr></thead><tbody>${rows}</tbody></table></div></section>
+          <section class="panel"><div class="ph"><h2>Members</h2></div>${dtable('team', { name: 'members', filterLabel: 'role', filterPlural: 'roles', file: 'team-members', cols: [{ h: 'Person' }, { h: 'Role' }, { h: 'Limit' }, { h: 'Status', r: true }], rows })}</section>
           <section class="panel"><div class="ph"><h2>Invite someone</h2></div>
             <form id="invite" class="grid" style="gap:12px">
-              <div class="field"><label for="iemail">Work email</label><input id="iemail" type="email" value="chidi@kolaexports.example"></div>
+              <div class="field"><label for="iname">Full name</label><input id="iname" placeholder="e.g. Chidi Okafor"></div>
+              <div class="field"><label for="iemail">Work email</label><input id="iemail" type="email" placeholder="name@yourbusiness.com"></div>
               <div class="field"><label for="irole">Role</label><select id="irole"><option>Preparer</option><option>Finance approver</option><option>Viewer</option></select></div>
-              <button class="btn" type="submit">${S.invited ? 'Invite sent' : 'Send invite'}</button>
-            </form>
-          </section>
+              ${S.formErr ? `<div class="err">${S.formErr}</div>` : ''}
+              <button class="btn" type="submit">Send invite</button>
+            </form></section>
         </div>
         <section class="panel"><div class="ph"><h2>Approval rules</h2></div>
-          <div class="setrow"><span><span class="t">Two approvers for payouts above ₦5,000,000</span><span class="small" style="display:block">The person who prepares a run can't approve it</span></span>${tog('rule', 'Two approvers above five million naira', S.rule)}</div>
+          <div class="setrow"><span><span class="t">Two approvers for payouts above ₦5,000,000</span><span class="small" style="display:block">The person who prepares a payment can't approve it</span></span>${tog('rule', 'Two approvers above five million naira', S.rule)}</div>
           <div class="setrow"><span><span class="t">Owner approval for new payees</span><span class="small" style="display:block">Applies to bank and mobile money payees</span></span>${tog('noop', 'Owner approval for new payees', true)}</div>
-          <div class="setrow"><span><span class="t">Earn withdrawals need an approver</span><span class="small" style="display:block">Instant withdrawals only</span></span>${tog('noop', 'Earn withdrawals need an approver', true)}</div>
         </section>`;
     },
     audit() {
-      const all = [
-        ['27 Oct 2026, 09:31', 'Kola Ogun', 'Login', 'Signed in with 2FA', 'Lagos · Chrome on macOS'],
-        ['27 Oct 2026, 09:16', 'System', 'Money', 'Credited £4,200.00 from Brightway Foods Ltd', 'Auto-matched to customer account'],
-        ['27 Oct 2026, 08:41', 'Amaka Eze', 'Money', 'Submitted October supplier run (12 payees, ₦6,180,000)', 'Lagos · Safari on iPhone'],
-        ['27 Oct 2026, 08:05', 'System', 'Money', 'Held $2,950.00 from Atlantic Textiles Inc: invoice needed', 'Compliance rule CR-14'],
-        ['26 Oct 2026, 18:00', 'System', 'Earn', 'Swept ₦2,180,000 into Earn', 'Floor ₦2,000,000'],
-        ['26 Oct 2026, 15:22', 'Tunde Ade', 'Settings', 'Changed daily payout limit to ₦20,000,000', 'Approved by Kola Ogun'],
-        ['26 Oct 2026, 11:04', 'Kola Ogun', 'Team', 'Invited Ifeoma Nwosu as Viewer', 'Lagos · Chrome on macOS'],
-        ['25 Oct 2026, 12:00', 'Tunde Ade', 'Money', 'Approved Staff payroll (18 payees, ₦8,400,000)', 'Second approver: Kola Ogun'],
-        ['24 Oct 2026, 09:00', 'System', 'Earn', 'Gave notice on ₦8,400,000 for 25 Oct payroll', 'Payout protection'],
-        ['23 Oct 2026, 16:47', 'Amaka Eze', 'Cards', 'Raised Marketing card limit to $1,500', 'Approved by Tunde Ade'],
-        ['22 Oct 2026, 10:12', 'Kola Ogun', 'Developers', 'Created a test API key ending 3f9a', 'Lagos · Chrome on macOS']
-      ];
-      if (S.invited) all.unshift(['27 Oct 2026, 13:58', 'Kola Ogun', 'Team', 'Invited Chidi Okafor as Preparer', 'Lagos · Chrome on macOS']);
-      const filters = ['All', 'Money', 'Earn', 'Team', 'Settings', 'Cards', 'Login', 'Developers'];
-      const shown = all.filter((r) => S.auditFilter === 'All' || r[2] === S.auditFilter);
-      const kinds = { Money: 'ok', Earn: 'info', Team: 'grey', Settings: 'warn', Cards: 'grey', Login: 'grey', Developers: 'grey' };
-      const rows = shown.map((r) => `<tr><td class="small num" style="white-space:nowrap">${r[0]}</td><td><b>${r[1]}</b></td><td>${pill(kinds[r[2]], r[2])}</td><td>${r[3]}<span class="sub">${r[4]}</span></td></tr>`).join('');
-      return head('Audit trail', 'Every action by a person or by the system, with who did it, when and from where. Entries can\'t be edited or deleted.', `<button class="btn ghost" data-a="toast" data-v="Audit log exported: audit-oct-2026.csv (demo).">Export CSV</button>`) + `
-        <div class="chips" role="group" aria-label="Filter by type">${filters.map((f) => `<button class="chip" data-a="auditFilter" data-v="${f}" aria-pressed="${S.auditFilter === f}">${f}</button>`).join('')}</div>
-        <section class="panel"><div class="tablewrap"><table><thead><tr><th>When</th><th>Who</th><th>Type</th><th>What happened</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="small">No entries of this type yet.</td></tr>'}</tbody></table></div></section>`;
+      const kinds = { Money: 'ok', Earn: 'info', Team: 'grey', Settings: 'warn', Cards: 'grey', Login: 'grey', Developers: 'grey', Verification: 'info' };
+      const rows = D.audit.map((r) => ({ f: r[2], text: r.join(' '), cells: [`<span class="small num">${r[0]}</span>`, `<b>${esc(r[1])}</b>`, pill(kinds[r[2]] || 'grey', r[2]), `${esc(r[3])}<span class="sub">${esc(r[4])}</span>`, `<span class="num mono">${r[5]}</span>`, `<span class="num mono${r[6].indexOf(':') < 0 ? ' small' : ''}">${r[6]}</span>`] }));
+      return head('Audit trail', 'Every action by a person or by the system: who, when, from which IP address and device. Entries can\'t be edited or deleted.', '') + `
+        <section class="panel">${dtable('audit', { name: 'entries', filterLabel: 'type', filterPlural: 'types', file: 'audit-trail', per: 8, cols: [{ h: 'When', nowrap: true }, { h: 'Who' }, { h: 'Type' }, { h: 'What happened' }, { h: 'IP address', nowrap: true }, { h: 'MAC address', nowrap: true }], rows })}
+        <p class="small" style="margin:0">MAC addresses are recorded for sessions in the Misan Business mobile app. Web browsers don't share them, so web sessions are identified by IP address and browser.</p></section>`;
     },
     setup() {
-      const notif = [['email', 'Email'], ['push', 'Push notifications'], ['sms', 'SMS'], ['webhook', 'Webhooks']]
-        .map((n) => `<div class="setrow"><span class="t">${n[1]}</span>${tog('notif', n[1], S.notif[n[0]], n[0])}</div>`).join('');
-      const docs = [['Certificate of incorporation', 'Verified'], ['CAC status report', 'Verified'], ['Directors\' ID', 'Verified'], ['Proof of address', 'Expires in 30 days']]
-        .map((d) => `<div class="kv"><span class="k">${d[0]}</span><span class="v">${d[1] === 'Verified' ? pill('ok', 'Verified') : pill('warn', d[1])}</span></div>`).join('');
+      const notif = [['email', 'Email'], ['push', 'Push notifications'], ['sms', 'SMS'], ['webhook', 'Webhooks']].map((n) => `<div class="setrow"><span class="t">${n[1]}</span>${tog('notif', n[1], S.notif[n[0]], n[0])}</div>`).join('');
+      const kybRow = S.kyb === 'verified' ? pill('ok', 'Verified business') : S.kyb === 'submitted' ? pill('info', 'In review') : pill('warn', 'Not verified');
+      const docs = S.kyb === 'verified'
+        ? [['Certificate of incorporation', 'Verified'], ['CAC status report', 'Verified'], ['Directors\' BVN and NIN', 'Verified'], ['Proof of address', D.mode === 'demo' ? 'Expires in 30 days' : 'Verified']].map((d) => `<div class="kv"><span class="k">${d[0]}</span><span class="v">${d[1] === 'Verified' ? pill('ok', 'Verified') : pill('warn', d[1])}</span></div>`).join('')
+        : `<p style="margin:0;line-height:1.5">${S.kyb === 'submitted' ? 'Your documents are being reviewed.' : 'You haven\'t verified the business yet.'}</p><div class="btns"><button class="btn" data-a="kyb">${S.kyb === 'submitted' ? 'View status' : 'Verify now'}</button></div>`;
       return head('Settings', 'Business profile, verification, security and notifications.', '') + `
         <div class="grid g2">
           <section class="panel"><div class="ph"><h2>Business profile</h2></div>
             <form id="profile" class="grid" style="gap:12px">
-              <div class="field"><label for="bname">Registered name</label><input id="bname" value="Kola Exports Ltd"></div>
-              <div class="field"><label for="rc">RC number</label><input id="rc" value="RC 1234567"></div>
+              <div class="field"><label for="bname">Registered name</label><input id="bname" value="${esc(biz())}"></div>
+              <div class="field"><label for="bowner">Account owner</label><input id="bowner" value="${esc(owner())}" disabled></div>
+              <div class="field"><label for="bsoc">Website or social media page (optional)</label><input id="bsoc" placeholder="e.g. yourbusiness.com"></div>
               <div class="field"><label for="bcur">Reporting currency</label><select id="bcur"><option>NGN</option><option>USD</option><option>GBP</option></select></div>
               <button class="btn" type="submit">Save profile</button>
-            </form>
-          </section>
-          <section class="panel"><div class="ph"><h2>Verification (KYB)</h2>${pill('ok', 'Verified business')}</div>${docs}
-            <div class="btns"><button class="btn ghost" data-a="toast" data-v="Upload a new proof of address to keep payouts running (demo).">Update proof of address</button></div>
-          </section>
+            </form></section>
+          <section class="panel"><div class="ph"><h2>Verification (KYB)</h2>${kybRow}</div>${docs}</section>
           <section class="panel"><div class="ph"><h2>Security</h2></div>
-            <div class="setrow"><span><span class="t">Two-factor sign-in</span><span class="small" style="display:block">Required for everyone with approval rights</span></span>${tog('twofa', 'Two-factor sign-in', S.twofa)}</div>
-            <div class="setrow"><span><span class="t">IP allowlist for the API</span><span class="small" style="display:block">Only accept API calls from your servers</span></span>${tog('ipAllow', 'IP allowlist', S.ipAllow)}</div>
+            <div class="setrow"><span><span class="t">Two-step sign-in</span><span class="small" style="display:block">Required for everyone with approval rights</span></span>${tog('twofa', 'Two-step sign-in', S.twofa)}</div>
+            <div class="setrow"><span><span class="t">IP allowlist for the API</span><span class="small" style="display:block">${D.ips.length} address${D.ips.length === 1 ? '' : 'es'} · ${S.ipAllow && D.ips.length ? 'enforced' : 'not enforced'}</span></span><button class="btn sm soft" data-a="go" data-v="developers">Manage</button></div>
             <div class="setrow"><span><span class="t">Daily payout limit</span><span class="small" style="display:block">Changes need the owner's approval</span></span><b class="num">₦20,000,000</b></div>
           </section>
           <section class="panel"><div class="ph"><h2>Notifications</h2></div>${notif}</section>
         </div>`;
     },
     developers() {
-      return head('Developers', 'Collect, pay, earn and track from your own systems.', `<button class="btn" data-a="toast" data-v="New test key created. Copy it now; you won't see it again.">Create API key</button>`) + `
+      const events = ['collection.credited', 'collection.on_hold', 'payout.completed', 'payout.failed', 'earn.withdrawal.settled', 'kyb.updated'];
+      const masked = D.key.slice(0, 8) + '••••••••••••' + D.key.slice(-4);
+      const keyPanel = S.regen
+        ? `<div class="note"><b>Regenerate the test key?</b> The current key stops working immediately. Any app using it will fail until you update it.<div class="btns" style="margin-top:10px"><button class="btn sm ghost" data-a="regenCancel">Cancel</button><button class="btn sm" data-a="regenConfirm">Regenerate now</button></div></div>`
+        : S.keyShown
+          ? `<div class="note violet"><b>Copy your new key now.</b> For your security we won't show it again.<div class="keybox mono">${D.key}</div><div class="btns"><button class="btn sm" data-a="toast" data-v="Key copied.">Copy key</button><button class="btn sm ghost" data-a="keySaved">I've saved it</button></div></div>`
+          : `<div class="kv"><span class="k">Test key</span><span class="v mono">${masked}</span></div><div class="btns"><button class="btn sm ghost" data-a="regen">Regenerate key</button></div>`;
+      const ipList = D.ips.map((ip, i) => `<div class="kv"><span><span class="mono" style="font-weight:600">${esc(ip[0])}</span><span class="small" style="display:block">${esc(ip[1])}</span></span><button class="btn sm ghost" data-a="ipRemove" data-v="${i}" aria-label="Remove ${esc(ip[0])}">Remove</button></div>`).join('') || '<p class="small" style="margin:0">No addresses yet. Calls are accepted from anywhere until you add one.</p>';
+      const reqs = D.requests.map((r) => ({ f: r[3][0] === '2' ? 'Success (2xx)' : 'Error (4xx)', text: r.join(' '), cells: [`<span class="small num">${r[0]}</span>`, `<span class="mono"><b>${r[1]}</b> ${r[2]}</span>`, r[3][0] === '2' ? pill('ok', r[3]) : pill('bad', r[3] + (r[3] === '403' ? ' IP not allowed' : r[3] === '401' ? ' bad key' : ' invalid')), `<span class="mono">${r[4]}</span>`, `<span class="num">${r[5]}</span>`] }));
+      const deliveries = D.deliveries.map((d) => ({ f: d[1], text: d.join(' '), cells: [`<span class="small num">${d[0]}</span>`, `<span class="mono">${d[1]}</span>`, d[2] === '200 OK' ? pill('ok', d[2]) : pill('warn', d[2] + ', retried'), `<span class="num">${d[3]}</span>`] }));
+      return head('Developers', 'Collect, pay, earn and track from your own systems.', '') + `
         <div class="grid g2">
-          <section class="panel"><div class="ph"><h2>API keys</h2></div>
-            <div class="kv"><span class="k">Test key</span><span class="v" style="font-family:var(--mono)">sk_test_••••3f9a</span></div>
-            <div class="kv"><span class="k">Live key</span><span class="v">${pill('grey', 'Request access')}</span></div>
+          <section class="panel"><div class="ph"><h2>API keys</h2>${pill('grey', 'Test mode')}</div>${keyPanel}
+            <div class="kv"><span class="k">Live key</span><span class="v">${S.kyb === 'verified' ? '<button class="btn sm soft" data-a="toast" data-v="Live key request sent. The owner must approve it.">Request live key</button>' : pill('grey', 'After verification')}</span></div>
             <div class="term"><span class="m">POST</span> /v1/collection-accounts<br><span class="m">POST</span> /v1/customers/{id}/accounts<br><span class="m">POST</span> /v1/payouts/bulk<br><span class="m">GET </span> /v1/collections/{id}<br><span class="m">POST</span> /v1/earn/withdrawals<br><span class="m">GET </span> /v1/settlements?date=</div>
           </section>
-          <section class="panel"><div class="ph"><h2>Webhooks</h2><button class="btn sm soft" data-a="toast" data-v="Test event payout.completed sent to your endpoint.">Send test</button></div>
-            <div class="field"><label for="hook">Endpoint</label><input id="hook" value="https://api.kolaexports.example/hooks/misan"></div>
-            ${[['collection.credited', '200 OK', 'ok'], ['collection.on_hold', '200 OK', 'ok'], ['payout.completed', '200 OK', 'ok'], ['payout.failed', '500, retried', 'warn'], ['earn.withdrawal.settled', '200 OK', 'ok']].map((h) => `<div class="kv"><span style="font-family:var(--mono);font-size:13px">${h[0]}</span>${pill(h[2], h[1])}</div>`).join('')}
+          <section class="panel"><div class="ph"><h2>IP allowlist</h2>${tog('ipAllow', 'Enforce IP allowlist', S.ipAllow)}</div>
+            <p class="small" style="margin:0">${S.ipAllow ? 'Only these addresses can call the API with your keys.' : 'Not enforced: calls are accepted from any address.'}</p>
+            ${ipList}
+            <div class="grid g2"><div class="field"><label for="ipnew">IP address or range</label><input id="ipnew" placeholder="e.g. 102.89.34.18 or 41.58.120.0/24" class="mono"></div><div class="field"><label for="iplabel">Label</label><input id="iplabel" placeholder="e.g. Backup server"></div></div>
+            ${S.ipErr ? `<div class="err">${S.ipErr}</div>` : ''}
+            <div class="btns"><button class="btn sm" data-a="ipAdd">Add address</button></div>
           </section>
-        </div>`;
+        </div>
+        <section class="panel"><div class="ph"><h2>Webhook</h2>${D.hookSaved ? pill('ok', 'Configured') : pill('warn', 'Not configured')}</div>
+          <div class="field"><label for="hook">Endpoint URL</label><input id="hook" value="${esc(D.hookUrl)}" placeholder="https://api.yourbusiness.com/hooks/misan"></div>
+          <div class="field"><label>Events to send</label><div class="chips">${events.map((e) => `<button class="chip mono" data-a="hookEvent" data-v="${e}" aria-pressed="${!!D.hookEvents[e]}">${e}</button>`).join('')}</div></div>
+          <div class="kv"><span class="k">Signing secret</span><span class="v"><span class="mono">${D.hookSecret}••••••••</span> <button class="btn sm ghost" data-a="hookSecret">Regenerate</button></span></div>
+          ${S.hookErr ? `<div class="err">${S.hookErr}</div>` : ''}
+          <div class="btns" style="align-items:flex-end"><button class="btn" data-a="hookSave">Save webhook</button>
+            <span class="field" style="min-width:200px"><label for="testev">Test event</label><select id="testev"${D.hookSaved ? '' : ' disabled'}>${events.filter((e) => D.hookEvents[e]).map((e) => `<option${e === S.testEvent ? ' selected' : ''}>${e}</option>`).join('')}</select></span>
+            <button class="btn ghost" data-a="hookTest"${D.hookSaved ? '' : ' disabled title="Save the webhook first"'}>Send test event</button></div>
+          ${D.hookSaved ? '' : '<p class="small" style="margin:0">Save an endpoint and at least one event before sending a test.</p>'}
+        </section>
+        <section class="panel"><div class="ph"><h2>Webhook deliveries</h2></div>${dtable('deliveries', { name: 'deliveries', filterLabel: 'event', filterPlural: 'events', file: 'webhook-deliveries', emptyText: 'No deliveries yet. Save your webhook and send a test event.', cols: [{ h: 'When', nowrap: true }, { h: 'Event' }, { h: 'Response' }, { h: 'Attempts', r: true }], rows: deliveries })}</section>
+        <section class="panel"><div class="ph"><h2>API requests</h2></div>${dtable('requests', { name: 'requests', filterLabel: 'result', filterPlural: 'results', file: 'api-requests', emptyText: 'No API requests yet. Calls made with your keys show here.', cols: [{ h: 'When', nowrap: true }, { h: 'Request' }, { h: 'Status' }, { h: 'From IP' }, { h: 'Time', r: true }], rows: reqs })}</section>`;
     }
   };
 
+  /* ---------- Shell ---------- */
   const viewEl = document.getElementById('view'), sideEl = document.getElementById('side'), toastEl = document.getElementById('toast');
   let tt;
-  function toast(m) { toastEl.textContent = m; toastEl.hidden = false; clearTimeout(tt); tt = setTimeout(() => { toastEl.hidden = true; }, 3000); }
+  function toast(m) { toastEl.textContent = m; toastEl.hidden = false; clearTimeout(tt); tt = setTimeout(() => { toastEl.hidden = true; }, 3400); }
   function renderSide() {
-    sideEl.innerHTML = `<div class="brand"><span class="mark">KE</span><span><b>Kola Exports Ltd</b><span>Business account · concept</span></span></div>` +
+    sideEl.innerHTML = `<div class="brand"><span class="mark">${initials(biz())}</span><span><b>${esc(biz())}</b><span>${D.mode === 'demo' ? 'Business account · sample data' : 'Business account · new'}</span></span></div>` +
       nav.map((g) => `<div class="navgroup">${g[0]}</div>` + g[1].map((n) => { const c = n[2] ? n[2]() : 0; return `<button class="nav" data-a="go" data-v="${n[0]}"${S.page === n[0] ? ' aria-current="page"' : ''}>${n[1]}${c ? `<span class="count">${c}</span>` : ''}</button>`; }).join('')).join('');
+    const wn = document.getElementById('whoName'), wa = document.getElementById('whoAv');
+    if (wn) wn.textContent = owner(); if (wa) wa.textContent = initials(owner());
   }
   function render(top) {
-    viewEl.innerHTML = pages[S.page]();
+    viewEl.innerHTML = kybBanner() + pages[S.page]();
     renderSide();
     if (top) window.scrollTo(0, 0);
     try { if (location.hash.slice(1) !== S.page) history.replaceState(null, '', '#' + S.page); } catch (e) {}
   }
-  function go(p) { if (pages[p]) { S.page = p; render(true); } }
+  function go(p) { if (pages[p]) { S.page = p; S.formErr = ''; render(true); } }
+  const val = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+  function bad(m) { S.formErr = m; render(); }
 
   const A = {
     go, toast, noop: () => toast('Setting changed (demo).'),
-
-    sendFromOverview: () => { S.payMode = 'single'; S.sendStage = 'form'; go('pay'); },
-    payMode: (v) => { S.payMode = v; if (S.page !== 'pay') go('pay'); else render(); },
-    recip: (v) => { S.recip = v; render(); },
-    sendReview: () => { if (!(S.sendAmt > 0)) { toast('Enter an amount to send.'); return; } if (S.recip === 'new' && !S.newName) { toast('Add the name on the account first.'); return; } S.sendStage = 'review'; render(true); },
-    sendEdit: () => { S.sendStage = 'form'; render(); },
-    sendConfirm: () => { const q = quote(); S.sendStage = q.ngn > 5000000 ? 'approval' : 'sent'; render(true); toast(q.ngn > 5000000 ? 'Sent to Tunde for approval.' : 'Sent. You can track it here and on Home.'); },
-    sendApprove: () => { S.sendStage = 'sent'; render(true); toast('Approved and sent.'); },
-    sendReceipt: () => toast('Receipt copied: share it with your recipient (demo).'),
-    sendAgain: () => { S.sendStage = 'form'; S.recip = 'kwame'; render(true); },
-    fundCur: (v) => { S.fundCur = v; render(); },
+    logout: () => { addAudit('Login', 'Signed out'); window.OB.start('welcome'); },
+    kyb: () => window.OB.kyb(),
+    kybVerify: () => { S.kyb = 'verified'; window.OB.setKyb('verified'); addAudit('Verification', 'Business verified by Misan compliance', 'All checks passed', 'System'); render(); toast(biz() + ' is verified. Money movement is unlocked.'); },
+    exportT: (v) => { const p = v.split('|'); toast('Exported ' + p[0] + ' row' + (p[0] === '1' ? '' : 's') + ' to ' + p[1] + '-28-oct-2026.csv (demo).'); },
+    pageT: (v) => { const p = v.split('|'); TB[p[0]].page += Number(p[1]); render(); },
+    bell: () => toast(D.mode === 'demo' ? '3 new: payout run to approve, payment on hold, proof of address expiring.' : 'No new notifications.'),
+    fundCur: (v) => { S.fundCur = v; S.formErr = ''; render(); },
     fundFor: (v) => { S.fundCur = v; go('fund'); },
-    fundMethod: (v) => { S.fundMethod = v; render(); },
+    fundMethod: (v) => { S.fundMethod = v; S.formErr = ''; render(); },
     fundDone: (v) => {
-      const a = (document.getElementById('famt') || {}).value;
-      toast(v === 'transfer' ? 'Thanks. We\'ll notify you the moment it lands in your ' + S.fundCur + ' wallet.' : v === 'card' ? a + ' added to your ' + S.fundCur + ' wallet (demo).' : a + ' added to your ' + S.fundCur + ' wallet from your ' + document.getElementById('ffrom').value + ' (demo).');
+      if (gated()) return;
+      const c = S.fundCur, amt = num(val('famt'));
+      if (!(amt > 0)) return bad('Enter an amount to add.');
+      if (v === 'convert') {
+        const from = val('ffrom'), cost = amt * rate[c] / rate[from];
+        if (cost > D.bal[from]) return bad('Not enough in your ' + from + ' wallet. You need ' + money(from, cost) + '.');
+        D.bal[from] -= cost; D.bal[c] += amt * (1 - FEE);
+        D.topups.unshift([now(), 'Converted from ' + from + ' wallet (fee 2%)', 'Convert', signed(c, amt * (1 - FEE)), 'Credited']);
+        addTx('Conversion from ' + from, 'Funding · ' + c, signed(c, amt * (1 - FEE)), 'Funding', ['ok', 'Credited']); addAudit('Money', 'Converted ' + money(from, cost) + ' to ' + money(c, amt * (1 - FEE)));
+      } else {
+        D.bal[c] += amt * (1 - FEE);
+        const how = v === 'card' ? 'Business debit card (fee 2%)' : 'Bank transfer from ' + biz() + ' (fee 2%)';
+        D.topups.unshift([now(), how, v === 'card' ? 'Card' : 'Bank transfer', signed(c, amt * (1 - FEE)), 'Credited']);
+        addTx(v === 'card' ? 'Card top-up' : 'Bank transfer', 'Funding · ' + c, signed(c, amt * (1 - FEE)), 'Funding', ['ok', 'Credited']); addAudit('Money', 'Funded the ' + c + ' wallet with ' + money(c, amt) + ' by ' + (v === 'card' ? 'card' : 'bank transfer'));
+      }
+      S.formErr = ''; render(); toast(money(c, amt * (1 - FEE)) + ' added to your ' + c + ' wallet after the 2% fee.');
     },
-    bell: () => toast('3 new: payout run to approve, payment on hold, proof of address expiring.'),
-    account: (v) => { S.account = v; render(); },
-    openAcc: () => { S.opened[S.account] = true; render(); toast('Your ' + S.account + ' account is ready, in the name Kola Exports Ltd.'); },
-    upload: () => { S.held = false; render(); toast('Invoice uploaded. Compliance usually reviews within 2 hours.'); },
-    approve: () => { S.run = 'sent'; render(); toast('Approved. 12 payouts are on their way.'); },
-    reject: () => { S.run = 'draft'; render(); toast('Sent back to Amaka with your note.'); },
-    submit: () => { S.run = 'pending'; render(); toast('Submitted. Tunde will get a notification to approve.'); },
-    newRun: () => { S.run = 'draft'; render(); toast('suppliers-oct.csv uploaded: 12 payees checked, 0 errors.'); },
-    earnCur: (v) => { S.earnCur = v; render(); },
+    account: (v) => { S.account = v; S.formErr = ''; render(); },
+    openAcc: () => { if (gated()) return; D.opened[S.account] = true; addAudit('Money', 'Opened a ' + S.account + ' collection account'); render(); toast('Your ' + S.account + ' account is ready, in the name ' + biz() + '.'); },
+    simCollect: () => {
+      if (gated()) return;
+      const c = S.account, who = val('cpayer') || 'A customer', amt = num(val('camt'));
+      if (!(amt > 0)) return bad('Enter the amount the customer paid.');
+      D.bal[c] += amt; D.collectedMonth += amt * rate[c]; D.months[5][1] += amt * rate[c] / 1e6;
+      addTx(who, 'Collection · ' + c, signed(c, amt), 'Collection', ['ok', 'Credited']); addAudit('Money', 'Credited ' + money(c, amt) + ' from ' + who, 'Received on the ' + c + ' collection account', 'System');
+      const cust = D.customers.find((x) => x[1].toLowerCase() === who.toLowerCase() && x[2] === c); if (cust) cust[4] = money(c, num(cust[4]) + amt);
+      if (D.hookSaved && D.hookEvents['collection.credited']) D.deliveries.unshift([now(), 'collection.credited', '200 OK', '1']);
+      S.formErr = ''; render(); toast(money(c, amt) + ' from ' + who + ' credited to your ' + c + ' wallet.');
+    },
+    upload: () => { D.held = false; D.bal.USD += 2950; D.tx.forEach((t) => { if (t.who === 'Atlantic Textiles Inc') t.st = ['ok', 'Credited']; }); addAudit('Money', 'Uploaded invoice for $2,950.00 from Atlantic Textiles Inc'); render(); toast('Invoice uploaded. The payment has been released to your USD wallet.'); },
+    sendFromOverview: () => { S.payMode = 'single'; S.sendStage = 'form'; if (!D.recips.length) S.recip = 'new'; go('pay'); },
+    payMode: (v) => { S.payMode = v; S.formErr = ''; if (S.page !== 'pay') go('pay'); else render(); },
+    recip: (v) => { S.recip = v; S.formErr = ''; render(); },
+    sendReview: () => {
+      if (S.recip === 'new' && (!S.newName || !S.newAcct)) return bad('Add the name and account or phone number of the person you\'re paying.');
+      if (!(S.sendAmt > 0)) return bad('Enter an amount to send.');
+      if (S.sendAmt * (1 + FEE) > D.bal[S.sendFrom]) return bad('Not enough in your ' + S.sendFrom + ' wallet. You need ' + money(S.sendFrom, S.sendAmt * (1 + FEE)) + ' including the fee. Fund your wallet first.');
+      S.formErr = ''; S.sendStage = 'review'; render(true);
+    },
+    sendEdit: () => { S.sendStage = 'form'; render(); },
+    sendConfirm: () => {
+      if (gated()) return;
+      const q = quote();
+      D.bal[S.sendFrom] -= S.sendAmt * (1 + FEE);
+      if (S.recip === 'new') { const id = 'r' + Date.now(); D.recips.push({ id, name: q.r.name, where: q.r.where, cur: q.r.cur, eta: q.r.eta, place: q.r.place }); S.recip = id; S.newName = ''; S.newAcct = ''; }
+      const r = recipient();
+      S.lastSend = { name: r.name, place: r.place, eta: r.eta, from: S.sendFrom, got: money(r.cur, q.get) };
+      const needs = q.ngn > 5000000 && S.rule;
+      D.singles.unshift([now(), r.name, r.where, money(r.cur, q.get), needs ? 'Pending approval' : 'Delivered']);
+      addTx(r.name, 'Payout · ' + r.cur, '−' + money(r.cur, q.get), 'Payout', needs ? ['warn', 'Pending approval'] : ['ok', 'Delivered']);
+      addAudit('Money', (needs ? 'Submitted' : 'Sent') + ' ' + money(S.sendFrom, S.sendAmt) + ' to ' + r.name + ' (fee ' + money(S.sendFrom, S.sendAmt * FEE) + ')');
+      if (!needs && D.hookSaved && D.hookEvents['payout.completed']) D.deliveries.unshift([now(), 'payout.completed', '200 OK', '1']);
+      S.sendStage = needs ? 'approval' : 'sent'; render(true); toast(needs ? 'Sent for approval. The money is reserved.' : 'Sent. You can track it in Recent single payments.');
+    },
+    sendApprove: () => { D.singles[0][4] = 'Delivered'; D.tx[0].st = ['ok', 'Delivered']; addAudit('Money', 'Approved the payment to ' + S.lastSend.name, 'Second approver (demo)'); S.sendStage = 'sent'; render(true); toast('Approved and sent.'); },
+    sendAgain: () => { S.sendStage = 'form'; S.sendAmt = 0; render(true); },
+    newRun: () => {
+      if (gated()) return;
+      S.payMode = 'bulk';
+      D.bulk = { name: 'Supplier run · ' + now().slice(0, 6), file: 'payees.csv', by: owner(), status: 'draft', payees: [['Kwame Mensah', 'Ghana', 'MTN Mobile Money', 'GHS 1,500', Math.round(1500 * rate.GHS)], ['Wanjiru Kamau', 'Kenya', 'M-Pesa', 'KES 20,000', Math.round(20000 * rate.KES)], ['Bello Logistics Ltd', 'Nigeria', 'Bank transfer', '₦150,000', 150000], ['Thames Freight Ltd', 'United Kingdom', 'Faster Payments', '£200', Math.round(200 * rate.GBP)]] };
+      addAudit('Money', 'Uploaded payees.csv with 4 payees');
+      if (S.page !== 'pay') go('pay'); else render(); toast('payees.csv uploaded: 4 payees checked, 0 errors.');
+    },
+    submit: () => { D.bulk.status = 'pending'; addAudit('Money', 'Submitted ' + D.bulk.name + ' for approval'); render(); toast('Submitted for approval.'); },
+    reject: () => { D.bulk.status = 'draft'; addAudit('Money', 'Sent ' + D.bulk.name + ' back to the preparer'); render(); toast('Sent back with your note.'); },
+    approve: () => {
+      if (gated()) return;
+      const t = bulkTotal() * (1 + FEE);
+      if (t > D.bal.NGN) return bad('Not enough in your NGN wallet. This run needs ' + money('NGN', t) + ' including fees.');
+      D.bal.NGN -= t; D.bulk.status = 'sent'; S.formErr = '';
+      addTx(D.bulk.name, 'Payout run · ' + D.bulk.payees.length + ' payees', '−' + money('NGN', bulkTotal()), 'Payout', ['ok', 'Paid']); addAudit('Money', 'Approved ' + D.bulk.name + ' (' + money('NGN', bulkTotal()) + ', fee ' + money('NGN', bulkTotal() * FEE) + ')');
+      render(); toast('Approved. ' + D.bulk.payees.length + ' payouts are on their way.');
+    },
+    earnCur: (v) => { S.earnCur = v; S.formErr = ''; render(); },
     sweep: () => { S.sweep = !S.sweep; render(); },
+    saveFloor: () => { S.floor[S.earnCur] = num(val('floor')); addAudit('Earn', 'Set the ' + S.earnCur + ' floor to ' + money(S.earnCur, S.floor[S.earnCur])); render(); toast('Sweep rule saved.'); },
+    sweepNow: () => {
+      if (gated()) return;
+      const c = S.earnCur; S.floor[c] = num(val('floor'));
+      if (!S.sweep) return bad('Turn the evening sweep on first.');
+      const amt = D.bal[c] - S.floor[c];
+      if (amt <= 0) return bad('Nothing to sweep. Your ' + c + ' wallet is at or below the floor of ' + money(c, S.floor[c]) + '.');
+      D.bal[c] -= amt; D.earn[c] += amt; S.formErr = '';
+      D.earnHist.unshift([now().slice(0, 6), 'Evening sweep', 'Sweep', signed(c, amt), 'Done']); addTx('Evening sweep', 'Earn · ' + c, money(c, amt), 'Earn', ['info', 'Swept']); addAudit('Earn', 'Swept ' + money(c, amt) + ' into Earn', 'Floor ' + money(c, S.floor[c]), 'System');
+      render(); toast(money(c, amt) + ' moved into Earn.');
+    },
     wd: (v) => { S.wd = v; render(); },
-    withdraw: () => { const a = document.getElementById('wamt').value; toast(S.wd === 'notice' ? a + ' will be back in your wallet on Wed 28 Oct, free.' : a + ' is back in your wallet now, less the 2% instant fee (' + feeOf(a) + ').'); },
+    withdraw: () => {
+      if (gated()) return;
+      const c = S.earnCur, amt = num(val('wamt'));
+      if (!(amt > 0)) return bad('Enter an amount to withdraw.');
+      if (amt > D.earn[c]) return bad('You have ' + money(c, D.earn[c]) + ' in Earn.');
+      const fee = S.wd === 'instant' ? amt * FEE : 0;
+      D.earn[c] -= amt; D.bal[c] += amt - fee; S.formErr = '';
+      D.earnHist.unshift([now().slice(0, 6), S.wd === 'instant' ? 'Instant withdrawal (fee ' + money(c, fee) + ')' : 'Notice withdrawal', S.wd === 'instant' ? 'Instant withdrawal' : 'Notice withdrawal', '−' + money(c, amt), 'Back in wallet']);
+      addTx(S.wd === 'instant' ? 'Instant withdrawal' : 'Notice withdrawal', 'Earn · ' + c, signed(c, amt - fee), 'Earn', ['ok', 'Back in wallet']); addAudit('Earn', (S.wd === 'instant' ? 'Instant' : 'Notice') + ' withdrawal of ' + money(c, amt) + (fee ? ' (fee ' + money(c, fee) + ')' : ''));
+      render(); toast(S.wd === 'instant' ? money(c, amt - fee) + ' is back in your wallet after the 2% fee.' : money(c, amt) + ' is back in your wallet (in this demo, notice withdrawals settle straight away).');
+    },
+    fakeHistory: () => { D.loanEligible = true; D.months = [['May', 1.2], ['Jun', 1.8], ['Jul', 2.4], ['Aug', 2.1], ['Sep', 2.9], ['Oct', Math.max(3.3, D.collectedMonth / 1e6)]]; addAudit('Money', 'Loan eligibility unlocked (demo: 3 months of history added)', 'Demo shortcut', 'System'); render(); toast('Demo: 3 months of collection history added. Loans are now available.'); },
     loanProduct: (v) => { S.loanProduct = v; render(); },
-    applyLoan: () => { S.loanStatus = 'review'; render(); toast('Application sent. We\'ll confirm the offer within 1 business day.'); },
-    freeze: (v) => { S.frozen[v] = !S.frozen[v]; render(); toast(S.frozen[v] ? 'Card ending ' + v + ' frozen.' : 'Card ending ' + v + ' unfrozen.'); },
+    applyLoan: () => { if (gated()) return; const n = 'LN-' + digits(4); D.loans.unshift([n, { line: 'Earn-backed credit line', invoice: 'Invoice financing', revenue: 'Working capital' }[S.loanProduct], '₦' + S.loanAmt + ',000,000', S.loanTerm + ' months', 'In review', 'Applied ' + now()]); addAudit('Money', 'Applied for loan ' + n + ' (₦' + S.loanAmt + ',000,000)'); render(); toast('Application sent. We\'ll confirm the offer within 1 business day.'); },
+    freeze: (v) => { const c = D.cards[Number(v)]; c[6] = !c[6]; addAudit('Cards', (c[6] ? 'Froze' : 'Unfroze') + ' card ending ' + c[2]); render(); toast(c[6] ? 'Card ending ' + c[2] + ' frozen.' : 'Card ending ' + c[2] + ' unfrozen.'); },
+    issueCard: () => { if (gated()) return; const n = val('cname'), lim = num(val('clim')); if (!n || !(lim > 0)) return bad('Add a card name and a monthly limit.'); const last = digits(4); D.cards.unshift([n, val('cholder'), last, 0, lim, val('ccat'), false]); addAudit('Cards', 'Issued ' + n + ' card ending ' + last + ' to ' + val('cholder') + ' ($' + lim + ' a month)'); S.formErr = ''; render(); toast('Card ending ' + last + ' issued to ' + val('cholder') + '.'); },
+    addCustomer: () => { const n = val('custname'), c = val('custcur'); if (!n) return bad('Add the customer\'s name.'); const last = digits(4); D.customers.unshift([initials(n), n, c, c + ' ending ' + last, money(c, 0), 'No open invoices']); addAudit('Money', 'Created a ' + c + ' customer account for ' + n); S.formErr = ''; render(); toast('Customer account created for ' + n + '. Share its details with them.'); },
     match: () => { S.match = !S.match; render(); },
-    rule: () => { S.rule = !S.rule; render(); },
-    auditFilter: (v) => { S.auditFilter = v; render(); },
-    twofa: () => { S.twofa = !S.twofa; render(); },
-    ipAllow: () => { S.ipAllow = !S.ipAllow; render(); },
-    notif: (v) => { S.notif[v] = !S.notif[v]; render(); }
+    rule: () => { S.rule = !S.rule; addAudit('Settings', (S.rule ? 'Turned on' : 'Turned off') + ' two approvers above ₦5,000,000'); render(); },
+    twofa: () => { S.twofa = !S.twofa; addAudit('Settings', (S.twofa ? 'Turned on' : 'Turned off') + ' two-step sign-in'); render(); },
+    notif: (v) => { S.notif[v] = !S.notif[v]; render(); },
+    regen: () => { S.regen = true; render(); },
+    regenCancel: () => { S.regen = false; render(); },
+    regenConfirm: () => { D.key = 'sk_test_' + rnd(24); S.regen = false; S.keyShown = true; addAudit('Developers', 'Regenerated the test API key'); render(); toast('New key created. The old key no longer works.'); },
+    keySaved: () => { S.keyShown = false; render(); },
+    ipAllow: () => { S.ipAllow = !S.ipAllow; addAudit('Developers', (S.ipAllow ? 'Turned on' : 'Turned off') + ' IP allowlist enforcement'); render(); },
+    ipAdd: () => {
+      const ip = val('ipnew'), label = val('iplabel') || 'No label';
+      if (!/^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}(\/(3[0-2]|[12]?\d))?$/.test(ip)) { S.ipErr = 'Enter an IPv4 address like 102.89.34.18, or a range like 41.58.120.0/24.'; render(); return; }
+      if (D.ips.some((x) => x[0] === ip)) { S.ipErr = ip + ' is already on the list.'; render(); return; }
+      S.ipErr = ''; D.ips.push([ip, label]); addAudit('Developers', 'Added ' + ip + ' to the IP allowlist'); render(); toast(ip + ' added to the allowlist.');
+    },
+    ipRemove: (v) => { const ip = D.ips[Number(v)][0]; D.ips.splice(Number(v), 1); addAudit('Developers', 'Removed ' + ip + ' from the IP allowlist'); render(); toast(ip + ' removed.'); },
+    hookEvent: (v) => { D.hookUrl = val('hook'); D.hookEvents[v] = !D.hookEvents[v]; D.hookSaved = false; render(); },
+    hookSecret: () => { D.hookSecret = 'whsec_' + rnd(8); addAudit('Developers', 'Regenerated the webhook signing secret'); render(); toast('New signing secret created. Update it on your server.'); },
+    hookSave: () => {
+      const url = val('hook'); D.hookUrl = url;
+      if (!/^https:\/\/[^\s/]+\.[^\s]+/.test(url)) { S.hookErr = 'Enter a full https:// address for your endpoint.'; D.hookSaved = false; render(); return; }
+      if (!Object.values(D.hookEvents).some(Boolean)) { S.hookErr = 'Choose at least one event to send.'; D.hookSaved = false; render(); return; }
+      S.hookErr = ''; D.hookSaved = true; addAudit('Developers', 'Saved webhook endpoint ' + url); render(); toast('Webhook saved. You can send a test event now.');
+    },
+    hookTest: () => { if (!D.hookSaved) return; const ev = val('testev'); S.testEvent = ev; D.deliveries.unshift([now(), ev, '200 OK', '1']); addAudit('Developers', 'Sent a test ' + ev + ' event'); render(); toast('Test event ' + ev + ' sent to ' + D.hookUrl + ' and returned 200 OK (demo).'); }
   };
-  document.addEventListener('click', (e) => { const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a]) { e.preventDefault(); A[b.dataset.a](b.dataset.v); } });
+  document.addEventListener('click', (e) => { if (e.target.closest('#ob')) return; const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a] && !b.disabled) { e.preventDefault(); A[b.dataset.a](b.dataset.v); } });
   document.addEventListener('input', (e) => {
-    if (e.target.id !== 'lamt') return;
-    S.loanAmt = Number(e.target.value);
-    document.getElementById('lamtlab').textContent = 'Amount: ₦' + S.loanAmt + ',000,000';
-    document.getElementById('lmon').textContent = '₦' + (S.loanAmt * 1000000 / S.loanTerm).toLocaleString('en-NG', { maximumFractionDigits: 0 });
-  });
-  document.addEventListener('change', (e) => { if (e.target.id === 'lterm') { S.loanTerm = Number(e.target.value); render(); } });
-  document.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (e.target.id === 'invite') { S.invited = true; render(); toast('Invite sent to ' + document.getElementById('iemail').value + '. It shows in the audit trail.'); }
-    if (e.target.id === 'profile') toast('Profile saved. The change is in the audit trail.');
-  });
-
-  document.addEventListener('input', (e) => {
-    const id = e.target.id;
-    if (id === 'samt') { S.sendAmt = Number(String(e.target.value).replace(/[^0-9.]/g, '')) || 0; const q = quote(); const g = document.getElementById('sget'); if (g) g.textContent = money(q.r.cur, q.get); const fe = document.getElementById('sfee'); if (fe) fe.textContent = money(S.sendFrom, S.sendAmt * FEE); const to = document.getElementById('stot'); if (to) to.textContent = money(S.sendFrom, S.sendAmt * (1 + FEE)); }
-    if (id === 'famt') { const ff = document.getElementById('ffee'); if (ff) ff.textContent = '2% · ' + feeOf(e.target.value); }
-    if (id === 'nname') S.newName = e.target.value;
-    if (id === 'wamt') { const wf = document.getElementById('wfee'); if (wf) wf.textContent = '2% fee · ' + feeOf(e.target.value); }
+    if (e.target.closest('#ob')) return;
+    const t = e.target, id = t.id;
+    if (t.dataset && t.dataset.tq) {
+      const k = t.dataset.tq; TB[k].q = t.value; TB[k].page = 0; const pos = t.selectionStart; render();
+      const el = document.getElementById('q-' + k); if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch (x) {} }
+      return;
+    }
+    const set = (i, v) => { const n = document.getElementById(i); if (n) n.textContent = v; };
+    if (id === 'lamt') { S.loanAmt = Number(t.value); set('lamtlab', 'Amount: ₦' + S.loanAmt + ',000,000'); set('lmon', '₦' + (S.loanAmt * 1000000 / S.loanTerm).toLocaleString('en-NG', { maximumFractionDigits: 0 })); }
+    if (id === 'samt') { S.sendAmt = num(t.value); const q = quote(); set('sget', money(q.r.cur, q.get)); set('sfee', money(S.sendFrom, S.sendAmt * FEE)); set('stot', money(S.sendFrom, S.sendAmt * (1 + FEE))); }
+    if (id === 'famt') { const a = num(t.value); set('ffee', money(S.fundCur, a * FEE)); set('fnet', money(S.fundCur, a * (1 - FEE))); }
+    if (id === 'wamt') { set('wfee', '2% fee · ' + money(S.earnCur, num(t.value) * FEE)); }
+    if (id === 'nname') S.newName = t.value.trim();
+    if (id === 'nacct') S.newAcct = t.value.trim();
+    if (id === 'hook') D.hookUrl = t.value;
   });
   document.addEventListener('change', (e) => {
-    const id = e.target.id;
-    if (id === 'sfrom') { S.sendFrom = e.target.value; render(); }
-    if (id === 'ncountry') { S.newCur = e.target.value; S.newType = ''; render(); }
-    if (id === 'ntype') S.newType = e.target.value;
+    if (e.target.closest('#ob')) return;
+    const t = e.target, id = t.id;
+    if (t.dataset && t.dataset.tf) { TB[t.dataset.tf].f = t.value; TB[t.dataset.tf].page = 0; render(); return; }
+    if (id === 'lterm') { S.loanTerm = Number(t.value); render(); }
+    if (id === 'sfrom') { S.sendFrom = t.value; render(); }
+    if (id === 'ncountry') { S.newCur = t.value; S.newType = ''; render(); }
+    if (id === 'ntype') S.newType = t.value;
+    if (id === 'testev') S.testEvent = t.value;
   });
-  const start = location.hash.slice(1);
-  if (pages[start]) S.page = start;
+  document.addEventListener('submit', (e) => {
+    if (e.target.closest('#ob')) return;
+    e.preventDefault();
+    if (e.target.id === 'invite') {
+      const n = val('iname'), em = val('iemail'), role = val('irole');
+      if (!n || !/^\S+@\S+\.\S+$/.test(em)) return bad('Add their full name and a valid work email.');
+      D.team.push([initials(n), n, em, role, role === 'Viewer' ? 'Read only' : role === 'Preparer' ? 'Prepares only' : '₦20,000,000 a day', 'Invited']);
+      addAudit('Team', 'Invited ' + n + ' (' + em + ') as ' + role); S.formErr = ''; render(); toast('Invite sent to ' + em + '. It shows in the audit trail.');
+    }
+    if (e.target.id === 'profile') { addAudit('Settings', 'Updated the business profile'); toast('Profile saved. The change is in the audit trail.'); }
+  });
+
+  window.obMode = (mode, acct) => {
+    const key = acct.key === 'signup' ? 'signup:' + acct.email : acct.key;
+    if (!DATA[key]) DATA[key] = mode === 'demo' ? demoData() : freshData(acct);
+    else DATA[key].audit.unshift([now(), (acct.first + ' ' + acct.last).trim(), 'Login', 'Signed in with two-step code', 'Chrome · Lagos', '102.89.34.18', 'Not available (browser)']);
+    D = DATA[key]; S.acct = acct; S.page = 'overview'; S.payMode = 'single'; S.sendStage = 'form'; S.sendAmt = 0; S.recip = D.recips.length ? D.recips[0].id : 'new'; S.formErr = ''; S.keyShown = false; S.regen = false;
+    Object.keys(TB).forEach((k) => delete TB[k]);
+  };
+  window.obKyb = (status) => { const was = S.kyb; S.kyb = status; if (status === 'submitted' && was !== 'submitted' && D.mode === 'fresh') addAudit('Verification', 'Submitted business verification (KYB)'); };
+  window.obHostShow = (app) => { document.getElementById('ob').hidden = app; document.querySelector('.app').hidden = !app; toastEl.hidden = true; if (app) { render(true); window.scrollTo(0, 0); } };
   window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (pages[h] && h !== S.page) go(h); });
   render(true);
+  window.OB.start('welcome');
 })();
 </script>
 

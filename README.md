@@ -1,6 +1,3 @@
-# Misan Business concept prototypes (Chiamaka Obioha)
+# Misan Business web prototype (concept by Chiamaka Obioha)
 
-- `/` mobile app prototype
-- `/web` web dashboard prototype
-
-Static files only. No build step: on Vercel choose Framework "Other" and leave build settings empty.
+Static site, no build step. On Vercel choose Framework "Other" and leave build settings empty.
