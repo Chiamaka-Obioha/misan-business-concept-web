@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Misan Business Concept</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one phone-sized app, full screen on phones, centred in a frame on wider screens. Single committed light look. */
+:root {
+  --ink: #1C0045;
+  --lime: #D9FF1F;
+  --violet: #7A00E6;
+  --violet-deep: #5A00AA;
+  --lilac: #F0E6FF;
+  --paper: #FFFFFF;
+  --mist: #F5F5F7;
+  --line: #EFEFF2;
+  --text: #1C1C1E;
+  --muted: #62626D;
+  --ok: #2E7D1F;
+  --ok-bg: #E7F4E2;
+  --warn: #8A4B0B;
+  --warn-bg: #FFF3DD;
+  --stage: #E9E4F2;
+  --display: 'Archivo Black', 'Arial Black', 'Helvetica Neue', sans-serif;
+  --body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+html, body { height: 100%; }
+body { background: var(--stage); color: var(--text); font-family: var(--body); font-size: 14px; }
+.stage { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.phone { position: relative; width: 100%; max-width: 400px; height: 100%; max-height: 860px; background: var(--paper); display: flex; flex-direction: column; overflow: hidden; }
+.caption { font-size: 12px; color: var(--muted); text-align: center; padding-inline: 16px; }
+@media (min-width: 600px) and (min-height: 760px) {
+  .stage { padding-block: 24px; box-sizing: border-box; }
+  .phone { height: calc(100% - 40px); border-radius: 36px; box-shadow: 0 30px 60px -20px rgba(28,0,69,.35), 0 0 0 10px var(--ink); }
+}
+@media (max-width: 599px), (max-height: 759px) { .caption { display: none; } }
+.banner { flex-shrink: 0; background: var(--ink); color: var(--lime); font-size: 11px; font-weight: 600; text-align: center; padding-block: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.screen { flex: 1; overflow-y: auto; padding-block: 18px 24px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
+button { font-family: inherit; cursor: pointer; color: inherit; }
+button:focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; }
+h1 { margin: 6px 0 0; font-family: var(--display); font-weight: 400; font-size: 32px; line-height: 1.02; color: var(--ink); text-wrap: balance; }
+.lede { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.small { font-size: 12px; color: var(--muted); }
+.tiny { font-size: 11px; line-height: 1.5; color: var(--muted); margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+.back { width: 44px; height: 44px; margin: -8px 0 -6px -10px; border: none; background: none; display: flex; align-items: center; justify-content: center; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.who { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; letter-spacing: .02em; }
+.avatar { width: 32px; height: 32px; border-radius: 999px; background: var(--ink); color: var(--lime); display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.pill { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.pill.biz { background: var(--lilac); color: var(--violet-deep); font-size: 12px; font-weight: 600; padding: 6px 12px; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.new { background: var(--lime); color: var(--ink); }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.grey { background: #ECECF1; color: #3D3D47; }
+.hero { background: var(--violet); color: #fff; border-radius: 22px; padding: 18px 18px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.chip { min-height: 36px; border: none; border-radius: 999px; padding: 0 14px; background: rgba(255,255,255,.18); color: #fff; font-size: 13px; font-weight: 600; }
+.big { font-family: var(--display); font-size: 34px; line-height: 1; }
+.hero .sub { font-size: 12px; color: #EBDDFF; }
+.actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; }
+.act { border: none; background: none; color: #fff; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.act span { width: 46px; height: 46px; border-radius: 999px; background: var(--ink); display: grid; place-items: center; }
+.act.lit span { background: var(--lime); }
+.promo { border: none; background: var(--ink); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.promo b { font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.1; color: #fff; }
+.promo b em { font-style: normal; color: var(--lime); }
+.promo span { font-size: 13px; line-height: 1.5; color: #DCD3EE; }
+.promo i { font-style: normal; font-size: 13px; font-weight: 700; color: var(--lime); }
+.sect { display: flex; justify-content: space-between; align-items: center; }
+.sect h2 { margin: 0; font-size: 16px; font-weight: 700; }
+.link { font-size: 13px; font-weight: 600; color: var(--violet); }
+.list { display: flex; flex-direction: column; }
+.row { min-height: 68px; border: none; border-bottom: 1px solid var(--line); background: none; padding: 12px 0; display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; }
+.row .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.row .t { font-size: 14px; font-weight: 600; }
+.row .end { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-weight: 700; }
+.ico { flex-shrink: 0; width: 42px; height: 42px; border-radius: 10px; background: var(--mist); display: grid; place-items: center; }
+.code { flex-shrink: 0; width: 44px; height: 44px; border-radius: 999px; background: var(--lilac); color: var(--violet-deep); display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 54px; border-bottom: 1px solid var(--line); }
+.kv .k { color: var(--muted); }
+.kv .v { font-weight: 700; display: flex; align-items: center; gap: 4px; text-align: right; }
+.copy { width: 36px; height: 36px; border: none; background: none; display: grid; place-items: center; }
+.card { background: var(--mist); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.setting { background: var(--mist); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.setting .grow { display: flex; flex-direction: column; gap: 2px; }
+.setting .t { font-size: 14px; font-weight: 700; }
+.tog { flex-shrink: 0; width: 52px; height: 32px; border: none; border-radius: 999px; padding: 3px; background: #C4C4CC; display: flex; justify-content: flex-start; transition: background .15s; }
+.tog::after { content: ""; width: 26px; height: 26px; border-radius: 999px; background: #fff; }
+.tog[aria-pressed="true"] { background: var(--violet); justify-content: flex-end; }
+.primary { min-height: 54px; border: none; border-radius: 14px; background: var(--ink); color: var(--lime); font-size: 16px; font-weight: 600; width: 100%; }
+.secondary { min-height: 54px; border: 2px solid var(--ink); border-radius: 14px; background: none; color: var(--ink); font-size: 15px; font-weight: 600; width: 100%; }
+.center { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-bottom: 6px; }
+.center .big { color: var(--ink); }
+.steps { background: var(--mist); border-radius: 18px; padding: 18px; }
+.steps p { margin: 0 0 14px; font-weight: 700; }
+.step { display: flex; gap: 12px; }
+.rail { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; }
+.dot { width: 14px; height: 14px; border-radius: 999px; box-sizing: border-box; border: 3px solid; margin-top: 3px; }
+.line { flex: 1; width: 2px; min-height: 22px; background: #DADAE0; }
+.step:last-child .line { visibility: hidden; }
+.step .grow { display: flex; flex-direction: column; gap: 2px; padding-bottom: 14px; }
+.d-done { border-color: var(--ok); background: var(--ok); }
+.d-now { border-color: var(--violet); background: #fff; }
+.d-hold { border-color: #C77B1C; background: #fff; }
+.d-todo { border-color: #C4C4CC; background: #fff; }
+.hold { background: var(--warn-bg); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px; color: var(--warn); }
+.hold p { margin: 0; line-height: 1.5; }
+.batch { background: var(--mist); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; }
+.batch .head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding-bottom: 8px; }
+.batch .r { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #E4E4EA; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--mist); border-radius: 12px; padding: 4px; }
+.seg button { min-height: 40px; border: none; border-radius: 9px; background: none; font-size: 14px; font-weight: 600; color: #3D3D47; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--lime); }
+.earncard { background: var(--violet); color: #fff; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+.earncard .gain { font-size: 13px; font-weight: 600; color: var(--lime); }
+.earncard .sub { font-size: 12px; color: #EBDDFF; }
+.opt { border: 2px solid #E2E2E8; border-radius: 16px; background: #fff; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; text-align: left; width: 100%; }
+.opt[aria-pressed="true"] { border-color: var(--violet); }
+.opt .grow { display: flex; flex-direction: column; gap: 2px; }
+.opt .t { font-weight: 700; }
+.free { font-weight: 700; color: var(--ok); }
+.fee { font-weight: 700; color: var(--warn); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.field input, .field select { height: 48px; border: 1.5px solid #E2E2E8; border-radius: 12px; padding: 0 14px; background: #fff; font-family: inherit; font-size: 16px; }
+.field input:focus, .field select:focus { border-color: var(--violet); outline: none; }
+.methods { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.methods .opt { flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; }
+.recips .opt { gap: 10px; }
+.btn.secondary { margin-top: -4px; }
+.bar { height: 6px; border-radius: 999px; background: #E2E2E8; overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--violet); }
+.term { background: var(--ink); color: #EDE6FA; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px; font-family: var(--mono); font-size: 12px; line-height: 1.5; overflow-x: auto; }
+.term .m { color: var(--lime); }
+.ev { display: flex; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.ev code { font-family: var(--mono); }
+.toast { position: absolute; left: 18px; right: 18px; bottom: 96px; background: var(--ink); color: #fff; border-radius: 14px; padding: 14px 16px; font-size: 13px; font-weight: 500; line-height: 1.4; box-shadow: 0 10px 30px -10px rgba(28,0,69,.5); }
+.tabs { flex-shrink: 0; background: #fff; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 8px max(4px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px)); }
+.tabs button { min-height: 52px; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #9A9AA5; font-size: 11px; font-weight: 600; }
+.tabs button[aria-current="page"] { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .tog { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <p class="caption">Clickable concept by Chiamaka Obioha for Misan Business. Not an official Misan product; all figures are samples.</p>
+  <div class="phone">
+    <div class="banner">Concept by Chiamaka Obioha · not an official Misan product</div>
+    <main class="screen" id="screen" aria-live="polite"></main>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <nav class="tabs" id="tabs" aria-label="Main"></nav>
+  </div>
+</div>
+
+<script>
+(function () {
+  const S = { payMode: 'single', recip: 'kwame', sendFrom: 'NGN', sendAmt: 500000, sendStage: 'form', newCur: 'GHS', newName: '', newType: '', fundCur: 'NGN', fundMethod: 'transfer', screen: 'home', cur: 'GBP', pay: 'p1', wallet: 0, opened: {}, convert: { GBP: true }, match: true, held: true,
+    run: 'draft', earnCur: 'NGN', sweep: true, wd: 'notice', rule: true, xero: false };
+
+  const ic = {
+    in: (c) => `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="M17 7L7 17M15 17H7V9"/></svg>`,
+    out: (c) => `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg>`,
+    up: (c) => `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l5-5 4 4 7-8M15 8h5v5"/></svg>`,
+    home: `<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20h-5v-5h-6v5H4z"/></svg>`,
+    menu: `<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg>`,
+    back: `<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C0045" stroke-width="2.2" stroke-linecap="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>`,
+    copy: `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A00E6" stroke-width="2.2"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>`
+  };
+
+  const wallets = [
+    { code: 'NGN', amount: '₦4,250,000', earn: '₦12,450,000' },
+    { code: 'GBP', amount: '£12,480.00', earn: '£0.00' },
+    { code: 'USD', amount: '$8,215.40', earn: '$15,200.00' },
+    { code: 'EUR', amount: '€3,960.00', earn: '€0.00' }
+  ];
+  const accounts = [
+    { code: 'GBP', name: 'British Pound', country: 'United Kingdom', rails: 'Faster Payments', live: true, lines: [['Sort code', '12-34-56'], ['Account number', '12345678'], ['Bank', '[Partner bank]']] },
+    { code: 'USD', name: 'US Dollar', country: 'United States', rails: 'ACH or wire', live: true, lines: [['Routing number', '123456789'], ['Account number', '000123456789'], ['Bank', '[Partner bank]']] },
+    { code: 'EUR', name: 'Euro', country: 'Eurozone', rails: 'SEPA', live: true, lines: [['IBAN', 'BE00 1234 5678 9012'], ['BIC', 'SAMPBEBB'], ['Bank', '[Partner bank]']] },
+    { code: 'NGN', name: 'Nigerian Naira', country: 'Nigeria', rails: 'NIP bank transfer', live: true, lines: [['Account number', '0123456789'], ['Bank', '[Partner MFB]']] },
+    { code: 'GHS', name: 'Ghanaian Cedi', country: 'Ghana', rails: 'bank or mobile money', live: false, lines: [['Account number', '1234567890123'], ['Bank', '[Partner bank]']] },
+    { code: 'KES', name: 'Kenyan Shilling', country: 'Kenya', rails: 'bank or M-Pesa', live: false, lines: [['M-Pesa Paybill', '123456'], ['Account number', 'KOLA001']] }
+  ];
+  const isOn = (a) => a.live || !!S.opened[a.code];
+
+  function payData(id) {
+    if (id === 'p1') return { amount: '£4,200.00', from: 'Brightway Foods Ltd', date: '27 Oct 2026', into: 'your GBP account ending 5678', status: 'Credited', tone: 'ok',
+      steps: [['Received by UK partner bank', '09:14', 'done'], ['Screening passed', '09:15', 'done'], ['Matched to Brightway Foods', '09:15', 'done'], ['Credited to GBP wallet', '09:16', 'done'], ['Auto-convert 50% to NGN', 'Scheduled for 12:00', 'now']] };
+    if (id === 'p2') return S.held
+      ? { amount: '$2,950.00', from: 'Atlantic Textiles Inc', date: '27 Oct 2026', into: 'your USD account ending 6789', status: 'On hold', tone: 'warn', action: true,
+        steps: [['Received by US partner bank', '08:02', 'done'], ['On hold: invoice needed', '08:05', 'hold'], ['Credited to USD wallet', 'Waiting', 'todo']] }
+      : { amount: '$2,950.00', from: 'Atlantic Textiles Inc', date: '27 Oct 2026', into: 'your USD account ending 6789', status: 'In review', tone: 'grey',
+        steps: [['Received by US partner bank', '08:02', 'done'], ['Invoice received', 'Just now', 'done'], ['Compliance review', 'Usually under 2 hours', 'now'], ['Credited to USD wallet', 'Waiting', 'todo']] };
+    return { amount: '₦1,850,000', from: 'Lekki Fresh Market', date: '26 Oct 2026', into: 'your NGN account ending 6789', status: 'Credited', tone: 'ok',
+      steps: [['Received via NIP transfer', '10:41', 'done'], ['Matched to Lekki Fresh Market', '10:41', 'done'], ['Credited to NGN wallet', '10:42', 'done'], ['Swept into Earn', 'Tonight, above your floor', 'now']] };
+  }
+  const toneColor = { ok: 'var(--ok)', warn: 'var(--warn)', grey: 'var(--violet-deep)' };
+  const parents = { fund: 'home', track: 'home', detail: 'collect', customers: 'collect', team: 'more', cards: 'more', dev: 'more' };
+  const back = () => parents[S.screen] ? `<button class="back" data-a="go" data-v="${parents[S.screen]}" aria-label="Back">${ic.back}</button>` : '';
+  const toggle = (key, label, on) => `<button class="tog" data-a="${key}" aria-pressed="${on}" aria-label="${label}"></button>`;
+
+  const fundInfo = {
+    NGN: { sym: '₦', amt: '500,000', lines: [['Account number', '0123456789'], ['Bank', '[Partner MFB]'], ['Account name', 'KOLA EXPORTS LTD - MISAN']], via: 'any Nigerian bank app', fee: '2% of the amount', when: 'Usually within a minute' },
+    USD: { sym: '$', amt: '1,000', lines: [['Routing number', '123456789'], ['Account number', '000123456789'], ['Account name', 'KOLA EXPORTS LTD']], via: 'ACH or wire from a US bank', fee: 'Free for ACH', when: '1 to 2 business days' },
+    GBP: { sym: '£', amt: '1,000', lines: [['Sort code', '12-34-56'], ['Account number', '12345678'], ['Account name', 'KOLA EXPORTS LTD']], via: 'Faster Payments from a UK bank', fee: 'Free', when: 'Usually within minutes' }
+  };
+
+
+  const FEE = 0.02;
+  const num = (s) => Number(String(s).replace(/[^0-9.]/g, '')) || 0;
+  const symOf = (s) => String(s).replace(/[0-9.,\s]/g, '');
+  const feeOf = (s) => { const v = num(s) * FEE; const sy = symOf(s); return sy + v.toLocaleString('en-GB', { maximumFractionDigits: sy === '₦' ? 0 : 2, minimumFractionDigits: sy === '₦' ? 0 : 2 }); };
+  const recips = [
+    { id: 'kwame', name: 'Kwame Mensah', where: 'Ghana · MTN Mobile Money · 024 *** 5512', cur: 'GHS', eta: 'Usually within minutes', place: 'Ghana' },
+    { id: 'wanjiru', name: 'Wanjiru Kamau', where: 'Kenya · M-Pesa · 0712 *** 448', cur: 'KES', eta: 'Usually within minutes', place: 'Kenya' },
+    { id: 'adeyemi', name: 'Adeyemi Packaging Ltd', where: 'Nigeria · Access Bank ending 4410', cur: 'NGN', eta: 'Usually within seconds', place: 'Nigeria' },
+    { id: 'thames', name: 'Thames Freight Ltd', where: 'United Kingdom · Faster Payments ending 7781', cur: 'GBP', eta: 'Usually within minutes', place: 'the UK' }
+  ];
+  const countries = [['GHS', 'Ghana', 'Mobile money or bank'], ['KES', 'Kenya', 'M-Pesa or bank'], ['NGN', 'Nigeria', 'Bank account'], ['GBP', 'United Kingdom', 'Bank account'], ['USD', 'United States', 'Bank account'], ['CAD', 'Canada', 'Bank account or Interac']];
+  // Sample rates: naira per unit of each currency.
+  const rate = { NGN: 1, USD: 1385, GBP: 1972, EUR: 1610, CAD: 1005, GHS: 142.7, KES: 10.7 };
+  const sym = { NGN: '₦', USD: '$', GBP: '£', EUR: '€', CAD: 'CA$', GHS: 'GHS ', KES: 'KES ' };
+  const money = (cur, v) => { const whole = cur === 'NGN' || cur === 'KES'; return sym[cur] + v.toLocaleString('en-GB', { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 }); };
+  function quote() {
+    const r = S.recip === 'new' ? { name: S.newName || 'New recipient', where: countries.find((c) => c[0] === S.newCur)[1] + ' · ' + (S.newType || 'Bank account'), cur: S.newCur, eta: 'Usually within minutes', place: countries.find((c) => c[0] === S.newCur)[1] } : recips.find((x) => x.id === S.recip);
+    const ngn = S.sendAmt * rate[S.sendFrom];
+    return { r: r, get: ngn / rate[r.cur], ngn: ngn, rateLine: '1 ' + r.cur + ' = ' + money(S.sendFrom, rate[r.cur] / rate[S.sendFrom]) };
+  }
+  function sendForm(wrapOpen, wrapClose) {
+    const q = quote();
+    if (S.sendStage === 'review') return `${wrapOpen}<h2 style="margin:0">Check before you send</h2>
+      <div class="list">
+        <div class="kv"><span class="k">To</span><span class="v">${q.r.name}</span></div>
+        <div class="kv"><span class="k">Account</span><span class="v" style="font-weight:500">${q.r.where}</span></div>
+        <div class="kv"><span class="k">You send</span><span class="v num">${money(S.sendFrom, S.sendAmt)}</span></div>
+<div class="kv"><span class="k">Fee (2%)</span><span class="v num">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
+        <div class="kv"><span class="k">Total from your wallet</span><span class="v num">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
+        <div class="kv"><span class="k">Rate</span><span class="v num">${q.rateLine} (sample)</span></div>
+        <div class="kv"><span class="k">They get</span><span class="v num">${money(q.r.cur, q.get)}</span></div>
+        <div class="kv"><span class="k">Arrives</span><span class="v">${q.r.eta}</span></div>
+      </div>
+      ${q.ngn > 5000000 ? '<p class="small" style="margin:0">Over ₦5,000,000, so Tunde (Finance) will need to approve it.</p>' : ''}
+      <button class="${'primary'} btn" data-a="sendConfirm">${q.ngn > 5000000 ? 'Send for approval' : 'Send ' + money(S.sendFrom, S.sendAmt)}</button>
+      <button class="secondary btn ghost" data-a="sendEdit">Edit</button>${wrapClose}`;
+    if (S.sendStage === 'approval') return `${wrapOpen}<h2 style="margin:0">Waiting for approval</h2><p class="small" style="margin:0;font-size:13px">${money(S.sendFrom, S.sendAmt)} to ${q.r.name} is with Tunde (Finance). You'll get a notification when it's approved.</p><button class="primary btn" data-a="sendApprove">Approve as Tunde (demo)</button>${wrapClose}`;
+    if (S.sendStage === 'sent') return `${wrapOpen}<h2 style="margin:0">${money(q.r.cur, q.get)} on its way to ${q.r.name}</h2>
+      <div class="steps" style="padding:0;background:none">${[['Left your ' + S.sendFrom + ' wallet', 'Just now', 'done'], ['With our partner in ' + q.r.place, 'Just now', 'done'], ['Delivered to ' + q.r.name, q.r.eta, 'now']].map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="grow body" style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px"><b style="font-weight:600">${s[0]}</b><span class="small">${s[1]}</span></span></div>`).join('')}</div>
+      <button class="primary btn" data-a="sendReceipt">Share receipt</button><button class="secondary btn ghost" data-a="sendAgain">Send another</button>${wrapClose}`;
+    const recRows = recips.map((x) => `<button class="opt" data-a="recip" data-v="${x.id}" aria-pressed="${S.recip === x.id}"><span class="grow" style="display:flex;flex-direction:column;gap:2px"><span class="t">${x.name}</span><span class="small">${x.where}</span></span><span class="small" style="font-weight:700">${x.cur}</span></button>`).join('');
+    const newFields = S.recip === 'new' ? `<div class="field"><label for="nname">Name on the account</label><input id="nname" value="${S.newName}" placeholder="Full name or business name"></div>
+      <div class="field"><label for="ncountry">Country</label><select id="ncountry">${countries.map((c) => `<option value="${c[0]}"${c[0] === S.newCur ? ' selected' : ''}>${c[1]} (${c[0]})</option>`).join('')}</select></div>
+      <div class="field"><label for="ntype">Account type</label><select id="ntype">${countries.find((c) => c[0] === S.newCur)[2].split(' or ').map((t) => `<option${t === S.newType ? ' selected' : ''}>${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('')}</select></div>
+      <div class="field"><label for="nacct">Account or phone number</label><input id="nacct" inputmode="numeric" placeholder="e.g. 0241234567"></div>
+      <p class="small" style="margin:0">We check the name with the recipient's bank or mobile money provider before you send. New recipients need the owner's approval.</p>` : '';
+    return `${wrapOpen}<h2 style="margin:0">Who are you paying?</h2>
+      <div class="recips" style="display:flex;flex-direction:column;gap:8px">${recRows}<button class="opt" data-a="recip" data-v="new" aria-pressed="${S.recip === 'new'}"><span class="t">+ New recipient</span><span class="small">Bank or mobile money</span></button></div>
+      ${newFields}
+      <div class="field"><label for="sfrom">Pay from</label><select id="sfrom">${['NGN', 'USD', 'GBP', 'EUR', 'CAD'].map((c) => `<option value="${c}"${c === S.sendFrom ? ' selected' : ''}>${c} wallet</option>`).join('')}</select></div>
+      <div class="field"><label for="samt">You send (${S.sendFrom})</label><input id="samt" inputmode="decimal" value="${S.sendAmt}"></div>
+      <div class="list">
+        <div class="kv"><span class="k">Rate</span><span class="v num" id="srate">${q.rateLine} (sample)</span></div>
+<div class="kv"><span class="k">Fee (2%)</span><span class="v num" id="sfee">${money(S.sendFrom, S.sendAmt * FEE)}</span></div>
+        <div class="kv"><span class="k">Total from your wallet</span><span class="v num" id="stot">${money(S.sendFrom, S.sendAmt * (1 + FEE))}</span></div>
+        <div class="kv"><span class="k">They get</span><span class="v num" id="sget">${money(q.r.cur, q.get)}</span></div>
+        <div class="kv"><span class="k">Arrives</span><span class="v">${q.r.eta}</span></div>
+      </div>
+      <button class="primary btn" data-a="sendReview">Review</button>${wrapClose}`;
+  }
+  const views = {
+    fund() {
+      const f = fundInfo[S.fundCur];
+      const methods = [['transfer', 'Bank transfer', f.fee], ['card', 'Debit card', '2% fee'], ['convert', 'Convert', 'From another wallet'], ['earn', 'From Earn', 'Free next day']]
+        .map((m) => `<button class="opt" data-a="fundMethod" data-v="${m[0]}" aria-pressed="${S.fundMethod === m[0]}"><span class="t">${m[1]}</span><span class="small">${m[2]}</span></button>`).join('');
+      let body = '';
+      if (S.fundMethod === 'transfer') body = `<p class="lede" style="font-size:13px">Send money to these details from ${f.via}. It lands in your ${S.fundCur} wallet. ${f.when}.</p>
+        <div class="list">${f.lines.map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}<button class="copy" data-a="copy" data-v="${l[0]}" aria-label="Copy ${l[0]}">${ic.copy}</button></span></div>`).join('')}</div>
+        <p class="tiny">Sample details for illustration. Fee: ${f.fee} (${feeOf(f.sym + f.amt)} on ${f.sym}${f.amt}).</p>
+        <button class="primary" data-a="fundDone" data-v="transfer">I've sent the money</button>`;
+      if (S.fundMethod === 'card') body = `<div class="field"><label for="famt">Amount</label><input id="famt" inputmode="decimal" value="${f.sym}${f.amt}"></div>
+        <div class="list"><div class="kv"><span class="k">Card fee</span><span class="v num" id="ffee">2% · ${feeOf(f.sym + f.amt)}</span></div><div class="kv"><span class="k">Arrives</span><span class="v">Instantly</span></div></div>
+        <button class="primary" data-a="fundDone" data-v="card">Pay with card</button>`;
+      if (S.fundMethod === 'convert') body = `<div class="field"><label for="ffrom">From</label><select id="ffrom">${['USD', 'GBP', 'NGN', 'EUR'].filter((c) => c !== S.fundCur).map((c) => `<option>${c} wallet</option>`).join('')}</select></div>
+        <div class="field"><label for="famt">Amount to add</label><input id="famt" inputmode="decimal" value="${f.sym}${f.amt}"></div>
+        <div class="list"><div class="kv"><span class="k">Rate</span><span class="v num">1 USD = ₦1,385.00 (sample)</span></div><div class="kv"><span class="k">Rate locked for</span><span class="v">30 seconds</span></div></div>
+        <button class="primary" data-a="fundDone" data-v="convert">Convert</button>`;
+      if (S.fundMethod === 'earn') body = `<p class="lede" style="font-size:13px">Move money back from Earn into your ${S.fundCur} wallet. It's free with one business day's notice, or instant for a fee.</p>
+        <button class="primary" data-a="go" data-v="earn">Go to Earn</button>`;
+      return `${back()}<h1>FUND WALLET</h1>
+        <div class="seg" role="group" aria-label="Wallet" style="grid-template-columns:repeat(3,1fr)">${['NGN', 'USD', 'GBP'].map((c) => `<button data-a="fundCur" data-v="${c}" aria-pressed="${S.fundCur === c}">${c}</button>`).join('')}</div>
+        <div class="methods">${methods}</div>${body}`;
+    },
+    home() {
+      const w = wallets[S.wallet];
+      const rows = ['p1', 'p2', 'p3'].map((id) => { const p = payData(id); return `
+        <button class="row" data-a="track" data-v="${id}">
+          <span class="ico">${ic.in('#7A00E6')}</span>
+          <span class="grow"><span class="t">From ${p.from}</span><span class="small">${p.date}</span></span>
+          <span class="end num">+${p.amount}<span class="small" style="font-weight:600;color:${toneColor[p.tone]}">${p.status}</span></span>
+        </button>`; }).join('');
+      return `
+        <div class="top"><span class="who"><span class="avatar">KE</span>KOLA EXPORTS LTD</span><span class="pill biz">Business</span></div>
+        <section class="hero">
+          <button class="chip" data-a="wallet">${w.code} wallet ▾</button>
+          <span class="big num">${w.amount}</span>
+          <span class="sub num">+ ${w.earn} in Earn</span>
+          <div class="actions">
+            <button class="act lit" data-a="go" data-v="fund"><span><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1C0045" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Fund</button>
+            <button class="act" data-a="go" data-v="collect"><span>${ic.in('#D9FF1F')}</span>Collect</button>
+            <button class="act" data-a="go" data-v="pay"><span>${ic.out('#D9FF1F')}</span>Pay</button>
+            <button class="act" data-a="go" data-v="earn"><span>${ic.up('#D9FF1F')}</span>Earn</button>
+          </div>
+        </section>
+        <button class="promo" data-a="go" data-v="earn">
+          <b>YOUR IDLE CASH IS <em>EARNING</em></b>
+          <span>Anything above your floor moves into Earn every evening. Get it back next business day for free.</span>
+          <i>See Earn →</i>
+        </button>
+        <div class="sect"><h2>Recent activity</h2><span class="link">See all</span></div>
+        <div class="list">${rows}</div>`;
+    },
+    collect() {
+      const rows = accounts.map((a) => `
+        <button class="row" data-a="detail" data-v="${a.code}">
+          <span class="code">${a.code}</span>
+          <span class="grow"><span class="t">${a.name}</span><span class="small">${a.country} · ${a.rails}</span></span>
+          <span class="pill ${isOn(a) ? 'ok' : 'new'}">${isOn(a) ? 'Active' : 'Coming soon'}</span>
+        </button>`).join('');
+      return `<h1>COLLECT</h1>
+        <p class="lede">Local account details in your business name. Customers pay you with a normal local transfer.</p>
+        <div class="list">${rows}</div>
+        <button class="secondary" data-a="go" data-v="customers">Customer accounts</button>`;
+    },
+    detail() {
+      const d = accounts.find((a) => a.code === S.cur);
+      if (!isOn(d)) return `${back()}<h1>OPEN A ${d.code} ACCOUNT</h1>
+        <p class="lede">Get ${d.country} account details in your business name, paid by ${d.rails}. We use the business documents you already gave us, so there's nothing new to upload.</p>
+        <button class="primary" data-a="activate">Open ${d.code} account</button>`;
+      const lines = d.lines.map((l) => `<div class="kv"><span class="k">${l[0]}</span><span class="v num">${l[1]}<button class="copy" data-a="copy" data-v="${l[0]}" aria-label="Copy ${l[0]}">${ic.copy}</button></span></div>`).join('');
+      return `${back()}<h1>${d.code} ACCOUNT DETAILS</h1>
+        <p class="lede">Your customers pay into this account by ${d.rails}.</p>
+        <div class="list"><div class="kv"><span class="k">Account name</span><span class="v">KOLA EXPORTS LTD</span></div>${lines}</div>
+        <p class="tiny">Sample details for illustration</p>
+        <div class="setting"><span class="grow"><span class="t">Auto-convert to NGN</span><span class="small">Convert 50% of each ${d.code} payment when it lands</span></span>${toggle('convert', 'Auto-convert to NGN', !!S.convert[d.code])}</div>
+        <button class="primary" data-a="share">Share account details</button>`;
+    },
+    track() {
+      const p = payData(S.pay);
+      const steps = p.steps.map((s) => `<div class="step"><span class="rail"><span class="dot d-${s[2]}"></span><span class="line"></span></span><span class="grow"><span class="t" style="font-weight:600${s[2] === 'hold' ? ';color:var(--warn)' : s[2] === 'todo' ? ';color:var(--muted)' : ''}">${s[0]}</span><span class="small">${s[1]}</span></span></div>`).join('');
+      return `${back()}<div class="center"><span style="font-weight:700;color:var(--ink)">Payment details</span><span class="big num">+${p.amount}</span><span class="small">From ${p.from}</span><span style="font-weight:700;color:${toneColor[p.tone]}">${p.status}</span></div>
+        <div class="steps"><p>Where your money is</p>${steps}</div>
+        ${p.action ? `<div class="hold"><p><b>We need one thing from you</b></p><p>Upload the invoice for this payment and we'll release it. Most holds clear within 2 hours of upload.</p><button class="primary" data-a="upload">Upload invoice</button></div>` : ''}
+        <p class="tiny">Paid into ${p.into}. You'll get a push notification, an email and a webhook at each step.</p>`;
+    },
+    pay() {
+      const seg = `<div class="seg" role="group" aria-label="Payment type"><button data-a="payMode" data-v="single" aria-pressed="${S.payMode === 'single'}">Send money</button><button data-a="payMode" data-v="bulk" aria-pressed="${S.payMode === 'bulk'}">Bulk payouts</button></div>`;
+      if (S.payMode === 'single') return `<h1>PAY</h1>${seg}` + sendForm('', '');
+      return `<h1>PAY</h1>${seg}` + views.payBulk().split('<!--BULK-->')[1];
+    },
+    payBulk() {
+      const st = { draft: ['Draft', 'grey'], pending: ['Awaiting approval', 'warn'], sent: ['Sent', 'ok'] }[S.run];
+      const payees = [['Kwame Mensah', 'Ghana · MTN Mobile Money', 'GHS 4,500'], ['Wanjiru Kamau', 'Kenya · M-Pesa', 'KES 62,000'], ['Adeyemi Packaging Ltd', 'Nigeria · bank transfer', '₦1,250,000'], ['Thames Freight Ltd', 'United Kingdom · Faster Payments', '£1,800']]
+        .map((y) => `<div class="r"><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="t" style="font-weight:600">${y[0]}</span><span class="small">${y[1]}</span></span><span class="num" style="font-weight:700;flex-shrink:0">${y[2]}</span></div>`).join('');
+      const cta = S.run === 'draft' ? `<button class="primary" data-a="submit">Submit for approval</button>`
+        : S.run === 'pending' ? `<p class="lede" style="font-size:13px">Runs over ₦5,000,000 need a second approver. Tunde (Finance) has been notified.</p><button class="primary" data-a="approve">Approve as Tunde (demo)</button>`
+        : `<button class="secondary" data-a="resetRun">Start a new run</button>`;
+      return `<h1>PAY</h1>
+        <p class="lede">Pay suppliers, staff and contractors in bulk, to bank and mobile money accounts in 15+ countries.</p>
+<!--BULK-->        <div class="batch"><div class="head"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700">October supplier run</span><span class="small">suppliers-oct.csv · 12 payees · 4 countries</span></span><span class="pill ${st[1]}">${st[0]}</span></div>${payees}
+        <div class="r"><span class="small">+ 8 more payees · rates locked for 30 minutes once approved</span></div></div>
+        ${cta}
+        <div class="sect" style="padding-top:6px"><h2>Scheduled runs</h2></div>
+        <div class="list">
+          <div class="row"><span class="grow"><span class="t">Staff payroll</span><span class="small">25th of every month · Earn gives notice on the 24th</span></span><span class="end num">₦8,400,000</span></div>
+          <div class="row"><span class="grow"><span class="t">UK contractors</span><span class="small">Every other Friday</span></span><span class="end num">£3,200</span></div>
+        </div>`;
+    },
+    earn() {
+      const n = S.earnCur === 'NGN';
+      const e = n ? { bal: '₦12,450,000', gain: '+₦186,400', prod: 'naira Treasury Bills', floor: '₦2,000,000', amt: '₦1,000,000', notice: '₦8,400,000' }
+                  : { bal: '$15,200.00', gain: '+$118.40', prod: 'dollar fixed income', floor: '$3,000', amt: '$1,000', notice: '$0.00' };
+      return `<h1>EARN</h1>
+        <div class="seg" role="group" aria-label="Currency"><button data-a="earnCur" data-v="NGN" aria-pressed="${n}">Naira</button><button data-a="earnCur" data-v="USD" aria-pressed="${!n}">Dollar</button></div>
+        <section class="earncard"><span class="sub">Earn balance</span><span class="big num">${e.bal}</span><span class="gain num">${e.gain} earned this month</span><span class="sub">Invested in ${e.prod} · rate is variable and shown daily</span></section>
+        <div class="setting"><span class="grow"><span class="t">Evening sweep</span><span class="small">Keep ${e.floor} in the wallet, move the rest into Earn</span></span>${toggle('sweep', 'Evening sweep', S.sweep)}</div>
+        <div class="sect"><h2>Withdraw ${e.amt}</h2></div>
+        <button class="opt" data-a="wd" data-v="notice" aria-pressed="${S.wd === 'notice'}"><span class="grow"><span class="t">Next business day</span><span class="small">Back in your wallet on Wed 28 Oct</span></span><span class="free">Free</span></button>
+        <button class="opt" data-a="wd" data-v="instant" aria-pressed="${S.wd === 'instant'}"><span class="grow"><span class="t">Instant</span><span class="small">Back in your wallet now</span></span><span class="fee">2% fee</span></button>
+        <button class="primary" data-a="withdraw" data-v="${e.amt}">Withdraw</button>
+        <div class="row" style="border-top:1px solid var(--line)"><span class="grow"><span class="t">On notice for payroll</span><span class="small">Back on 24 Nov, before the 25 Nov run</span></span><span class="end num">${e.notice}</span></div>
+        <p class="tiny">Returns are variable and not guaranteed. Investments would be provided through Bamboo's licensed entities. All figures are samples.</p>`;
+    },
+    more() {
+      const items = [
+        ['team', 'Team and approvals', 'Roles, limits, two-person approval', '3 people', 'var(--muted)'],
+        ['cards', 'Staff cards', 'Virtual USD cards with monthly limits', '3 cards', 'var(--muted)'],
+        ['customers', 'Customer accounts', 'One account per customer, auto-matched', '3 active', 'var(--muted)'],
+        ['xero', 'Xero', 'Sync every transaction to your books', S.xero ? 'Connected' : 'Connect', S.xero ? 'var(--ok)' : 'var(--violet)'],
+        ['statement', 'Statements', 'CSV and PDF, any currency, any month', 'Download', 'var(--violet)'],
+        ['dev', 'Developers', 'API keys, endpoints, webhooks', 'Test mode', 'var(--muted)']
+      ].map((m) => `<button class="row" data-a="more" data-v="${m[0]}"><span class="grow"><span class="t" style="font-size:15px">${m[1]}</span><span class="small">${m[2]}</span></span><span style="flex-shrink:0;font-size:13px;font-weight:600;color:${m[4]}">${m[3]}</span></button>`).join('');
+      return `<h1>MORE</h1><div class="list">${items}</div>`;
+    },
+    team() {
+      const people = [['KO', 'Kola Ogun', 'Owner · can approve', 'No limit'], ['TA', 'Tunde Ade', 'Finance · can approve', '₦20,000,000 a day'], ['AE', 'Amaka Eze', 'Operations · can prepare', 'Prepares only']]
+        .map((p) => `<div class="row"><span class="code" style="font-size:13px">${p[0]}</span><span class="grow"><span class="t">${p[1]}</span><span class="small">${p[2]}</span></span><span class="small num" style="text-align:right">${p[3]}</span></div>`).join('');
+      return `${back()}<h1>TEAM AND APPROVALS</h1>
+        <div class="setting"><span class="grow"><span class="t">Two approvers above ₦5,000,000</span><span class="small">One person prepares, another approves</span></span>${toggle('rule', 'Two approvers above five million naira', S.rule)}</div>
+        <div class="list">${people}</div>`;
+    },
+    cards() {
+      const cards = [['Marketing · Amaka', '4417', '$640', '$1,500', 'ads', 43], ['Software · Tunde', '9025', '$310', '$500', 'subscriptions', 62], ['Travel · Kola', '1182', '$0', '$3,000', 'flights and hotels', 0]]
+        .map((c) => `<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><span style="font-weight:700">${c[0]}</span><span class="small num">•••• ${c[1]}</span></div><span class="small num">${c[2]} of ${c[3]} this month · ${c[4]}</span><div class="bar"><span style="width:${c[5]}%"></span></div></div>`).join('');
+      return `${back()}<h1>STAFF CARDS</h1><p class="lede">Virtual USD cards for ads, software and travel, each with its own monthly limit.</p>${cards}`;
+    },
+    customers() {
+      const rows = [['BF', 'Brightway Foods Ltd', 'GBP account ending 4471', '£12,600.00'], ['AT', 'Atlantic Textiles Inc', 'USD account ending 2290', '$5,900.00'], ['LF', 'Lekki Fresh Market', 'NGN account ending 8813', '₦5,400,000']]
+        .map((c) => `<div class="row"><span class="code" style="font-size:13px">${c[0]}</span><span class="grow"><span class="t">${c[1]}</span><span class="small">${c[2]}</span></span><span class="end num">${c[3]}<span class="small" style="font-weight:400">this month</span></span></div>`).join('');
+      return `${back()}<h1>CUSTOMER ACCOUNTS</h1>
+        <p class="lede">Give each customer their own account details. Every payment matches to the right customer, with no reference needed.</p>
+        <div class="setting"><span class="grow"><span class="t">Auto-match payments</span><span class="small">${S.match ? '100% of payments matched this month' : 'Off: payments need a reference to match'}</span></span>${toggle('match', 'Auto-match payments', S.match)}</div>
+        <div class="list">${rows}</div>
+        <button class="primary" data-a="addCustomer">Add customer account</button>`;
+    },
+    dev() {
+      const eps = [['POST', '/v1/collection-accounts'], ['POST', '/v1/payouts/bulk'], ['GET ', '/v1/collections/{id}'], ['POST', '/v1/earn/withdrawals'], ['GET ', '/v1/settlements?date=']]
+        .map((e) => `<span><span class="m">${e[0]}</span> ${e[1]}</span>`).join('');
+      const evs = [['collection.credited', 'Added to wallet'], ['collection.on_hold', 'Action needed'], ['payout.completed', 'Reached the payee'], ['payout.failed', 'Returned, with reason'], ['earn.withdrawal.settled', 'Back in wallet']]
+        .map((e) => `<div class="ev"><code>${e[0]}</code><span class="small" style="text-align:right">${e[1]}</span></div>`).join('');
+      return `${back()}<h1>DEVELOPERS</h1><p class="lede">Collect, pay and track from your own systems.</p>
+        <div class="card"><span class="small" style="font-weight:600">Test API key</span><span style="font-family:var(--mono);font-size:13px">sk_test_••••••••••3f9a</span></div>
+        <div class="term"><span style="color:#B9A8DA">Endpoints</span>${eps}</div>
+        <div class="sect"><h2>Webhook events</h2></div><div class="list">${evs}</div>
+        <button class="primary" data-a="testHook">Send test webhook</button>`;
+    }
+  };
+
+  const tabDefs = [['home', 'Home', ic.home, ['home', 'track', 'fund']], ['collect', 'Collect', ic.in('currentColor'), ['collect', 'detail', 'customers']], ['pay', 'Pay', ic.out('currentColor'), ['pay']], ['earn', 'Earn', ic.up('currentColor'), ['earn']], ['more', 'More', ic.menu, ['more', 'team', 'cards', 'dev']]];
+
+  const screenEl = document.getElementById('screen');
+  const tabsEl = document.getElementById('tabs');
+  const toastEl = document.getElementById('toast');
+  let toastTimer;
+  function flash(msg) { toastEl.textContent = msg; toastEl.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { toastEl.hidden = true; }, 2800); }
+
+  function render(scrollTop) {
+    screenEl.innerHTML = views[S.screen]();
+    tabsEl.innerHTML = tabDefs.map((t) => `<button data-a="go" data-v="${t[0]}"${t[3].includes(S.screen) ? ' aria-current="page"' : ''}>${t[2]}${t[1]}</button>`).join('');
+    if (scrollTop) screenEl.scrollTop = 0;
+  }
+  function go(screen) { S.screen = screen; render(true); }
+
+  const actions = {
+    go: (v) => go(v),
+
+    payMode: (v) => { S.payMode = v; render(); },
+    recip: (v) => { S.recip = v; render(); },
+    sendReview: () => { if (!(S.sendAmt > 0)) { flash('Enter an amount to send.'); return; } if (S.recip === 'new' && !S.newName) { flash('Add the name on the account first.'); return; } S.sendStage = 'review'; render(true); },
+    sendEdit: () => { S.sendStage = 'form'; render(); },
+    sendConfirm: () => { const q = quote(); S.sendStage = q.ngn > 5000000 ? 'approval' : 'sent'; render(true); flash(q.ngn > 5000000 ? 'Sent to Tunde for approval.' : 'Sent. You can track it here and on Home.'); },
+    sendApprove: () => { S.sendStage = 'sent'; render(true); flash('Approved and sent.'); },
+    sendReceipt: () => flash('Receipt copied: share it with your recipient (demo).'),
+    sendAgain: () => { S.sendStage = 'form'; S.recip = 'kwame'; render(true); },
+    fundCur: (v) => { S.fundCur = v; render(); },
+    fundMethod: (v) => { S.fundMethod = v; render(); },
+    fundDone: (v) => {
+      const a = (document.getElementById('famt') || {}).value;
+      flash(v === 'transfer' ? 'Thanks. We\'ll tell you the moment it lands in your ' + S.fundCur + ' wallet.' : v === 'card' ? a + ' added to your ' + S.fundCur + ' wallet (demo).' : a + ' added to your ' + S.fundCur + ' wallet from your ' + document.getElementById('ffrom').value + ' (demo).');
+    },
+    wallet: () => { S.wallet = (S.wallet + 1) % wallets.length; render(); },
+    track: (v) => { S.pay = v; go('track'); },
+    detail: (v) => { S.cur = v; go('detail'); },
+    copy: (v) => flash(v + ' copied'),
+    convert: () => { S.convert[S.cur] = !S.convert[S.cur]; render(); },
+    share: () => flash(S.cur + ' account details copied. Paste them into an invoice or email.'),
+    activate: () => { S.opened[S.cur] = true; render(); flash('Your ' + S.cur + ' account is ready, in the name Kola Exports Ltd.'); },
+    upload: () => { S.held = false; render(); flash('Invoice uploaded. We will update you here as soon as it is reviewed.'); },
+    submit: () => { S.run = 'pending'; render(); flash('Submitted. Tunde will get a notification to approve.'); },
+    approve: () => { S.run = 'sent'; render(); flash('Approved. 12 payouts are on their way; track each one on Home.'); },
+    resetRun: () => { S.run = 'draft'; render(); },
+    earnCur: (v) => { S.earnCur = v; render(); },
+    sweep: () => { S.sweep = !S.sweep; render(); flash(S.sweep ? 'Evening sweep is on.' : 'Evening sweep is off. Your balance stays in the wallet.'); },
+    wd: (v) => { S.wd = v; render(); },
+    withdraw: (v) => flash(S.wd === 'notice' ? v + ' will be back in your wallet on Wed 28 Oct, free.' : v + ' is back in your wallet now, less the 2% instant fee (' + feeOf(v) + ').'),
+    more: (v) => {
+      if (v === 'xero') { S.xero = !S.xero; render(); flash(S.xero ? 'Xero connected. Transactions sync every hour.' : 'Xero disconnected.'); }
+      else if (v === 'statement') flash('October statement ready (demo).');
+      else go(v);
+    },
+    rule: () => { S.rule = !S.rule; render(); },
+    match: () => { S.match = !S.match; render(); },
+    addCustomer: () => flash('New customer account created. Share its details with your customer.'),
+    testHook: () => flash('Test event payout.completed sent to your webhook URL.')
+  };
+
+  document.querySelector('.phone').addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-a]');
+    if (!b || !actions[b.dataset.a]) return;
+    actions[b.dataset.a](b.dataset.v);
+  });
+
+  document.addEventListener('input', (e) => {
+    const id = e.target.id;
+    if (id === 'samt') { S.sendAmt = Number(String(e.target.value).replace(/[^0-9.]/g, '')) || 0; const q = quote(); const g = document.getElementById('sget'); if (g) g.textContent = money(q.r.cur, q.get); const fe = document.getElementById('sfee'); if (fe) fe.textContent = money(S.sendFrom, S.sendAmt * FEE); const to = document.getElementById('stot'); if (to) to.textContent = money(S.sendFrom, S.sendAmt * (1 + FEE)); }
+    if (id === 'famt') { const ff = document.getElementById('ffee'); if (ff) ff.textContent = '2% · ' + feeOf(e.target.value); }
+    if (id === 'nname') S.newName = e.target.value;
+  });
+  document.addEventListener('change', (e) => {
+    const id = e.target.id;
+    if (id === 'sfrom') { S.sendFrom = e.target.value; render(); }
+    if (id === 'ncountry') { S.newCur = e.target.value; S.newType = ''; render(); }
+    if (id === 'ntype') S.newType = e.target.value;
+  });
+  render(true);
+})();
+</script>
+
+</body>
+</html>
